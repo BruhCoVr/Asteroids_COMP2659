@@ -12,6 +12,8 @@ void print_bitmap(UINT16 *base, int x, int y,
     return;
 }
 
+void print_score(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height){}
+
 int main() {
 
     char *base = (char*)Physbase();
