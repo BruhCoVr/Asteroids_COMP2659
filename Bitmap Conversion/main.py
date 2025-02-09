@@ -25,8 +25,6 @@ quickHex = {
     "1101" : "D",
     "1110" : "E",
     "1111" : "F",
-
-
 }
 
 def binaryToHexadecimal(n):
@@ -37,7 +35,15 @@ def binaryToHexadecimal(n):
         new = new[:-4]
         sil = (4-len(sil))*"0" + sil
         text = quickHex[sil] + text
-    return text
+    
+    # Insert ",0x" after every 4 characters
+    formatted_text = ""
+    for i in range(0, len(text), 4):
+        if i > 0:
+            formatted_text += ",0x"
+        formatted_text += text[i:i+4]
+    
+    return formatted_text
 
 def main():
     inputFile = open("input.txt","r")
@@ -65,4 +71,4 @@ def main():
     inputFile.close()
     outputFile.close()
 
-main() 
+main()
