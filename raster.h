@@ -1,67 +1,27 @@
-#ifndef BITMAP_S
-#define BITMAP_S
-#define INVADER_HEIGHT 16
+#ifndef RASTER_H
+#define RASTER_H
+#define NUM_HEIGHT 16
+#define NUM_HEIGHT_2 32
 typedef unsigned int UINT16;
 typedef unsigned char UINT8;
 typedef unsigned long UINT32;
 
-unsigned long largeAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
-        0x02088100L,0x04070080L,0x04000100L,0x04000200L,
-        0x04000200L,0x04000100L,0x08000080L,0x04000040L,
-        0x02000080L,0x01000100L,0x00800200L,0x00400400L,
-        0x00230800L,0x00149000L,0x00086000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-unsigned long mediumAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
-        0x01000200L,0x01000200L,0x01000200L,0x01000200L,
-        0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
-        0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-unsigned long smallAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00100000L,
-        0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
-        0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-
-unsigned int invader_bitmap[INVADER_HEIGHT] =
-    {
-        0x0000,
-        0x0810,
-        0x0810,
-        0x0420,
-        0x0240,
-        0x1FF8,
-        0x2004,
-        0x4662,
-        0x4002,
-        0x43C2,
-        0x2424,
-        0x1008,
-        0x0FF0,
-        0x0240,
-        0x0E70,
-        0x0000};
+typedef enum {
+    num_0 = 0,
+    num_1,
+    num_2,
+    num_3,
+    num_4,
+    num_5,
+    num_6,
+    num_7,
+    num_8,
+    num_9,
+    TotalNumbers
+} NumberEnum;
 
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
-
+void print_score(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
+void clear_sc(UINT32* base);
 
 #endif
