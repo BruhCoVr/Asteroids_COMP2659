@@ -66,6 +66,11 @@ const UINT16 NumberSprites[10][16] = {
      0x003C, 0x1FFC, 0x3FFC, 0x3FFC}
 };
 
+unsigned char bullet[BULLET_HEIGHT] = 
+    {
+    0xFF,0xFF,0xFF,0xFF,
+    0xFF,0xFF,0xFF,0xFF
+    };
 
 void print_bitmap(UINT16 *base, int x, int y,
                   const UINT16 *bitmap, unsigned int height)
