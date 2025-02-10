@@ -109,7 +109,7 @@ const UINT16 NumberSprites[10][16] = {
      0x003C, 0x1FFC, 0x3FFC, 0x3FFC}
 };
 
-unsigned char bullet[BULLET_HEIGHT] = 
+unsigned int bullet[BULLET_HEIGHT] = 
     {
     0xFF,0xFF,0xFF,0xFF,
     0xFF,0xFF,0xFF,0xFF
