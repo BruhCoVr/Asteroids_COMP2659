@@ -1,27 +1,11 @@
 #include "raster.H"
 #include <osbind.h>
 
-unsigned int invader_bitmap[INVADER_HEIGHT] =
-    {
-        0x0000,
-        0x0810,
-        0x0810,
-        0x0420,
-        0x0240,
-        0x1FF8,
-        0x2004,
-        0x4662,
-        0x4002,
-        0x43C2,
-        0x2424,
-        0x1008,
-        0x0FF0,
-        0x0240,
-        0x0E70,
-        0x0000};
 
+/*Enum list that hold all of the number bitmaps
+and will be used to easily access the bitmaps*/
 const UINT16 NumberSprites[10][16] = {
-        /*Number 0*/
+    /*Number 0*/
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,
@@ -82,6 +66,7 @@ const UINT16 NumberSprites[10][16] = {
      0x003C, 0x1FFC, 0x3FFC, 0x3FFC}
 };
 
+
 void print_bitmap(UINT16 *base, int x, int y,
                   const UINT16 *bitmap, unsigned int height)
 {
@@ -105,6 +90,7 @@ void clear_sc(UINT32* base){
 };
 
 /*Not done yet*/
+/*Function that will */
 void print_score(UINT16 *base, int x, int y, unsigned int height){
     int OnesPlace;
     int TensPlace;
@@ -118,19 +104,3 @@ void print_score(UINT16 *base, int x, int y, unsigned int height){
 
 }
 
-int main() {
-
-    void *base = (void*)Physbase();
-    const UINT16 * NumBitmap = NumberSprites[1];
-    int i;
-
-    clear_sc(base);
-    print_bitmap(base, 54, 54, NumBitmap, 32);
-    for(i = 0; i < 50; i++){
-        print_bitmap(base, 200, i, invader_bitmap, INVADER_HEIGHT);
-        Vsync();
-        print_bitmap(base, 200, i, invader_bitmap, INVADER_HEIGHT);
-    }
-
-    return 0;
-}
