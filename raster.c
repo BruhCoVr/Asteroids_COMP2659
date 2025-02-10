@@ -137,6 +137,12 @@ const UINT32 smallAsteroid_bitmap[32] =
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     };
 
+const UINT8 bullet[8] = 
+{
+0xFF,0xFF,0xFF,0xFF,
+0xFF,0xFF,0xFF,0xFF
+};
+
 const UINT16 NumberSprites[10][16] = {
     
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
@@ -199,6 +205,18 @@ const UINT16 NumberSprites[10][16] = {
      0x003C, 0x1FFC, 0x3FFC, 0x3FFC}
 };
 
+void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height)
+{
+    int i;  
+    int offset;
+
+    offset = (x>>3) + (y*80); 
+    for (i = 0; i < height; i++)
+    {
+        *(base + offset + (80*i)) |= bitmap[i];
+    }
+    return;
+}
 
 void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
 {
