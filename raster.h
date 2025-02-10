@@ -24,5 +24,6 @@ typedef enum {
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 void print_score(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 void clear_sc(UINT32* base);
+extern const UINT16 NumberSprites[TotalNumbers][16];
 
 #endif

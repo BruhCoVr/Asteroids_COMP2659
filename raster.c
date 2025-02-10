@@ -1,4 +1,4 @@
-#include "raster.H"
+#include "raster.h"
 #include <osbind.h>
 #include <stdint.h> // For uint8_t (UINT8)
 
@@ -47,7 +47,7 @@ unsigned long smallAsteroid_bitmap[32] =
 
 /*Enum list that hold all of the number bitmaps
 and will be used to easily access the bitmaps*/
-const UINT16 NumberSprites[10][16] = {
+const UINT16 NumberSprites[TotalNumbers][16] = {
     /*Number 0*/
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,
@@ -140,18 +140,20 @@ void clear_sc(UINT32* base){
 
 /*Not done yet*/
 /*Function that will ... */
-void print_score(UINT16 *base, int x, int y, unsigned int height){
+void print_score(const UINT16 *bitmap, int score){
     int OnesPlace;
     int TensPlace;
     int HundrethsPlace;
     const UINT16 * NumBitmap = NumberSprites[];
+    int new_score;
 
+    if(new_score < score){
     for(OnesPlace = 0; OnesPlace < 10; OnesPlace++){
          const UINT16 * NumBitmap = NumberSprites[OnesPlace];
           
     }
-
-
+    }
+}
 
 /*
 This function draws a horizontal line on a monochrome (1-bit-per-pixel),
