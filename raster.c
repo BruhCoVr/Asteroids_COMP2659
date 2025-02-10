@@ -2,11 +2,47 @@
 #include <osbind.h>
 #include <stdint.h> // For uint8_t (UINT8)
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 400
 #define SOLID 0xFF
 #define BITS_IN_BYTE 8
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 400
 #define BYTES_PER_ROW (SCREEN_WIDTH / BITS_IN_BYTE) // 80 bytes per row
+
+unsigned long largeAsteroid_bitmap[32] = 
+    {
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
+        0x02088100L,0x04070080L,0x04000100L,0x04000200L,
+        0x04000200L,0x04000100L,0x08000080L,0x04000040L,
+        0x02000080L,0x01000100L,0x00800200L,0x00400400L,
+        0x00230800L,0x00149000L,0x00086000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    };
+
+unsigned long mediumAsteroid_bitmap[32] = 
+    {
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
+        0x01000200L,0x01000200L,0x01000200L,0x01000200L,
+        0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
+        0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    };
+
+unsigned long smallAsteroid_bitmap[32] = 
+    {
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00100000L,
+        0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
+        0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    };
 
 void print_bitmap(UINT16 *base, int x, int y,
                   const UINT16 *bitmap, unsigned int height)
@@ -19,6 +55,12 @@ void print_bitmap(UINT16 *base, int x, int y,
     return;
 }
 
+
+/*
+This function draws a horizontal line on a monochrome (1-bit-per-pixel),
+display using a byte array (uint8_t *base) as the screen buffer. 
+It sets pixels to "on" (1) within a given row (y) from x1 to x2.
+*/
 void plot_hline(uint8_t *base, int y, int x1, int x2) {
     // Check for invalid input
     if (base == NULL || y < 0 || y >= SCREEN_HEIGHT || x1 < 0 || x2 < 0 || x1 >= SCREEN_WIDTH || x2 >= SCREEN_WIDTH) {
@@ -58,6 +100,11 @@ void plot_hline(uint8_t *base, int y, int x1, int x2) {
     }
 }
 
+/*
+The function draws a vertical line at a specific x coordinate, 
+between two y coordinates (y1 and y2),on a screen with a resolution of 640x400 pixels.
+The line is drawn by manipulating bits in the screen buffer.
+*/
 void plot_vline(uint8_t *base, int x, int y1, int y2) {
     // Check if x is within the screen bounds (0 to 639)
     if (x < 0 || x >= 640) {
@@ -86,17 +133,4 @@ void plot_vline(uint8_t *base, int x, int y1, int y2) {
         *screen_byte |= pattern; // Set the pixel
         screen_byte += 80; // Move to the next row (640 pixels / 8 bits per byte = 80 bytes per row)
     }
-}
- 
-
-
-int main() {
-
-    char *base = (char*)Physbase();
-
-    while (1) {
-        print_bitmap(base, 32, 32, invader_bitmap, INVADER_HEIGHT);
-    }
-
-    return 0;
 }
