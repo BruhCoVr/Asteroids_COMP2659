@@ -1,12 +1,12 @@
-#ifndef raster
-#define raster
-#define INVADER_HEIGHT 16
+#ifndef RASTER_H
+#define RASTER_H
 #define NUM_HEIGHT 16
 #define NUM_HEIGHT_2 32
 #define BULLET_HEIGHT 8
 typedef unsigned int UINT16;
 typedef unsigned char UINT8;
 typedef unsigned long UINT32;
+
 typedef enum {
     num_0 = 0,
     num_1,
