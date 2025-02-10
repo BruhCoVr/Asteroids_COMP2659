@@ -1,108 +1,198 @@
 #include "raster.h"
 #include <osbind.h>
-#include <stdint.h> // For uint8_t (UINT8)
 
 #define SOLID 0xFF
-#define BITS_IN_BYTE 8
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
+#define SHIP_HEIGHT 32
+#define BITS_IN_BYTE 8
 #define BYTES_PER_ROW (SCREEN_WIDTH / BITS_IN_BYTE) // 80 bytes per row
+#define NUM_HEIGHT 16
+#define NUM_HEIGHT_2 32
 
-unsigned long largeAsteroid_bitmap[32] = 
+const UINT32 ship_up_bitmap [SHIP_HEIGHT] = {
+    0x00018000L,0x0003C000L,0x0007E000L,0x0007E000L,
+    0x000FF000L,0x000FF000L,0x001FF800L,0x001FF800L,
+    0x003FFC00L,0x003E7C00L,0x007E7E00L,0x007C3E00L,
+    0x00FC3F00L,0x00F81F00L,0x01F81F80L,0x01F81F80L,
+    0x03F00FC0L,0x03F00FC0L,0x03E007C0L,0x07E007E0L,
+    0x07C003E0L,0x0FC003F0L,0x0F8001F0L,0x1F8001F8L,
+    0x1F0000F8L,0x3F0000FCL,0x3E00007CL,0x7E00007EL,
+    0x7FFFFFFEL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
+};
+
+const UINT32 ship_right_bitmap [SHIP_HEIGHT] = {
+    0xE0000000L,0xF8000000L,0xFE000000L,0xFF800000L,
+    0xFFE00000L,0xFFF80000L,0xFFFF0000L,0xF3FFC000L,
+    0xF0FFF000L,0xF03FFC00L,0xF00FFF00L,0xF003FFC0L,
+    0xF000FFF0L,0xF0001FFCL,0xF00007FEL,0xF00001FFL,
+    0xF00001FFL,0xF00007FEL,0xF0001FFCL,0xF000FFF0L,
+    0xF003FFC0L,0xF00FFF00L,0xF03FFC00L,0xF0FFF000L,
+    0xF3FFC000L,0xFFFF0000L,0xFFF80000L,0xFFE00000L,
+    0xFF800000L,0xFE000000L,0xF8000000L,0xE0000000L,
+};
+
+const UINT32 ship_down_bitmap [SHIP_HEIGHT] = {
+    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0x7FFFFFFEL,
+    0x7E00007EL,0x3E00007CL,0x3F0000FCL,0x1F0000F8L,
+    0x1F8001F8L,0x0F8001F0L,0x0FC003F0L,0x07C003E0L,
+    0x07E007E0L,0x03E007C0L,0x03F00FC0L,0x03F00FC0L,
+    0x01F81F80L,0x01F81F80L,0x00F81F00L,0x00FC3F00L,
+    0x007C3E00L,0x007E7E00L,0x003E7C00L,0x003FFC00L,
+    0x001FF800L,0x001FF800L,0x000FF000L,0x000FF000L,
+    0x0007E000L,0x0007E000L,0x0003C000L,0x00018000L,
+};
+
+const UINT32 ship_left_bitmap [SHIP_HEIGHT] = {
+    0x00000007L,0x0000001FL,0x0000007FL,0x000001FFL,
+    0x000007FFL,0x00001FFFL,0x0000FFFFL,0x0003FFCFL,
+    0x000FFF0FL,0x003FFC0FL,0x00FFF00FL,0x03FFC00FL,
+    0x0FFF000FL,0x3FF8000FL,0x7FE0000FL,0xFF80000FL,
+    0xFF80000FL,0x7FE0000FL,0x3FF8000FL,0x0FFF000FL,
+    0x03FFC00FL,0x00FFF00FL,0x003FFC0FL,0x000FFF0FL,
+    0x0003FFCFL,0x0000FFFFL,0x00001FFFL,0x000007FFL,
+    0x000001FFL,0x0000007FL,0x0000001FL,0x00000007L,    
+};
+
+const UINT32 ship_diag_down_left_bitmap [SHIP_HEIGHT] = {
+    0xF0000000L,0xF8000000L,0xFC000000L,0xFE000000L,
+    0xFF000000L,0xFF800000L,0xFFC00000L,0xFFE00000L,
+    0xF7F00000L,0xF3F80000L,0xF1FC0000L,0xF0FE0000L,
+    0xF07F0000L,0xF03F8000L,0xF01FC000L,0xF00FE000L,
+    0xF007F000L,0xF003F800L,0xF001FC00L,0xF000FE00L,
+    0xF0007F00L,0xF0003F80L,0xF0001FC0L,0xF0000FE0L,
+    0xF00007F0L,0xF00003F8L,0xF00001FCL,0xF00000FEL,
+    0xF000007FL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
+
+};
+
+const UINT32 ship_diag_down_right_bitmap [SHIP_HEIGHT] = {
+    0x0000000FL,0x0000001FL,0x0000003FL,0x0000007FL,
+    0x000000FFL,0x000001FFL,0x000003FFL,0x000007F7L,
+    0x00000FE7L,0x00001FC7L,0x00003F87L,0x00007F07L,
+    0x0000FE07L,0x0001FC07L,0x0003F807L,0x0007F007L,
+    0x000FE007L,0x001FC007L,0x003F8007L,0x007F0007L,
+    0x00FE0007L,0x01FC0007L,0x03F80007L,0x07F00007L,
+    0x0FE00007L,0x1FC00007L,0x3F800007L,0x7F000007L,
+    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,    
+};
+
+const UINT32 ship_diag_up_left_bitmap [SHIP_HEIGHT] = {
+    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
+    0xE00000FEL,0xE00001FCL,0xE00003F8L,0xE00007F0L,
+    0xE0000FE0L,0xE0001FC0L,0xE0003F80L,0xE0007F00L,
+    0xE000FE00L,0xE001FC00L,0xE003F800L,0xE007F000L,
+    0xE00FE000L,0xE01FC000L,0xE03F8000L,0xE07F0000L,
+    0xE0FE0000L,0xE1FC0000L,0xE3F80000L,0xE7F00000L,
+    0xEFE00000L,0xFFC00000L,0xFF800000L,0xFF000000L,
+    0xFE000000L,0xFC000000L,0xF8000000L,0xF0000000L,
+
+};
+
+const UINT32 ship_diag_up_right_bitmap [SHIP_HEIGHT] = {
+    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFE00000FL,
+    0x7F00000FL,0x3F80000FL,0x1FC0000FL,0x0FE0000FL,
+    0x07F0000FL,0x03F8000FL,0x01FC000FL,0x00FE000FL,
+    0x007F000FL,0x003F800FL,0x001FC00FL,0x000FE00FL,
+    0x0007F00FL,0x0003F80FL,0x0001FC0FL,0x0000FE0FL,
+    0x00007F0FL,0x00003F8FL,0x00001FCFL,0x00000FEFL,
+    0x000007FFL,0x000003FFL,0x000001FFL,0x000000FFL,
+    0x0000007FL,0x0000003FL,0x0000001FL,0x0000000FL,
+
+};
+
+const UINT32 largeAsteroid_bitmap[32] = 
     {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
-        0x02088100L,0x04070080L,0x04000100L,0x04000200L,
-        0x04000200L,0x04000100L,0x08000080L,0x04000040L,
-        0x02000080L,0x01000100L,0x00800200L,0x00400400L,
-        0x00230800L,0x00149000L,0x00086000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
+    0x02088100L,0x04070080L,0x04000100L,0x04000200L,
+    0x04000200L,0x04000100L,0x08000080L,0x04000040L,
+    0x02000080L,0x01000100L,0x00800200L,0x00400400L,
+    0x00230800L,0x00149000L,0x00086000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     };
 
-unsigned long mediumAsteroid_bitmap[32] = 
+const UINT32 mediumAsteroid_bitmap[32] = 
     {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
-        0x01000200L,0x01000200L,0x01000200L,0x01000200L,
-        0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
-        0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
+    0x01000200L,0x01000200L,0x01000200L,0x01000200L,
+    0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
+    0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     };
 
-unsigned long smallAsteroid_bitmap[32] = 
+const UINT32 smallAsteroid_bitmap[32] = 
     {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00100000L,
-        0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
-        0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00100000L,
+    0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
+    0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     };
 
-
-/*Enum list that hold all of the number bitmaps
-and will be used to easily access the bitmaps*/
 const UINT16 NumberSprites[10][16] = {
-    /*Number 0*/
+    
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,
      0x781E, 0x7FFE, 0x3FFC, 0x1FF8},
 
-    /*Number 1*/
+    
     {0x03C0, 0x07C0, 0x0FC0, 0x1FC0,
      0x03C0, 0x03C0, 0x03C0, 0x03C0,
      0x03C0, 0x03C0, 0x03C0, 0x03C0,
      0x03C0, 0x03C0, 0xFFFC, 0xFFFC},
 
-    /*Number 2*/
+    
     {0x1FF8, 0x3FFC, 0x7FFE, 0x7FFE,
      0x781E, 0x701E, 0x003E, 0x00FC,
      0x01F8, 0x03F0, 0x07E0, 0x07C0,
      0x0F80, 0x1FF8, 0x3FFC, 0x7FFE},
 
-    /*Number 3*/
+    
     {0x3FFC, 0xFFFC, 0xFFFC, 0x001E,
      0x001E, 0x001E, 0x3FFC, 0xFFFC,
      0xFFFC, 0x3FFC, 0x001E, 0x001E,
      0x001E, 0xFFFC, 0xFFFC, 0x3FFC},
 
-    /*Number 4*/
+    
     {0x380E, 0x380E, 0x380E, 0x380E,
      0x380E, 0x380E, 0x3FFE, 0x3FFE,
      0x3FFE, 0x1FFE, 0x001E, 0x001E,
      0x001E, 0x001E, 0x001E, 0x001E},
 
-    /*Number 5*/
+    
     {0x0000, 0x1FF8, 0x3FFC, 0x3FFC,
      0x3800, 0x3800, 0x3800, 0x3FF8,
      0x3FFC, 0x1FFC, 0x001C, 0x001C,
      0x001C, 0x1FFC, 0x3FFC, 0x3FF8},
 
-    /*Number 6*/
+    
     {0x0000, 0x1FF8, 0x3FFC, 0x3FF8,
      0x3C00, 0x3C00, 0x3C00, 0x3C00,
      0x3FF8, 0x3FFC, 0x3C1C, 0x3C1C,
      0x3C1C, 0x3C1C, 0x3FFC, 0x1FF8},
 
-    /*Number 7*/
+    
     {0x0000, 0x3FFC, 0x7FFE, 0x3FFE,
      0x001E, 0x001E, 0x001E, 0x001E,
      0x001E, 0x001E, 0x001E, 0x001E,
      0x001E, 0x001E, 0x001E, 0x001E},
 
-    /*Number 8*/
+    
     {0x0FF0, 0x1FF8, 0x381C, 0x381C,
      0x381C, 0x381C, 0x1FF8, 0x0FF0,
      0x1FF8, 0x381C, 0x381C, 0x381C,
      0x381C, 0x381C, 0x1FF8, 0x0FF0},
 
-    /*Number 9*/
+    
     {0x1FF8, 0x3FFC, 0x3C3C, 0x3C3C,
      0x3C3C, 0x3C3C, 0x3FFC, 0x3FFC,
      0x1FFC, 0x003C, 0x003C, 0x003C,
@@ -110,7 +200,21 @@ const UINT16 NumberSprites[10][16] = {
 };
 
 
-void print_ship_up (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
+void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
+{
+    int i;  
+    int offset;
+
+    offset = (x>>4) + (y*40); 
+    
+    for (i = 0; i < height; i++)
+    {
+        *(base + offset + (40*i)) |= bitmap[i];
+    }
+    return;
+}
+
+void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
@@ -134,90 +238,5 @@ void clear_sc(UINT32* base){
         base[index] = 0x0;
 
     }
-};
-
-/*Not done yet*/
-/*Function that will ... */
-void print_score(UINT16 *base, int x, int y, unsigned int height){
-    int OnesPlace;
-    int TensPlace;
-    int HundrethsPlace;
-    const UINT16 * NumBitmap = NumberSprites[];
-
-    for(OnesPlace = 0; OnesPlace < 10; OnesPlace++){
-         const UINT16 * NumBitmap = NumberSprites[OnesPlace];
-          
-    }
-
-
-
-/*
-This function draws a horizontal line on a monochrome (1-bit-per-pixel),
-display using a byte array (uint8_t *base) as the screen buffer. 
-It sets pixels to "on" (1) within a given row (y) from x1 to x2.
-*/
-void plot_hline(uint8_t *base, int y, int x1, int x2) {
-    // Check for invalid input
-    if (base == NULL || y < 0 || y >= SCREEN_HEIGHT || x1 < 0 || x2 < 0 || x1 >= SCREEN_WIDTH || x2 >= SCREEN_WIDTH) {
-        return; // Exit if base is NULL or coordinates are out of bounds
-    }
-
-    // Ensure x1 <= x2
-    if (x1 > x2) {
-        int temp = x1;
-        x1 = x2;
-        x2 = temp;
-    }
-    return;
-}
-
-void print_ship_down (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
-{
-    int i;  
-    int offset;
-
-    offset = (x>>5) + (y*20); 
-
-    for (i = 0; i < height; i++)
-    {
-        *(base + offset + (20*i)) |= bitmap[i];
-    }
-    return;
-}
-
-/*
-The function draws a vertical line at a specific x coordinate, 
-between two y coordinates (y1 and y2),on a screen with a resolution of 640x400 pixels.
-The line is drawn by manipulating bits in the screen buffer.
-*/
-void plot_vline(uint8_t *base, int x, int y1, int y2) {
-    // Check if x is within the screen bounds (0 to 639)
-    if (x < 0 || x >= 640) {
-        return; // Exit if x is out of bounds
-    }
-
-    // Swap y1 and y2 if y1 > y2
-    if (y1 > y2) {
-        int temp = y1;
-        y1 = y2;
-        y2 = temp;
-    }
-
-    // Clamp y1 and y2 to the screen bounds (0 to 399)
-    if (y1 < 0) y1 = 0;
-    if (y2 >= 400) y2 = 399;
-
-    // Calculate the bitmask for the x coordinate
-    uint8_t pattern = 1 << (7 - (x & 7));
-
-    // Calculate the starting byte in the screen buffer
-    uint8_t *screen_byte = base + y1 * 80 + (x >> 3);
-
-    // Draw the vertical line
-    for (; y1 <= y2; y1++) {
-        *screen_byte |= pattern; // Set the pixel
-        screen_byte += 80; // Move to the next row (640 pixels / 8 bits per byte = 80 bytes per row)
-    }
-
 }
 

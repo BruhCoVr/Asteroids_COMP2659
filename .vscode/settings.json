@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "BITMAP_S.C": "cpp"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
