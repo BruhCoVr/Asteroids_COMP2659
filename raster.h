@@ -1,67 +1,45 @@
-#ifndef BITMAP_S
-#define BITMAP_S
-#define INVADER_HEIGHT 16
-typedef unsigned int UINT16;
+#ifndef RASTER_H
+#define RASTER_H
+
+#include <stdio.h>
+#include <osbind.h>
+
 typedef unsigned char UINT8;
+typedef unsigned int UINT16;
 typedef unsigned long UINT32;
-
-unsigned long largeAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
-        0x02088100L,0x04070080L,0x04000100L,0x04000200L,
-        0x04000200L,0x04000100L,0x08000080L,0x04000040L,
-        0x02000080L,0x01000100L,0x00800200L,0x00400400L,
-        0x00230800L,0x00149000L,0x00086000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-unsigned long mediumAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
-        0x01000200L,0x01000200L,0x01000200L,0x01000200L,
-        0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
-        0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-unsigned long smallAsteroid_bitmap[32] = 
-    {
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00100000L,
-        0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
-        0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-        0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
+typedef enum {
+    num_0 = 0,
+    num_1,
+    num_2,
+    num_3,
+    num_4,
+    num_5,
+    num_6,
+    num_7,
+    num_8,
+    num_9,
+    TotalNumbers
+} NumberEnum;
 
 
-unsigned int invader_bitmap[INVADER_HEIGHT] =
-    {
-        0x0000,
-        0x0810,
-        0x0810,
-        0x0420,
-        0x0240,
-        0x1FF8,
-        0x2004,
-        0x4662,
-        0x4002,
-        0x43C2,
-        0x2424,
-        0x1008,
-        0x0FF0,
-        0x0240,
-        0x0E70,
-        0x0000};
+extern const UINT32 ship_up_bitmap[];
+extern const UINT32 ship_down_bitmap[];
+extern const UINT32 ship_left_bitmap[];   
+extern const UINT32 ship_right_bitmap[];
+extern const UINT32 ship_diag_down_left_bitmap[];
+extern const UINT32 ship_diag_down_right_bitmap[];
+extern const UINT32 ship_diag_up_left_bitmap[];
+extern const UINT32 ship_diag_up_right_bitmap[];  
+extern const UINT32 largeAsteroid_bitmap[];
+extern const UINT32 mediumAsteroid_bitmap[];
+extern const UINT32 smallAsteroid_bitmap[];
+extern const UINT8 bullet[];
 
-void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
-
-
-#endif
+void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
+void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
+void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
+void plot_pixel (UINT8 *base, int x, int y);
+void clear_sc (UINT32* base);
+void plot_vline(UINT8 *base, int x, int y1, int y2);
+void plot_hline (UINT8 *base, int y, int x1, int x2);
+#endif 
