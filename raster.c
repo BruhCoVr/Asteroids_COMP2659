@@ -55,6 +55,7 @@ void print_bitmap(UINT16 *base, int x, int y,
     return;
 }
 
+
 /*
 This function draws a horizontal line on a monochrome (1-bit-per-pixel),
 display using a byte array (uint8_t *base) as the screen buffer. 
@@ -132,15 +133,4 @@ void plot_vline(uint8_t *base, int x, int y1, int y2) {
         *screen_byte |= pattern; // Set the pixel
         screen_byte += 80; // Move to the next row (640 pixels / 8 bits per byte = 80 bytes per row)
     }
-}
-
-int main() {
-
-    char *base = (char*)Physbase();
-
-    while (1) {
-        print_bitmap(base, 32, 32, invader_bitmap, INVADER_HEIGHT);
-    }
-
-    return 0;
 }
