@@ -38,7 +38,8 @@ extern const UINT8 bullet[];
 void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
 void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
+void plot_pixel (UINT8 *base, int x, int y);
 void clear_sc (UINT32* base);
 void plot_vline(UINT8 *base, int x, int y1, int y2);
-
+void plot_hline (UINT8 *base, int y, int x1, int x2)
 #endif 

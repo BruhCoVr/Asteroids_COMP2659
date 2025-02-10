@@ -258,3 +258,57 @@ void clear_sc(UINT32* base){
     }
 }
 
+void plot_pixel(UINT8 *base, int x, int y)
+{
+    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT){
+        *(base + y * 80 + (x >> 3)) |= 1 << (7 - (x & 7));}
+
+}
+
+void plot_vline(UINT8 *base, int x, int y1, int y2)
+{
+    int temp;
+    if (x >= 0 && x < 640){
+        if (y1 > y2){
+            temp = y1;
+            y1 = y2;
+            y2 = temp;}
+        if (y1 < 0) {
+            y1 = 0;}
+        if (y2 > 399) {
+            y2 = 399;}  
+        for ( ; y1 <= y2; y1++){
+            plot_pixel(base, x, y1);}
+        }
+    return;
+}
+
+void plot_hline (UINT8 *base, int y, int x1, int x2)
+{
+    UINT8 p1, p2;
+    int row1, row2, i;
+    int shift_F, shift_B;
+    UINT8 *place = base + y * 80;
+
+    row1 = x1 / BITS_IN_BYTE;
+    row2 = x2 / BITS_IN_BYTE;
+    shift_F = x1 % BITS_IN_BYTE;
+    shift_B = (BITS_IN_BYTE - 1) - (x2 % BITS_IN_BYTE);
+    if (row1 == row2){
+        p1 = SOLID >> shift_F;
+        p2 = SOLID << shift_B;
+        *(place + row1) = p1 & p2;
+    }
+    else{
+        p1 = SOLID >> shift_F;
+        p2 = SOLID << shift_B;
+        *(place + row1) = p1;
+        for (i = row1 + 1; i < row2; i++){
+            *(place + i) = SOLID;
+        }
+    *(place + row2) = p2;
+}
+    return;
+}
+
+
