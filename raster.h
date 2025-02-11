@@ -7,6 +7,7 @@
 typedef unsigned char UINT8;
 typedef unsigned int UINT16;
 typedef unsigned long UINT32;
+
 typedef enum {
     num_0 = 0,
     num_1,
@@ -34,12 +35,17 @@ extern const UINT32 largeAsteroid_bitmap[];
 extern const UINT32 mediumAsteroid_bitmap[];
 extern const UINT32 smallAsteroid_bitmap[];
 extern const UINT8 bullet[];
+extern const UINT32 start_bitmap[16][32];
+extern const UINT16 NumberSprites[TotalNumbers][16];
 
 void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
 void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
 void plot_pixel (UINT8 *base, int x, int y);
 void clear_sc (UINT32* base);
+void black_sc(UINT32* base);
 void plot_vline(UINT8 *base, int x, int y1, int y2);
 void plot_hline (UINT8 *base, int y, int x1, int x2);
+void plot_bitmap(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height);
+
 #endif 
