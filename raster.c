@@ -101,32 +101,7 @@ const UINT32 ship_diag_up_right_bitmap [SHIP_HEIGHT] = {
 
 };
 
-const UINT32 largeAsteroid_bitmap[32] = 
-    {
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00400800L,0x00A01400L,0x01106200L,
-    0x02088100L,0x04070080L,0x04000100L,0x04000200L,
-    0x04000200L,0x04000100L,0x08000080L,0x04000040L,
-    0x02000080L,0x01000100L,0x00800200L,0x00400400L,
-    0x00230800L,0x00149000L,0x00086000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-const UINT32 mediumAsteroid_bitmap[32] = 
-    {
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x000F8000L,0x0070F800L,0x00C00C00L,0x01000600L,
-    0x01000200L,0x01000200L,0x01000200L,0x01000200L,
-    0x01800200L,0x00F80600L,0x00181800L,0x000E3000L,
-    0x0003C000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-const UINT32 smallAsteroid_bitmap[32] = 
-    {
+const UINT32 largeAsteroid_bitmap[32] =     {
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     0x00000000L,0x00000000L,0x00000000L,0x00100000L,
@@ -137,6 +112,27 @@ const UINT32 smallAsteroid_bitmap[32] =
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     };
 
+const UINT32 mediumAsteroid_bitmap[32] =     {
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x003F8000L,0x01C1FC00L,0x01C1FC00L,
+    0x0F000600L,0x10000300L,0x10000300L,0x10000100L,
+    0x10000100L,0x10000100L,0x10000100L,0x10000100L,
+    0x10000100L,0x10000100L,0x1E000100L,0x1E000100L,
+    0x0FE00300L,0x0FE00300L,0x00600C00L,0x003C3800L,
+    0x003C3800L,0x0007C000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    };
+
+const UINT32 smallAsteroid_bitmap[32] =     {
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00100000L,0x00FC0000L,0x00E78000L,
+    0x00E78000L,0x00E78000L,0x0102F800L,0x03003C00L,
+    0x02000600L,0x02083E00L,0x02083E00L,0x02083E00L, 
+    0x03F4F800L,0x00038000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
+    };
 
 const UINT8 bullet[8] = 
 {
@@ -423,6 +419,12 @@ void clear_sc(UINT32* base){
 
     }
 }
+
+/*
+This function plots a single pixel at coordinates (x, y) on a monochrome (1-bit per pixel) display.
+Ensures the pixel is within the valid screen boundaries (SCREEN_WIDTH and SCREEN_HEIGHT) 
+and calculates the appropriate byte in the base memory where the pixel belongs and sets the corresponding bit.
+*/
 void black_sc(UINT32* base){
 
     int index;
@@ -437,6 +439,12 @@ void plot_pixel(UINT8 *base, int x, int y)
         *(base + y * 80 + (x >> 3)) ^= 1 << (7 - (x & 7));}
 
 }
+
+/*
+This function draws a vertical line from (x, y1) to (x, y2), ensures x-coordinate is within the the range (0-639).
+Handles sawpping y1 and y2 (if in the wrong order), also checking the range for the y-coordinates (0-399).
+lastly iterates from y1 to y2, calling plot_pixel to set each pixel along the vertical line.
+*/
 
 void plot_vline(UINT8 *base, int x, int y1, int y2)
 {
@@ -456,6 +464,12 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
     return;
 }
 
+
+/*
+The function draws a vertical line at a specific x coordinate, 
+between two y coordinates (y1 and y2),on a screen with a resolution of 640x400 pixels.
+The line is drawn by manipulating bits in the screen buffer. 
+*/
 void plot_hline (UINT8 *base, int y, int x1, int x2)
 {
     UINT8 p1, p2;
