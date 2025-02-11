@@ -19,7 +19,7 @@ int main(){
     plot_bitmap_8(base8, 312, 250, bullet, 8);
     plot_bitmap_8(base8, 312, 300, bullet, 8);
     plot_bitmap_8(base8, 312, 350, bullet, 8);
-
+    plot_bitmap(base32, 400, 300, largeAsteroid_bitmap, 64,64);
     for (i=0; i<1000; i++){
         plot_pixel(base8, rand()%640, rand()%400);
     }
