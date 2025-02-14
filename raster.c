@@ -255,24 +255,12 @@ void clear_sc(UINT32* base){
     }
 }
 
-/*
-This function plots a single pixel at coordinates (x, y) on a monochrome (1-bit per pixel) display.
-Ensures the pixel is within the valid screen boundaries (SCREEN_WIDTH and SCREEN_HEIGHT) 
-and calculates the appropriate byte in the base memory where the pixel belongs and sets the corresponding bit.
-*/
-
 void plot_pixel(UINT8 *base, int x, int y)
 {
     if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT){
         *(base + y * 80 + (x >> 3)) |= 1 << (7 - (x & 7));}
 
 }
-
-/*
-This function draws a vertical line from (x, y1) to (x, y2), ensures x-coordinate is within the the range (0-639).
-Handles sawpping y1 and y2 (if in the wrong order), also checking the range for the y-coordinates (0-399).
-lastly iterates from y1 to y2, calling plot_pixel to set each pixel along the vertical line.
-*/
 
 void plot_vline(UINT8 *base, int x, int y1, int y2)
 {
@@ -292,12 +280,6 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
     return;
 }
 
-
-/*
-The function draws a vertical line at a specific x coordinate, 
-between two y coordinates (y1 and y2),on a screen with a resolution of 640x400 pixels.
-The line is drawn by manipulating bits in the screen buffer. 
-*/
 void plot_hline (UINT8 *base, int y, int x1, int x2)
 {
     UINT8 p1, p2;
