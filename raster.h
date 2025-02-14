@@ -7,6 +7,9 @@
 typedef unsigned char UINT8;
 typedef unsigned int UINT16;
 typedef unsigned long UINT32;
+
+/*Making an enumerated type that will hold 
+all of the bitmaps for the numbers 0-9 */
 typedef enum {
     num_0 = 0,
     num_1,
@@ -35,8 +38,17 @@ extern const UINT32 mediumAsteroid_bitmap[];
 extern const UINT32 smallAsteroid_bitmap[];
 extern const UINT8 bullet[];
 
+/*Function to plot an 8-bit bitmap on a screen or buffer.
+It takes a pointer to the base address, x and y coordinates, a pointer to the bitmap data, and the height of the bitmap.
+It calculates the offset based on the x and y coordinates, and sets the bits in the target memory area accordingly.*/
 void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
+
+/*Function to plot a 16-bit bitmap on a screen or buffer.
+Similar to the previous function, but operates on 16-bit values. The offset calculation and memory access are adjusted for 16-bit data.*/
 void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
+
+/*Function to plot a 32-bit bitmap on a screen or buffer.
+Like the previous functions, but for 32-bit values. The offset and memory access are calculated accordingly for 32-bit data.*/
 void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
 
 /*
@@ -46,6 +58,7 @@ and calculates the appropriate byte in the base memory where the pixel belongs a
 */
 void plot_pixel (UINT8 *base, int x, int y);
 
+/*Function that will clear the screen when called*/
 void clear_sc (UINT32* base);
 
 /*

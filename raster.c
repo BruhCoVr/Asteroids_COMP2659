@@ -1,285 +1,201 @@
 #include "raster.h"
 #include <osbind.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define SOLID 0xFF
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 400
 #define SHIP_HEIGHT 32
 #define BITS_IN_BYTE 8
-#define BYTES_PER_ROW (SCREEN_WIDTH / BITS_IN_BYTE) // 80 bytes per row
+#define BYTES_PER_ROW (SCREEN_WIDTH / BITS_IN_BYTE)
 #define NUM_HEIGHT 16
 #define NUM_HEIGHT_2 32
 
-const UINT32 ship_up_bitmap [SHIP_HEIGHT] = {
-    0x00018000L,0x0003C000L,0x0007E000L,0x0007E000L,
-    0x000FF000L,0x000FF000L,0x001FF800L,0x001FF800L,
-    0x003FFC00L,0x003E7C00L,0x007E7E00L,0x007C3E00L,
-    0x00FC3F00L,0x00F81F00L,0x01F81F80L,0x01F81F80L,
-    0x03F00FC0L,0x03F00FC0L,0x03E007C0L,0x07E007E0L,
-    0x07C003E0L,0x0FC003F0L,0x0F8001F0L,0x1F8001F8L,
-    0x1F0000F8L,0x3F0000FCL,0x3E00007CL,0x7E00007EL,
-    0x7FFFFFFEL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
-};
-
-const UINT32 ship_right_bitmap [SHIP_HEIGHT] = {
-    0xE0000000L,0xF8000000L,0xFE000000L,0xFF800000L,
-    0xFFE00000L,0xFFF80000L,0xFFFF0000L,0xF3FFC000L,
-    0xF0FFF000L,0xF03FFC00L,0xF00FFF00L,0xF003FFC0L,
-    0xF000FFF0L,0xF0001FFCL,0xF00007FEL,0xF00001FFL,
-    0xF00001FFL,0xF00007FEL,0xF0001FFCL,0xF000FFF0L,
-    0xF003FFC0L,0xF00FFF00L,0xF03FFC00L,0xF0FFF000L,
-    0xF3FFC000L,0xFFFF0000L,0xFFF80000L,0xFFE00000L,
-    0xFF800000L,0xFE000000L,0xF8000000L,0xE0000000L,
-};
-
-const UINT32 ship_down_bitmap [SHIP_HEIGHT] = {
-    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0x7FFFFFFEL,
-    0x7E00007EL,0x3E00007CL,0x3F0000FCL,0x1F0000F8L,
-    0x1F8001F8L,0x0F8001F0L,0x0FC003F0L,0x07C003E0L,
-    0x07E007E0L,0x03E007C0L,0x03F00FC0L,0x03F00FC0L,
-    0x01F81F80L,0x01F81F80L,0x00F81F00L,0x00FC3F00L,
-    0x007C3E00L,0x007E7E00L,0x003E7C00L,0x003FFC00L,
-    0x001FF800L,0x001FF800L,0x000FF000L,0x000FF000L,
-    0x0007E000L,0x0007E000L,0x0003C000L,0x00018000L,
-};
-
-const UINT32 ship_left_bitmap [SHIP_HEIGHT] = {
-    0x00000007L,0x0000001FL,0x0000007FL,0x000001FFL,
-    0x000007FFL,0x00001FFFL,0x0000FFFFL,0x0003FFCFL,
-    0x000FFF0FL,0x003FFC0FL,0x00FFF00FL,0x03FFC00FL,
-    0x0FFF000FL,0x3FF8000FL,0x7FE0000FL,0xFF80000FL,
-    0xFF80000FL,0x7FE0000FL,0x3FF8000FL,0x0FFF000FL,
-    0x03FFC00FL,0x00FFF00FL,0x003FFC0FL,0x000FFF0FL,
-    0x0003FFCFL,0x0000FFFFL,0x00001FFFL,0x000007FFL,
-    0x000001FFL,0x0000007FL,0x0000001FL,0x00000007L,    
-};
-
-const UINT32 ship_diag_down_left_bitmap [SHIP_HEIGHT] = {
-    0xF0000000L,0xF8000000L,0xFC000000L,0xFE000000L,
-    0xFF000000L,0xFF800000L,0xFFC00000L,0xFFE00000L,
-    0xF7F00000L,0xF3F80000L,0xF1FC0000L,0xF0FE0000L,
-    0xF07F0000L,0xF03F8000L,0xF01FC000L,0xF00FE000L,
-    0xF007F000L,0xF003F800L,0xF001FC00L,0xF000FE00L,
-    0xF0007F00L,0xF0003F80L,0xF0001FC0L,0xF0000FE0L,
-    0xF00007F0L,0xF00003F8L,0xF00001FCL,0xF00000FEL,
-    0xF000007FL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
-
-};
-
-const UINT32 ship_diag_down_right_bitmap [SHIP_HEIGHT] = {
-    0x0000000FL,0x0000001FL,0x0000003FL,0x0000007FL,
-    0x000000FFL,0x000001FFL,0x000003FFL,0x000007F7L,
-    0x00000FE7L,0x00001FC7L,0x00003F87L,0x00007F07L,
-    0x0000FE07L,0x0001FC07L,0x0003F807L,0x0007F007L,
-    0x000FE007L,0x001FC007L,0x003F8007L,0x007F0007L,
-    0x00FE0007L,0x01FC0007L,0x03F80007L,0x07F00007L,
-    0x0FE00007L,0x1FC00007L,0x3F800007L,0x7F000007L,
-    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,    
-};
-
-const UINT32 ship_diag_up_left_bitmap [SHIP_HEIGHT] = {
-    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
-    0xE00000FEL,0xE00001FCL,0xE00003F8L,0xE00007F0L,
-    0xE0000FE0L,0xE0001FC0L,0xE0003F80L,0xE0007F00L,
-    0xE000FE00L,0xE001FC00L,0xE003F800L,0xE007F000L,
-    0xE00FE000L,0xE01FC000L,0xE03F8000L,0xE07F0000L,
-    0xE0FE0000L,0xE1FC0000L,0xE3F80000L,0xE7F00000L,
-    0xEFE00000L,0xFFC00000L,0xFF800000L,0xFF000000L,
-    0xFE000000L,0xFC000000L,0xF8000000L,0xF0000000L,
-
-};
-
-const UINT32 ship_diag_up_right_bitmap [SHIP_HEIGHT] = {
-    0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFE00000FL,
-    0x7F00000FL,0x3F80000FL,0x1FC0000FL,0x0FE0000FL,
-    0x07F0000FL,0x03F8000FL,0x01FC000FL,0x00FE000FL,
-    0x007F000FL,0x003F800FL,0x001FC00FL,0x000FE00FL,
-    0x0007F00FL,0x0003F80FL,0x0001FC0FL,0x0000FE0FL,
-    0x00007F0FL,0x00003F8FL,0x00001FCFL,0x00000FEFL,
-    0x000007FFL,0x000003FFL,0x000001FFL,0x000000FFL,
-    0x0000007FL,0x0000003FL,0x0000001FL,0x0000000FL,
-
-};
-
-const UINT32 largeAsteroid_bitmap[32] =     {
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00100000L,
-    0x003C0000L,0x00278000L,0x0042E000L,0x00C03000L,
-    0x00801800L,0x00883800L,0x00F4E000L,0x00038000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-const UINT32 mediumAsteroid_bitmap[32] =     {
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x003F8000L,0x01C1FC00L,0x01C1FC00L,
-    0x0F000600L,0x10000300L,0x10000300L,0x10000100L,
-    0x10000100L,0x10000100L,0x10000100L,0x10000100L,
-    0x10000100L,0x10000100L,0x1E000100L,0x1E000100L,
-    0x0FE00300L,0x0FE00300L,0x00600C00L,0x003C3800L,
-    0x003C3800L,0x0007C000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-const UINT32 smallAsteroid_bitmap[32] =     {
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00100000L,0x00FC0000L,0x00E78000L,
-    0x00E78000L,0x00E78000L,0x0102F800L,0x03003C00L,
-    0x02000600L,0x02083E00L,0x02083E00L,0x02083E00L, 
-    0x03F4F800L,0x00038000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    0x00000000L,0x00000000L,0x00000000L,0x00000000L,
-    };
-
-const UINT8 bullet[8] = 
-{
-0xFF,0xFF,0xFF,0xFF,
-0xFF,0xFF,0xFF,0xFF
-};
-
-const UINT16 NumberSprites[10][16] = {
-    
-    {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
-     0x781E, 0x781E, 0x781E, 0x781E,
-     0x781E, 0x781E, 0x781E, 0x781E,
-     0x781E, 0x7FFE, 0x3FFC, 0x1FF8},
-
-    
-    {0x03C0, 0x07C0, 0x0FC0, 0x1FC0,
-     0x03C0, 0x03C0, 0x03C0, 0x03C0,
-     0x03C0, 0x03C0, 0x03C0, 0x03C0,
-     0x03C0, 0x03C0, 0xFFFC, 0xFFFC},
-
-    
-    {0x1FF8, 0x3FFC, 0x7FFE, 0x7FFE,
-     0x781E, 0x701E, 0x003E, 0x00FC,
-     0x01F8, 0x03F0, 0x07E0, 0x07C0,
-     0x0F80, 0x1FF8, 0x3FFC, 0x7FFE},
-
-    
-    {0x3FFC, 0xFFFC, 0xFFFC, 0x001E,
-     0x001E, 0x001E, 0x3FFC, 0xFFFC,
-     0xFFFC, 0x3FFC, 0x001E, 0x001E,
-     0x001E, 0xFFFC, 0xFFFC, 0x3FFC},
-
-    
-    {0x380E, 0x380E, 0x380E, 0x380E,
-     0x380E, 0x380E, 0x3FFE, 0x3FFE,
-     0x3FFE, 0x1FFE, 0x001E, 0x001E,
-     0x001E, 0x001E, 0x001E, 0x001E},
-
-    
-    {0x0000, 0x1FF8, 0x3FFC, 0x3FFC,
-     0x3800, 0x3800, 0x3800, 0x3FF8,
-     0x3FFC, 0x1FFC, 0x001C, 0x001C,
-     0x001C, 0x1FFC, 0x3FFC, 0x3FF8},
-
-    
-    {0x0000, 0x1FF8, 0x3FFC, 0x3FF8,
-     0x3C00, 0x3C00, 0x3C00, 0x3C00,
-     0x3FF8, 0x3FFC, 0x3C1C, 0x3C1C,
-     0x3C1C, 0x3C1C, 0x3FFC, 0x1FF8},
-
-    
-    {0x0000, 0x3FFC, 0x7FFE, 0x3FFE,
-     0x001E, 0x001E, 0x001E, 0x001E,
-     0x001E, 0x001E, 0x001E, 0x001E,
-     0x001E, 0x001E, 0x001E, 0x001E},
-
-    
-    {0x0FF0, 0x1FF8, 0x381C, 0x381C,
-     0x381C, 0x381C, 0x1FF8, 0x0FF0,
-     0x1FF8, 0x381C, 0x381C, 0x381C,
-     0x381C, 0x381C, 0x1FF8, 0x0FF0},
-
-    
-    {0x1FF8, 0x3FFC, 0x3C3C, 0x3C3C,
-     0x3C3C, 0x3C3C, 0x3FFC, 0x3FFC,
-     0x1FFC, 0x003C, 0x003C, 0x003C,
-     0x003C, 0x1FFC, 0x3FFC, 0x3FFC}
-};
-
+/*
+ * Function to plot an 8-bit bitmap on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate where the bitmap should be plotted.
+ * - y: Y-coordinate where the bitmap should be plotted.
+ * - bitmap: Pointer to the bitmap data.
+ * - height: Height of the bitmap.
+ */
 void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
+    int image_shift_left = x & 7; /* Calculate the left shift amount */
+    int image_shift_right = 8 - image_shift_left; /* Calculate the right shift amount */
 
-    offset = (x>>3) + (y*80); 
+    offset = (x >> 3) + (y * 80); /* Calculate the offset in the screen buffer */
     for (i = 0; i < height; i++)
     {
-        *(base + offset + (80*i)) |= bitmap[i];
+        *(base + offset + (80 * i)) ^= bitmap[i] >> image_shift_left; /* Plot the bitmap with left shift */
+        if (image_shift_left > 0)
+        {
+            *(base + offset + 1 + (80 * i)) ^= bitmap[i] << image_shift_right; /* Plot the bitmap with right shift if needed */
+        }
     }
     return;
 }
 
+/*
+ * Function to plot a 16-bit bitmap on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate where the bitmap should be plotted.
+ * - y: Y-coordinate where the bitmap should be plotted.
+ * - bitmap: Pointer to the bitmap data.
+ * - height: Height of the bitmap.
+ */
 void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
+    int image_shift_left = x & 15; /* Calculate the left shift amount */
+    int image_shift_right = 16 - image_shift_left; /* Calculate the right shift amount */
 
-    offset = (x>>4) + (y*40); 
+    offset = (x >> 4) + (y * 40); /* Calculate the offset in the screen buffer */
     
     for (i = 0; i < height; i++)
     {
-        *(base + offset + (40*i)) |= bitmap[i];
+        *(base + offset + (40 * i)) ^= bitmap[i] >> image_shift_left; /* Plot the bitmap with left shift */
+        if (image_shift_left > 0)
+        {
+            *(base + offset + 1 + (40 * i)) ^= bitmap[i] << image_shift_right; /* Plot the bitmap with right shift if needed */
+        }
     }
     return;
 }
 
+/*
+ * Function to plot a 32-bit bitmap on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate where the bitmap should be plotted.
+ * - y: Y-coordinate where the bitmap should be plotted.
+ * - bitmap: Pointer to the bitmap data.
+ * - height: Height of the bitmap.
+ */
 void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
+    int image_shift_left = x & 31; /* Calculate the left shift amount */
+    int image_shift_right = 32 - image_shift_left; /* Calculate the right shift amount */
 
-    offset = (x>>5) + (y*20); 
+    offset = (x >> 5) + (y * 20); /* Calculate the offset in the screen buffer */
     
     for (i = 0; i < height; i++)
     {
-        *(base + offset + (20*i)) |= bitmap[i];
+        *(base + offset + (20 * i)) ^= bitmap[i] >> image_shift_left; /* Plot the bitmap with left shift */
+        if (image_shift_left > 0)
+        {
+            *(base + offset + 1 + (20 * i)) ^= bitmap[i] << image_shift_right; /* Plot the bitmap with right shift if needed */
+        } 
     }
     return;
 }
 
-
-void clear_sc(UINT32* base){
-
+/*
+ * Function to clear the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ */
+void clear_sc(UINT32* base)
+{
     int index;
  
-    for(index = 0; index < 8000; index++){
-
-        base[index] = 0x0;
-
+    for(index = 0; index < 8000; index++)
+    {
+        base[index] = 0x0; /* Set each pixel to 0 (clear the screen) */
     }
 }
 
+<<<<<<< HEAD
 void plot_pixel(UINT8 *base, int x, int y)
+=======
+/*
+ * Function to fill the screen with black color.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ */
+void black_sc(UINT32* base)
+>>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 {
-    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT){
-        *(base + y * 80 + (x >> 3)) |= 1 << (7 - (x & 7));}
-
+    int index;
+ 
+    for(index = 0; index < 8000; index++)
+    {
+        base[index] = 0xFFFFFFFFL; /* Set each pixel to 1 (fill the screen with black) */
+    }
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * Function to plot a single pixel on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate of the pixel.
+ * - y: Y-coordinate of the pixel.
+ */
+void plot_pixel(UINT8 *base, int x, int y)
+{
+    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+    {
+        *(base + y * 80 + (x >> 3)) ^= 1 << (7 - (x & 7)); /* Plot the pixel by setting the corresponding bit */
+    }
+}
+
+/*
+ * Function to draw a vertical line on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate of the line.
+ * - y1: Starting Y-coordinate of the line.
+ * - y2: Ending Y-coordinate of the line.
+ */
+>>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 void plot_vline(UINT8 *base, int x, int y1, int y2)
 {
     int temp;
-    if (x >= 0 && x < 640){
-        if (y1 > y2){
+    if (x >= 0 && x < 640)
+    {
+        if (y1 > y2)
+        {
             temp = y1;
             y1 = y2;
-            y2 = temp;}
-        if (y1 < 0) {
-            y1 = 0;}
-        if (y2 > 399) {
-            y2 = 399;}  
-        for ( ; y1 <= y2; y1++){
-            plot_pixel(base, x, y1);}
+            y2 = temp; /* Swap y1 and y2 if y1 is greater than y2 */
         }
+        if (y1 < 0) 
+        {
+            y1 = 0; /* Ensure y1 is within bounds */
+        }
+        if (y2 > 399) 
+        {
+            y2 = 399; /* Ensure y2 is within bounds */
+        }  
+        for ( ; y1 <= y2; y1++)
+        {
+            plot_pixel(base, x, y1); /* Plot each pixel along the vertical line */
+        }
+    }
     return;
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * Function to draw a horizontal line on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - y: Y-coordinate of the line.
+ * - x1: Starting X-coordinate of the line.
+ * - x2: Ending X-coordinate of the line.
+ */
+>>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 void plot_hline (UINT8 *base, int y, int x1, int x2)
 {
     UINT8 p1, p2;
@@ -287,25 +203,75 @@ void plot_hline (UINT8 *base, int y, int x1, int x2)
     int shift_F, shift_B;
     UINT8 *place = base + y * 80;
 
-    row1 = x1 / BITS_IN_BYTE;
-    row2 = x2 / BITS_IN_BYTE;
-    shift_F = x1 % BITS_IN_BYTE;
-    shift_B = (BITS_IN_BYTE - 1) - (x2 % BITS_IN_BYTE);
-    if (row1 == row2){
+    row1 = x1 / BITS_IN_BYTE; /* Calculate the starting byte */
+    row2 = x2 / BITS_IN_BYTE; /* Calculate the ending byte */
+    shift_F = x1 % BITS_IN_BYTE; /* Calculate the forward shift amount */
+    shift_B = (BITS_IN_BYTE - 1) - (x2 % BITS_IN_BYTE); /* Calculate the backward shift amount */
+    if (row1 == row2)
+    {
         p1 = SOLID >> shift_F;
         p2 = SOLID << shift_B;
-        *(place + row1) = p1 & p2;
+        *(place + row1) = p1 & p2; /* Plot the line within a single byte */
     }
-    else{
+    else
+    {
         p1 = SOLID >> shift_F;
         p2 = SOLID << shift_B;
-        *(place + row1) = p1;
-        for (i = row1 + 1; i < row2; i++){
-            *(place + i) = SOLID;
+        *(place + row1) = p1; /* Plot the starting byte */
+        for (i = row1 + 1; i < row2; i++)
+        {
+            *(place + i) = SOLID; /* Plot the full bytes in between */
         }
-    *(place + row2) = p2;
-}
+        *(place + row2) = p2; /* Plot the ending byte */
+    }
     return;
 }
 
+/*
+ * Function to plot a bitmap on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ * - x: X-coordinate where the bitmap should be plotted.
+ * - y: Y-coordinate where the bitmap should be plotted.
+ * - bitmap: Pointer to the bitmap data.
+ * - width: Width of the bitmap.
+ * - height: Height of the bitmap.
+ */
+void plot_bitmap(UINT32 * base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height)
+{
+    int i, j;
+    int offset;
+    int word_offset = x >> 5; /* Calculate the word offset */
+    int bit_offset = x & 31;  /* Calculate the bit offset */
+    int counter = 0;
+    for (i = 0; i < height; i++)
+    {
+        offset = word_offset + (y + i) * 20; /* Calculate the offset in the screen buffer */
+        for (j = 0; j < (width + 31) / 32; j++) 
+        {
+            UINT32 shifted_bitmap = bitmap[counter] >> bit_offset;
+            *(base + offset + j) ^= shifted_bitmap; /* Plot the bitmap with left shift */
 
+            if (bit_offset > 0) /* && j + 1 < (width % 32)*/
+            {
+                UINT32 overflow_bits = bitmap[counter] << (32 - bit_offset);
+                *(base + offset + j + 1) ^= overflow_bits; /* Plot the bitmap with right shift if needed */
+            }
+            counter++;
+        }
+    }
+    return;
+}
+
+/*
+ * Function to plot random stars on the screen.
+ * Parameters:
+ * - base: Pointer to the base address of the screen buffer.
+ */
+void plot_stars (void *base){
+    int i;
+    srand((unsigned) time(NULL)); /* Seed the random number generator with the current time */
+    for (i=0; i<1000; i++){
+        plot_pixel(base, rand()%640, rand()%400); /* Plot a pixel at a random (x, y) coordinate */
+    }
+}
