@@ -2,7 +2,7 @@
 #define RASTER_H
 
 #include <stdio.h>
-#include <osbind.h>
+//#include <osbind.h>
 
 typedef unsigned char UINT8;
 typedef unsigned int UINT16;
