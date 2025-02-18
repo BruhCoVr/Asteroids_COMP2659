@@ -115,7 +115,7 @@ void initialize_Scoreboard(Scoreboard *scoreboard, int high_score) {
     scoreboard->high_score = high_score; // HOW DO WE KEEP TRACK OF THIS?
 }
 
-void update_score(Scoreboard *scoreboard, int points) {
+void update_score(Scoreboard *scoreboard, uint points) {
     scoreboard->score += points;
 
     // Update high score if the current score exceeds it
@@ -124,4 +124,42 @@ void update_score(Scoreboard *scoreboard, int points) {
     }
 }
 
+void initialize_bullet(Bullet *bullet, int x, int y, int player_x, int player_y, int x_velocity, int y_velocity, int active, int size){
+    bullet->x = x;
+    bullet->y = y;
+    bullet->player_x = player_x;
+    bullet->player_y = player_y;
+    bullet->x_velocity = x_velocity;
+    bullet->y_velocity = y_velocity;
+    bullet->size = size;
+    bullet->active = 1;
+}
 
+void deactivate_bullet(Bullet *bullet){
+    bullet->bullet = 0; // Setting feild to 0 (false), meaning bullet destroyed.
+}
+
+void position_bullet(Bullet *bullet){
+    /* Update the bullet's position based on its velocity */
+    bullet->x += bullet->x_velocity;
+    bullet->y += bullet->y_velocity;
+}
+
+bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid){
+    if(bullet->x == largeAsteroid->x && bullet->y == largeAsteroid->y){
+        deactivate_bullet(bullet);
+        deactivate_largeAsteroid(largeAsteroid);
+    }
+
+    else if (bullet->x == mediumAsteroid->x && bullet->y == mediumAsteroid->y)
+    {
+        deactivate_bullet(bullet);
+        deactivate_mediumAsteroid(mediumAsteroid);
+    }
+    
+    else if (bullet->x == smallAsteroid->x && bullet->y == smallAsteroid->y)
+    {
+        deactivate_bullet(bullet);
+        deactivate_smallAsteroid(smallAsteroid);
+    }
+}

@@ -56,6 +56,13 @@ typedef struct {
     int high_score; // Highest score achieved.
 }Scoreboard;
 
+typedef struct{
+    int player_x, player_y; // position of the players tip where the bullet gets shot from
+    int x, y; // position of the bullet
+    int x_velocity, y_velocity; // velocity of the bullet 
+    int active; // 0 :hit something, 1:active 
+    int size; // size of the bullet
+}Bullet;
 
 /*
 Purpose: Function is used for the Initialization of an small asteroid.
@@ -111,8 +118,6 @@ Parameter: asteroid = object of largeAsteroid.
 */
 void deactivate_largeAsteroid(largeAsteroid *asteroid);
 
-
-
 /*
 Purpose: Function is used to modify the asteroid's position based on its current velocity.
             Also for the asteroid to wrap around the screen if is exceeds the set screen height & width. 
@@ -137,8 +142,6 @@ Parameter: asteroid = object largeAsteroid.
 */
 void position_largeAsteroid(largeAsteroid *asteroid);
 
-
-
 /*
 Purpose: Function is used to initialize Scoreboard 
 
@@ -155,4 +158,12 @@ Parameter: scoreboard = object of scoreboard
            points = points scored by current player. 
 */
 void update_score(Scoreboard *scoreboard, int points);
+
+void initialize_bullet(Bullet *bullet, int player_x, int player_y, int x_velocity, int y_velocity, int active, int size);
+
+void deactivate_bullet(Bullet *bullet);
+
+void position_bullet(Bullet *bullet);
+
+void bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid);
 
