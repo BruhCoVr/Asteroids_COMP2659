@@ -159,11 +159,39 @@ Parameter: scoreboard = object of scoreboard
 */
 void update_score(Scoreboard *scoreboard, int points);
 
+/*
+Purpose: Function is used for the Initialization of an bullet.
+
+Parameters: asteroid = Object of Bullet struct.
+            (x,y) = Coordinates of the bullet.
+            (player_x, player_y) = Coordinates of the tip of the player.
+            (x_velocity, y_velocity) = bullet's horizontal & vertical velocity.
+            size = Size of the bullet. 
+            active = if the bullet enters this radius the asteroyed is assumed to be destroyed.
+*/ 
 void initialize_bullet(Bullet *bullet, int player_x, int player_y, int x_velocity, int y_velocity, int active, int size);
 
+/*
+Purpose: Fucntion is used for the deactivation of the bullet setting the active feild to 0 (false).
+
+Parameter: bullet = object of Bullet. 
+*/
 void deactivate_bullet(Bullet *bullet);
 
+/*
+Purpose: Function is used to modify the bullets's position based on its current velocity.
+           
+Parameter: bullet = object Bullet.
+*/
 void position_bullet(Bullet *bullet);
 
+/*
+Purpose: To check if a bullet has hit any type of asteroid
+
+Parameter: bullet = object Bullet.
+           largeAsteroid = object largeAsteroid.
+           mediumAsteroid = object mediumAsteroid
+           smallAsteroid = object smallAsteroid.
+*/
 void bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid);
 

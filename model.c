@@ -146,6 +146,8 @@ void position_bullet(Bullet *bullet){
 }
 
 bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid){
+    /*checking bullets x and y postions and comparing it with the asteroids*/
+    
     if(bullet->x == largeAsteroid->x && bullet->y == largeAsteroid->y){
         deactivate_bullet(bullet);
         deactivate_largeAsteroid(largeAsteroid);
