@@ -137,6 +137,39 @@ Parameter: asteroid = object largeAsteroid.
 */
 void position_largeAsteroid(largeAsteroid *asteroid);
 
+/*
+Purpose: Function determines whether a missile has collided with a small asteroid in a 2D space.
+            It does this by calculating the squared distance between the missile and the asteroid,
+            comparing it to the asteroid's hit radius. 
+
+Parameter: asteroid = object smallAsteroid.
+           missile_x = represents the horizontal position of the missile.
+           missile_y = represents the vertical position of the missile. 
+*/
+int check_collision_smallAsteroid(smallAsteroid *asteroid, int missile_x, int missile_y);
+
+/*
+Purpose: Function determines whether a missile has collided with a medium asteroid in a 2D space.
+            It does this by calculating the squared distance between the missile and the asteroid,
+            comparing it to the asteroid's hit radius. 
+
+Parameter: asteroid = object mediumAsteroid.
+           missile_x = represents the horizontal position of the missile.
+           missile_y = represents the vertical position of the missile. 
+*/
+int check_collision_mediumAsteroid(mediumAsteroid *asteroid, int missile_x, int missile_y);
+
+/*
+Purpose: Function determines whether a missile has collided with a large asteroid in a 2D space.
+            It does this by calculating the squared distance between the missile and the asteroid,
+            comparing it to the asteroid's hit radius. 
+
+Parameter: asteroid = object largeAsteroid.
+           missile_x = represents the horizontal position of the missile.
+           missile_y = represents the vertical position of the missile. 
+*/
+int check_collision_largeAsteroid(largeAsteroid *asteroid, int missile_x, int missile_y);
+
 
 
 /*

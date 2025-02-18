@@ -110,6 +110,45 @@ void position_largeAsteroid(largeAsteroid *asteroid) {
     }
 }
 
+int check_collision_smallAsteroid(smallAsteroid *asteroid, int missile_x, int missile_y) {
+    // Calculate distance between missile and asteroid, using Euclidean distance formula.
+    int dx = missile_x - asteroid->x;
+    int dy = missile_y - asteroid->y;
+    int distance_squared = dx * dx + dy * dy;
+
+    // Check if distance is within hit radius
+    if (distance_squared <= asteroid->hit_radius * asteroid->hit_radius) {
+        return 0; // Collision detected
+    }
+    return 1; // No collision
+}
+
+int check_collision_mediumAsteroid(mediumAsteroid *asteroid, int missile_x, int missile_y) {
+    // Calculate distance between missile and asteroid, using Euclidean distance formula.
+    int dx = missile_x - asteroid->x;
+    int dy = missile_y - asteroid->y;
+    int distance_squared = dx * dx + dy * dy;
+
+    // Check if distance is within hit radius
+    if (distance_squared <= asteroid->hit_radius * asteroid->hit_radius) {
+        return 0; // Collision detected
+    }
+    return 1; // No collision
+}
+
+int check_collision_largeAsteroid(largeAsteroid *asteroid, int missile_x, int missile_y) {
+    // Calculate distance between missile and asteroid, using Euclidean distance formula.
+    int dx = missile_x - asteroid->x;
+    int dy = missile_y - asteroid->y;
+    int distance_squared = dx * dx + dy * dy;
+
+    // Check if distance is within hit radius
+    if (distance_squared <= asteroid->hit_radius * asteroid->hit_radius) {
+        return 0; // Collision detected
+    }
+    return 1; // No collision
+}
+
 void initialize_Scoreboard(Scoreboard *scoreboard, int high_score) {
     scoreboard->score = 0;
     scoreboard->high_score = high_score; // HOW DO WE KEEP TRACK OF THIS?
