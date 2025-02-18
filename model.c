@@ -55,59 +55,18 @@ void position_smallAsteroid(smallAsteroid *asteroid) {
     asteroid->x += asteroid->x_velocity;
     asteroid->y += asteroid->y_velocity;
 
-    // Wrap around the screen horizontally (width = 640)
-    if (asteroid->x >= SCREEN_WIDTH) {
-        asteroid->x -= SCREEN_WIDTH; // Wrap to the left side
-    } else if (asteroid->x < 0) {
-        asteroid->x += SCREEN_WIDTH; // Wrap to the right side
-    }
-
-    // Wrap around the screen vertically (height = 400)
-    if (asteroid->y >= SCREEN_HEIGHT) {
-        asteroid->y -= SCREEN_HEIGHT; // Wrap to the top
-    } else if (asteroid->y < 0) {
-        asteroid->y += SCREEN_HEIGHT; // Wrap to the bottom
-    }
 }
 
 void position_mediumAsteroid(mediumAsteroid *asteroid) {
     /* Update the asteroid's position based on its velocity */
     asteroid->x += asteroid->x_velocity;
     asteroid->y += asteroid->y_velocity;
-
-    // Wrap around the screen horizontally (width = 640)
-    if (asteroid->x >= SCREEN_WIDTH) {
-        asteroid->x -= SCREEN_WIDTH; // Wrap to the left side
-    } else if (asteroid->x < 0) {
-        asteroid->x += SCREEN_WIDTH; // Wrap to the right side
-    }
-
-    // Wrap around the screen vertically (height = 400)
-    if (asteroid->y >= SCREEN_HEIGHT) {
-        asteroid->y -= SCREEN_HEIGHT; // Wrap to the top
-    } else if (asteroid->y < 0) {
-        asteroid->y += SCREEN_HEIGHT; // Wrap to the bottom
-    }
 }
 
 void position_largeAsteroid(largeAsteroid *asteroid) {
     /* Update the asteroid's position based on its velocity */
     asteroid->x += asteroid->x_velocity;
     asteroid->y += asteroid->y_velocity;
-
-    // Wrap around the screen horizontally (width = 640)
-    if (asteroid->x >= SCREEN_WIDTH) {
-        asteroid->x -= SCREEN_WIDTH; // Wrap to the left side
-    } else if (asteroid->x < 0) {
-        asteroid->x += SCREEN_WIDTH; // Wrap to the right side
-    }
-
-    // Wrap around the screen vertically (height = 400)
-    if (asteroid->y >= SCREEN_HEIGHT) {
-        asteroid->y -= SCREEN_HEIGHT; // Wrap to the top
-    } else if (asteroid->y < 0) {
-        asteroid->y += SCREEN_HEIGHT; // Wrap to the bottom
-    }
 }
 
 void initialize_Scoreboard(Scoreboard *scoreboard, int high_score) {
