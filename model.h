@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-//#include <osbind.h>
+/*#include <osbind.h> */
 
 /* 
 
@@ -13,7 +13,7 @@ Scoreboard: NEEDS 1 more function
 
 Asteroids: NEED 3 more functions (for each, small medium and large):
 
-        1: Collision Detection Function - 
+            ( COMPLETED)1: Collision Detection Function - 
             This function will check if a missile has collided with an asteroid based on the hit radius.
 
         2: Missile Fired Handler -
@@ -25,37 +25,33 @@ Asteroids: NEED 3 more functions (for each, small medium and large):
 */
 
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
+    unsigned int x, y; /* (x,y) coordinates. */ 
+    int x_velocity, y_velocity; /* Horizontal & Vertical velocity. */ 
+    int active; /* 0 :destroyed, 1:active  */ 
+    int points; /* Points the asteroid contains */ 
+    int hit_radius; /* if the missile enters this radius the asteroyed is assumed to be destroyed.*/ 
 } smallAsteroid;
 
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
+    unsigned int x, y; /* (x,y) coordinates. */ 
+    int x_velocity, y_velocity; /* Horizontal & Vertical velocity. */ 
+    int active; /* 0 :destroyed, 1:active */ 
+    int points; /* Points the asteroid contains */ 
+    int hit_radius; /* if the missile enters this radius the asteroyed is assumed to be destroyed.*/ 
 } mediumAsteroid;
 
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
+    unsigned int x, y; /* (x,y) coordinates. */ 
+    int x_velocity, y_velocity; /* Horizontal & Vertical velocity. */ 
+    int active; /* 0 :destroyed, 1:active */ 
+    int points; /* Points the asteroid contains */ 
+    int hit_radius; /* if the missile enters this radius the asteroyed is assumed to be destroyed.*/ 
 } largeAsteroid;
 
 typedef struct {
     int score; // Current score of the player.
     int high_score; // Highest score achieved.
 }Scoreboard;
-
 
 /*
 Purpose: Function is used for the Initialization of an small asteroid.
