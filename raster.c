@@ -113,16 +113,12 @@ void clear_sc(UINT32* base)
     }
 }
 
-<<<<<<< HEAD
-void plot_pixel(UINT8 *base, int x, int y)
-=======
 /*
  * Function to fill the screen with black color.
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
 void black_sc(UINT32* base)
->>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 {
     int index;
  
@@ -132,8 +128,6 @@ void black_sc(UINT32* base)
     }
 }
 
-<<<<<<< HEAD
-=======
 /*
  * Function to plot a single pixel on the screen.
  * Parameters:
@@ -157,7 +151,6 @@ void plot_pixel(UINT8 *base, int x, int y)
  * - y1: Starting Y-coordinate of the line.
  * - y2: Ending Y-coordinate of the line.
  */
->>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 void plot_vline(UINT8 *base, int x, int y1, int y2)
 {
     int temp;
@@ -185,8 +178,6 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
     return;
 }
 
-<<<<<<< HEAD
-=======
 /*
  * Function to draw a horizontal line on the screen.
  * Parameters:
@@ -195,7 +186,6 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
  * - x1: Starting X-coordinate of the line.
  * - x2: Ending X-coordinate of the line.
  */
->>>>>>> 620181992572ebb89bdc24d7f143d48e734c6701
 void plot_hline (UINT8 *base, int y, int x1, int x2)
 {
     UINT8 p1, p2;
