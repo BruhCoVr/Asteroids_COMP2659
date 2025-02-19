@@ -1,57 +1,40 @@
-#include <stdlib.h>
-#include <stdio.h>
-//#include <osbind.h>
+#ifndef MODEL_H
+#define MODEL_H
 
-/* 
+#define MAX_MISSILES 10
+#define MAX_ASTEROIDS 20
 
-Scoreboard and asteroids NOT Complete
+/* Enumeration for asteroid sizes. */
+typedef enum {
+    ASTEROID_SMALL = 1,
+    ASTEROID_MEDIUM = 2,
+    ASTEROID_LARGE = 3
+} AsteroidSize;
 
-Scoreboard: NEEDS 1 more function
-        1: (Integrate the Scoreboard with Asteroid Destruction).
-            When an asteroid is destroyed by a missile we need to update the scoreboard.
-             
-
-Asteroids: NEED 3 more functions (for each, small medium and large):
-
-        1: Collision Detection Function - 
-            This function will check if a missile has collided with an asteroid based on the hit radius.
-
-        2: Missile Fired Handler -
-            This function will handle the event when a missile is fired and check for collisions with asteroids.
-
-        3: Clock Tick Handler -
-            This function will be called on each clock tick to update the positions of all active asteroids.
-
-*/
-
+/* Structure for a position (x,y) coordinates. */
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
-} smallAsteroid;
+    int x;
+    int y;
+} Position;
 
+/* Structure for the Ship object. */
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
-} mediumAsteroid;
+    Position pos;    /* Ship's position on screen. */
+    int angle;       /* Ship's pointing angle (0-359 degrees). */
+} Ship;
 
+/* Structure for a Missile object. */
 typedef struct {
-    unsigned int x, y; // (x,y) coordinates.
-    int x_velocity, y_velocity; // Horizontal & Vertical velocity.
-    int size; // Size of the Asteroid
-    int active; // 0 :destroyed, 1:active 
-    int points; // Points the asteroid contains
-    int hit_radius; // if the missile enters this radius the asteroyed is assumed to be destroyed.
-} largeAsteroid;
+    Position pos;    /* Missile's current position. */
+    int dx;          /* Horizontal movement per tick. */
+    int dy;          /* Vertical movement per tick. */
+    int lifetime;    /* Remaining ticks before missile expires. */
+    int active;      /* 0 if inactive, 1 if active. */
+} Missile;
 
+/* Structure for an Asteroid object. */
 typedef struct {
+
     int score; // Current score of the player.
     int high_score; // Highest score achieved.
 }Scoreboard;
@@ -144,20 +127,53 @@ void position_largeAsteroid(largeAsteroid *asteroid);
 
 /*
 Purpose: Function is used to initialize Scoreboard 
+=======
+    Position pos;    /* Asteroid's current position. */
+    int dx;          /* Horizontal velocity per tick. */
+    int dy;          /* Vertical velocity per tick. */
+    AsteroidSize size; /* Size/type of asteroid. */
+    int active;      /* 0 if inactive, 1 if active. */
+} Asteroid;
 
-Parameter: scoreboard = object of scoreboard
-           high_score = highest score achieved of all time
-*/
-void initialize_Scoreboard(Scoreboard *scoreboard, int high_socre);
+/* Structure for the Scoreboard. */
+typedef struct {
+    int score;
+    int lives;
+} Scoreboard;
 
-/*
-Purpose: Function used to maintain scoreboard of the current player and check if player's
-         score surpasses the high_score. 
+/* The complete game model: holds the ship, missiles, asteroids, scoreboard, and a quit flag. */
+typedef struct {
+    Ship ship;
+    Missile missiles[MAX_MISSILES];
+    Asteroid asteroids[MAX_ASTEROIDS];
+    Scoreboard scoreboard;
+    int quit; /* 0 = running, 1 = quit. */
+} Model;
 
-Parameter: scoreboard = object of scoreboard
-           points = points scored by current player. 
-*/
+/* Initialization function for the model. */
+void init_model(Model *model);
+
+/* Ship behaviour functions. */
+void move_ship_forward(Ship *ship);
+void rotate_ship(Ship *ship, int angle_delta); /* Positive delta rotates one way; negative rotates the other. */
+
+
+/* Missile behaviour functions. */
+void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime);
+void update_missile(Missile *missile);
+
+/* Asteroid behaviour functions. */
+void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size);
+void update_asteroid(Asteroid *asteroid);
+
+/* Scoreboard functions. */
 void update_score(Scoreboard *scoreboard, int points);
+void lose_life(Scoreboard *scoreboard);
+void award_bonus_life(Scoreboard *scoreboard);
+
+/* Helper function: wraps a position to the opposite edge if off screen. */
+void wrap_position(Position *pos, int screen_width, int screen_height);
+
 
 /*
 Purpose: Function is used for the Initialization of an bullet.
@@ -194,4 +210,6 @@ Parameter: bullet = object Bullet.
            smallAsteroid = object smallAsteroid.
 */
 void bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid);
+
+#endif /* MODEL_H */
 
