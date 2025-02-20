@@ -88,7 +88,12 @@ void handle_asteroid_split(Model *model, int asteroid_index) {
     if (asteroid->size == ASTEROID_LARGE || asteroid->size == ASTEROID_MEDIUM) {
         for (i = 0; i < MAX_ASTEROIDS; i++) {
             if (!model->asteroids[i].active) {
-                AsteroidSize newSize = (asteroid->size == ASTEROID_LARGE) ? ASTEROID_MEDIUM : ASTEROID_SMALL;
+                AsteroidSize newSize;
+                if (asteroid->size == ASTEROID_LARGE) {
+                    newSize = ASTEROID_MEDIUM;
+                } else {
+                    newSize = ASTEROID_SMALL;
+                }
                 init_asteroid(&model->asteroids[i], asteroid->pos, asteroid->dx, asteroid->dy, newSize);
                 printf("Asteroid %d split: New asteroid %d created with size %d\n",
                        asteroid_index, i, newSize);
