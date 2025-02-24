@@ -1,7 +1,7 @@
 #include "bitmaps.h"
 
 /* Bitmap for the ship facing up */
-const UINT32 ship_up_bitmap [32] = {
+const UINT32 shipUpBitmap [32] = {
     0x00018000L,0x0003C000L,0x0007E000L,0x0007E000L,
     0x000FF000L,0x000FF000L,0x001FF800L,0x001FF800L,
     0x003FFC00L,0x003E7C00L,0x007E7E00L,0x007C3E00L,
@@ -13,7 +13,7 @@ const UINT32 ship_up_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing right */
-const UINT32 ship_right_bitmap [32] = {
+const UINT32 shipRightBitmap [32] = {
     0xE0000000L,0xF8000000L,0xFE000000L,0xFF800000L,
     0xFFE00000L,0xFFF80000L,0xFFFF0000L,0xF3FFC000L,
     0xF0FFF000L,0xF03FFC00L,0xF00FFF00L,0xF003FFC0L,
@@ -25,7 +25,7 @@ const UINT32 ship_right_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing down */
-const UINT32 ship_down_bitmap [32] = {
+const UINT32 shipDownBitmap [32] = {
     0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0x7FFFFFFEL,
     0x7E00007EL,0x3E00007CL,0x3F0000FCL,0x1F0000F8L,
     0x1F8001F8L,0x0F8001F0L,0x0FC003F0L,0x07C003E0L,
@@ -37,7 +37,7 @@ const UINT32 ship_down_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing left */
-const UINT32 ship_left_bitmap [32] = {
+const UINT32 shipLeftBitmap [32] = {
     0x00000007L,0x0000001FL,0x0000007FL,0x000001FFL,
     0x000007FFL,0x00001FFFL,0x0000FFFFL,0x0003FFCFL,
     0x000FFF0FL,0x003FFC0FL,0x00FFF00FL,0x03FFC00FL,
@@ -49,7 +49,7 @@ const UINT32 ship_left_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing diagonally down-left */
-const UINT32 ship_diag_down_left_bitmap [32] = {
+const UINT32 shipDiagDownLeftBitmap [32] = {
     0xF0000000L,0xF8000000L,0xFC000000L,0xFE000000L,
     0xFF000000L,0xFF800000L,0xFFC00000L,0xFFE00000L,
     0xF7F00000L,0xF3F80000L,0xF1FC0000L,0xF0FE0000L,
@@ -61,7 +61,7 @@ const UINT32 ship_diag_down_left_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing diagonally down-right */
-const UINT32 ship_diag_down_right_bitmap [32] = {
+const UINT32 shipDiagDownRightBitmap [32] = {
     0x0000000FL,0x0000001FL,0x0000003FL,0x0000007FL,
     0x000000FFL,0x000001FFL,0x000003FFL,0x000007F7L,
     0x00000FE7L,0x00001FC7L,0x00003F87L,0x00007F07L,
@@ -73,7 +73,7 @@ const UINT32 ship_diag_down_right_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing diagonally up-left */
-const UINT32 ship_diag_up_left_bitmap [32] = {
+const UINT32 shipDiagUpLeftBitmap [32] = {
     0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,
     0xE00000FEL,0xE00001FCL,0xE00003F8L,0xE00007F0L,
     0xE0000FE0L,0xE0001FC0L,0xE0003F80L,0xE0007F00L,
@@ -85,7 +85,7 @@ const UINT32 ship_diag_up_left_bitmap [32] = {
 };
 
 /* Bitmap for the ship facing diagonally up-right */
-const UINT32 ship_diag_up_right_bitmap [32] = {
+const UINT32 shipDiagUpRightBitmap [32] = {
     0xFFFFFFFFL,0xFFFFFFFFL,0xFFFFFFFFL,0xFE00000FL,
     0x7F00000FL,0x3F80000FL,0x1FC0000FL,0x0FE0000FL,
     0x07F0000FL,0x03F8000FL,0x01FC000FL,0x00FE000FL,
@@ -97,7 +97,7 @@ const UINT32 ship_diag_up_right_bitmap [32] = {
 };
 
 /* Bitmap for a large asteroid */
-const UINT32 largeAsteroid_bitmap[4][32] = {
+const UINT32 largeAsteroidBitmap[4][32] = {
     {
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
@@ -141,7 +141,7 @@ const UINT32 largeAsteroid_bitmap[4][32] = {
 };
 
 /* Bitmap for a medium asteroid */
-const UINT32 mediumAsteroid_bitmap[4][32] = {
+const UINT32 mediumAsteroidBitmap[4][32] = {
     {
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
@@ -185,7 +185,7 @@ const UINT32 mediumAsteroid_bitmap[4][32] = {
 };
 
 /* Bitmap for a small asteroid */
-const UINT32 smallAsteroid_bitmap[4][32] = {
+const UINT32 smallAsteroidBitmap[4][32] = {
     {
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
         0x00000000L,0x00000000L,0x00000000L,0x00000000L,
@@ -236,7 +236,7 @@ const UINT8 bullet[8] =
 };
 
 /*bitmap for the "press enter to start"*/
-const UINT32 start_bitmap[16][32] = {
+const UINT32 startBitmap[16][32] = {
     {0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
     0x00000000L,0x00000000L,0x00000000L,0x00000000L,
@@ -365,7 +365,7 @@ const UINT32 start_bitmap[16][32] = {
 };
 
 /*bitmap for all the numbers*/
-const UINT16 NumberSprites[TotalNumbers][16] = {
+const UINT16 numberSprites[TotalNumbers][16] = {
     
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,

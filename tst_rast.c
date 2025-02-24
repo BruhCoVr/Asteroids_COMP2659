@@ -56,40 +56,40 @@ void test_plot_bitmap_8 (void * base){
 
 /* Test function to plot 16-bit bitmaps */
 void test_plot_bitmap_16 (void * base){
-    plot_bitmap_16 (base, 300, 0, NumberSprites[0], 16);
-    plot_bitmap_16 (base, 623, 0, NumberSprites[1], 16);
-    plot_bitmap_16 (base, 607, 0, NumberSprites[2], 16);
-    plot_bitmap_16 (base, 591, 0, NumberSprites[3], 16);
-    plot_bitmap_16 (base, 574, 0, NumberSprites[4], 16);
-    plot_bitmap_16 (base, 558, 0, NumberSprites[5], 16);
-    plot_bitmap_16 (base, 542, 0, NumberSprites[6], 16);
-    plot_bitmap_16 (base, 526, 0, NumberSprites[7], 16);
-    plot_bitmap_16 (base, 511, 0, NumberSprites[8], 16);
-    plot_bitmap_16 (base, 497, 0, NumberSprites[9], 16);
+    plot_bitmap_16 (base, 300, 0, numberSprites[0], 16);
+    plot_bitmap_16 (base, 623, 0, numberSprites[1], 16);
+    plot_bitmap_16 (base, 607, 0, numberSprites[2], 16);
+    plot_bitmap_16 (base, 591, 0, numberSprites[3], 16);
+    plot_bitmap_16 (base, 574, 0, numberSprites[4], 16);
+    plot_bitmap_16 (base, 558, 0, numberSprites[5], 16);
+    plot_bitmap_16 (base, 542, 0, numberSprites[6], 16);
+    plot_bitmap_16 (base, 526, 0, numberSprites[7], 16);
+    plot_bitmap_16 (base, 511, 0, numberSprites[8], 16);
+    plot_bitmap_16 (base, 497, 0, numberSprites[9], 16);
 }
 
 /* Test function to plot 32-bit bitmaps */
 void test_plot_bitmap_32 (void * base){
-    plot_bitmap_32 (base, 200, 320, ship_up_bitmap, 32);
-    plot_bitmap_32 (base, 234, 320, ship_down_bitmap, 32);
-    plot_bitmap_32 (base, 266, 320, ship_left_bitmap, 32);
-    plot_bitmap_32 (base, 310, 320, ship_right_bitmap, 32);
-    plot_bitmap_32 (base, 355, 320, ship_diag_down_left_bitmap, 32);
-    plot_bitmap_32 (base, 400, 320, ship_diag_down_right_bitmap, 32);
-    plot_bitmap_32 (base, 440, 320, ship_diag_up_left_bitmap, 32);
-    plot_bitmap_32 (base, 480, 320, ship_diag_up_right_bitmap, 32);
+    plot_bitmap_32 (base, 200, 320, shipUpBitmap, 32);
+    plot_bitmap_32 (base, 234, 320, shipDownBitmap, 32);
+    plot_bitmap_32 (base, 266, 320, shipLeftBitmap, 32);
+    plot_bitmap_32 (base, 310, 320, shipRightBitmap, 32);
+    plot_bitmap_32 (base, 355, 320, shipDiagDownLeftBitmap, 32);
+    plot_bitmap_32 (base, 400, 320, shipDiagDownRightBitmap, 32);
+    plot_bitmap_32 (base, 440, 320, shipDiagUpLeftBitmap, 32);
+    plot_bitmap_32 (base, 480, 320, shipDiagUpRightBitmap, 32);
 }
 
 /* Test function to plot the start bitmap */
 void test_start (void * base){
-    plot_bitmap (base, 250, 130, start_bitmap[0], 128, 128);
+    plot_bitmap (base, 250, 130, startBitmap[0], 128, 128);
 }
 
 /* Test function to plot various bitmaps */
 void test_plot_bitmap (void * base){
-    plot_bitmap (base, 400, 128, largeAsteroid_bitmap[0], 64, 64);
-    plot_bitmap (base, 450, 192, mediumAsteroid_bitmap[0], 64, 64);
-    plot_bitmap (base, 500, 256, smallAsteroid_bitmap[0], 64, 64);
+    plot_bitmap (base, 400, 128, largeAsteroidBitmap[0], 64, 64);
+    plot_bitmap (base, 450, 192, mediumAsteroidBitmap[0], 64, 64);
+    plot_bitmap (base, 500, 256, smallAsteroidBitmap[0], 64, 64);
 }
 
 /* Test function to plot a single pixel */
