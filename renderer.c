@@ -79,8 +79,7 @@ void render_asteroid(const Asteroid *asteroid, UINT32 *base) {
         default:
             return;
     }
-    /* All asteroid bitmaps have 32 rows. */
-    plot_bitmap_32(base, asteroid->pos.x, asteroid->pos.y, asteroid_bitmap, 32);
+    plot_bitmap(base, asteroid->pos.x, asteroid->pos.y, asteroid_bitmap, 64, 64);
 }
 
 /* 

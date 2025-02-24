@@ -26,7 +26,7 @@ int main(void) {
     model.missiles[0].dy = 0;
     model.missiles[0].lifetime = 10;
     
-    /* Activate one asteroid (a large asteroid in this case). */
+    /* Activate one asteroid (a small asteroid in this case). */
     model.asteroids[0].active = 1;
     model.asteroids[0].pos.x = 300;
     model.asteroids[0].pos.y = 200;
@@ -43,6 +43,6 @@ int main(void) {
     
     /* Render the static frame directly to the screen. */
     render(&model, frameBuffer);
-    
+
     return 0;
 }
