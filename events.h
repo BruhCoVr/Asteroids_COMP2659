@@ -5,27 +5,27 @@
 
 /* --- Asynchronous (Input) Event Handlers ---
    These functions are intended to be called when a key is pressed. */
-void handle_move_forward(Model *model);
-void handle_increase_angle(Model *model);
-void handle_decrease_angle(Model *model);
-void handle_shoot_missile(Model *model);
-void handle_quit(Model *model);
+void handleMoveForward(Model *model);
+void handleIncreaseAngle(Model *model);
+void handleDecreaseAngle(Model *model);
+void handleShootMissile(Model *model);
+void handleQuit(Model *model);
 
 /* --- Synchronous (Timed) Event Handlers ---
    These functions simulate clock ticks (e.g. for moving asteroids or missiles). */
 void updateAsteroids(Model *model);
 void updateMissiles(Model *model);
-void respawn_ship(Model *model);
+void respawnShip(Model *model);
 
 /* --- Condition-Based (Cascaded) Event Handlers ---
    These functions handle collisions, splits and game over conditions. */
-void handle_asteroid_split(Model *model, int asteroid_index);
-void handle_asteroid_destroyed(Model *model, int asteroid_index);
-void handle_ship_destroyed(Model *model);
-void handle_object_wraparound(Model *model, int object_type, int index); /* object_type: 0=ship, 1=missile, 2=asteroid */
-void handle_game_over(Model *model);
-void handle_missile_collision(Model *model, int missile_index, int asteroid_index);
-void handle_bonus_life_awarded(Model *model);
-void handle_difficulty_ramp_up(Model *model);
+void handleAsteroidSplit(Model *model, int asteroid_index);
+void handleAsteroidDestroyed(Model *model, int asteroid_index);
+void handleShipDestroyed(Model *model);
+void handleObjectWraparound(Model *model, int object_type, int index); /* object_type: 0=ship, 1=missile, 2=asteroid */
+void handleGameOver(Model *model);
+void handleMissileCollision(Model *model, int missile_index, int asteroid_index);
+void handleBonusLifeAwarded(Model *model);
+void handleDifficultyRampUp(Model *model);
 
 #endif /* EVENTS_H */
