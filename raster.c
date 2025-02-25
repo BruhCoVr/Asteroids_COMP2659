@@ -266,18 +266,3 @@ void plot_stars (void *base){
     }
 }
 
-void render_asteroid(UINT32 *base, const Asteroid *asteroid) {
-    if (asteroid->active) {
-        int orientation = rand() % 4;  /* Random orientation for variety */
-
-        /* Depending on the asteroid's size (asteroid->size),
-        the function selects the appropriate bitmap and renders it using the plot_bitmap function. */
-        if (asteroid->size == ASTEROID_LARGE) {
-            plot_bitmap(base, asteroid->pos.x, asteroid->pos.y, largeAsteroid_bitmap[orientation], 32, 32);
-        } else if (asteroid->size == ASTEROID_MEDIUM) {
-            plot_bitmap(base, asteroid->pos.x, asteroid->pos.y, mediumAsteroid_bitmap[orientation], 16, 16);
-        } else if (asteroid->size == ASTEROID_SMALL) {
-            plot_bitmap(base, asteroid->pos.x, asteroid->pos.y, smallAsteroid_bitmap[orientation], 8, 8);
-        }
-    }
-}

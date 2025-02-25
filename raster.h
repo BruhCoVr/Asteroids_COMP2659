@@ -108,6 +108,6 @@ Parameters:
  - base: Pointer to the base address of the screen buffer.
  - asteroid: object of the asteroid struct 
 */
-void render_asteroid(UINT32 *base, const Asteroid *asteroid);
+/*void render_asteroid(UINT32 *base, const Asteroid *asteroid);*/
 
 #endif
