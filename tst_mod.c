@@ -38,7 +38,7 @@ void spawn_test_asteroid(Model *model, AsteroidSize size) {
             Position pos = {0, 0}; /* spawn at top-left */
             int dx = 1;
             int dy = 1;
-            init_asteroid(&model->asteroids[i], pos, dx, dy, size);
+            initAsteroid(&model->asteroids[i], pos, dx, dy, size);
             printf("Spawned asteroid %d of size %d at (%d, %d)\n",
                    i, size, pos.x, pos.y);
             break;
@@ -51,7 +51,7 @@ int main() {
     char input;
     int i = 0; 
 
-    init_model(&model);
+    initModel(&model);
   
     while (!model.quit) {
         print_model_state(&model);
@@ -83,8 +83,8 @@ int main() {
                 handle_shoot_missile(&model);
                 break;
             case 't':
-                update_missiles(&model);
-                update_asteroids(&model);
+                updateMissiles(&model);
+                updateAsteroids(&model);
                 break;
             case 'r':
                 respawn_ship(&model);

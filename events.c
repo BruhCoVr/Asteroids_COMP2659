@@ -10,19 +10,19 @@
 
 /* Moves the ship forward. */
 void handle_move_forward(Model *model) {
-    move_ship_forward(&model->ship);
+    moveShipForward(&model->ship);
     printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);
 }
 
 /* Rotates the ship by increasing its angle. */
 void handle_increase_angle(Model *model) {
-    rotate_ship(&model->ship, 1);
+    rotateShip(&model->ship, 1);
     printf("Ship angle increased to %d\n", model->ship.angle);
 }
 
 /* Rotates the ship by decreasing its angle. */
 void handle_decrease_angle(Model *model) {
-    rotate_ship(&model->ship, -1);
+    rotateShip(&model->ship, -1);
     printf("Ship angle decreased to %d\n", model->ship.angle);
 }
 
@@ -34,7 +34,7 @@ void handle_shoot_missile(Model *model) {
             double rad = model->ship.angle * 3.14159265 / 180.0;
             int dx = (int)(2 * cos(rad));
             int dy = (int)(2 * sin(rad));
-            init_missile(&model->missiles[i], model->ship.pos, dx, dy, 50);
+            initMissile(&model->missiles[i], model->ship.pos, dx, dy, 50);
             printf("Missile shot from (%d, %d) with velocity (%d, %d)\n",
                    model->ship.pos.x, model->ship.pos.y, dx, dy);
             break;
@@ -51,21 +51,21 @@ void handle_quit(Model *model) {
 /* --- Synchronous (Timed) Event Handlers --- */
 
 /* Updates all active asteroids. */
-void update_asteroids(Model *model) {
+void updateAsteroids(Model *model) {
     int i = 0;
     for (i = 0; i < MAX_ASTEROIDS; i++) {
         if (model->asteroids[i].active)
-            update_asteroid(&model->asteroids[i]);
+            updateAsteroid(&model->asteroids[i]);
     }
     printf("Asteroids updated.\n");
 }
 
 /* Updates all active missiles. */
-void update_missiles(Model *model) {
+void updateMissiles(Model *model) {
     int i = 0;
     for (i = 0; i < MAX_MISSILES; i++) {
         if (model->missiles[i].active)
-            update_missile(&model->missiles[i]);
+            updateMissile(&model->missiles[i]);
     }
     printf("Missiles updated.\n");
 }
@@ -94,7 +94,7 @@ void handle_asteroid_split(Model *model, int asteroid_index) {
                 } else {
                     newSize = ASTEROID_SMALL;
                 }
-                init_asteroid(&model->asteroids[i], asteroid->pos, asteroid->dx, asteroid->dy, newSize);
+                initAsteroid(&model->asteroids[i], asteroid->pos, asteroid->dx, asteroid->dy, newSize);
                 printf("Asteroid %d split: New asteroid %d created with size %d\n",
                        asteroid_index, i, newSize);
                 break;
@@ -102,7 +102,7 @@ void handle_asteroid_split(Model *model, int asteroid_index) {
         }
     } else {
         asteroid->active = 0;
-        update_score(&model->scoreboard, 100);
+        updateScore(&model->scoreboard, 100);
         printf("Small asteroid %d destroyed. Score: %d\n",
                asteroid_index, model->scoreboard.score);
     }
@@ -123,7 +123,7 @@ void handle_asteroid_destroyed(Model *model, int asteroid_index) {
     else if (asteroid->size == ASTEROID_SMALL)
         points = 100;
     
-    update_score(&model->scoreboard, points);
+    updateScore(&model->scoreboard, points);
     asteroid->active = 0;
     printf("Asteroid %d destroyed. Awarded %d points. Total score: %d\n",
            asteroid_index, points, model->scoreboard.score);
@@ -137,7 +137,7 @@ void handle_asteroid_destroyed(Model *model, int asteroid_index) {
 
 /* Handles the ship being hit by an asteroid. */
 void handle_ship_destroyed(Model *model) {
-    lose_life(&model->scoreboard);
+    loseLife(&model->scoreboard);
     printf("Ship destroyed! Lives remaining: %d\n", model->scoreboard.lives);
     if (model->scoreboard.lives > 0)
         respawn_ship(model);
@@ -173,7 +173,7 @@ void handle_missile_collision(Model *model, int missile_index, int asteroid_inde
 
 /* Awards a bonus life. */
 void handle_bonus_life_awarded(Model *model) {
-    award_bonus_life(&model->scoreboard);
+    awardBonusLife(&model->scoreboard);
     printf("Bonus life awarded! Lives: %d\n", model->scoreboard.lives);
 }
 

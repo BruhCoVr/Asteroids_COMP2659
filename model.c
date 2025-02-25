@@ -7,7 +7,7 @@
 #define SCREEN_HEIGHT 400
 
 /* Initializes the model to its starting state. */
-void init_model(Model *model) {
+void initModel(Model *model) {
 
     int i = 0; 
 
@@ -36,18 +36,18 @@ void init_model(Model *model) {
 }
 
 /* Moves the ship forward by one unit in the direction of its current angle. */
-void move_ship_forward(Ship *ship) {
+void moveShipForward(Ship *ship) {
     double rad = ship->angle * 3.14159265 / 180.0;
     int dx = (int)(1 * cos(rad));
     int dy = (int)(1 * sin(rad));
     ship->pos.x += dx;
     ship->pos.y += dy;
     
-    wrap_position(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
+    wrapPosition(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /* Rotates the ship by the given angle delta. */
-void rotate_ship(Ship *ship, int angle_delta) {
+void rotateShip(Ship *ship, int angle_delta) {
     ship->angle += angle_delta;
     if (ship->angle < 0)
         ship->angle += 360;
@@ -56,7 +56,7 @@ void rotate_ship(Ship *ship, int angle_delta) {
 }
 
 /* Initializes a missile with the provided starting position, velocity and lifetime. */
-void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime) {
+void initMissile(Missile *missile, Position pos, int dx, int dy, int lifetime) {
     missile->pos = pos;
     missile->dx = dx;
     missile->dy = dy;
@@ -65,7 +65,7 @@ void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime) 
 }
 
 /* Updates the missile's position and decreases its lifetime; deactivates if lifetime expires. */
-void update_missile(Missile *missile) {
+void updateMissile(Missile *missile) {
     if (!missile->active)
         return;
     
@@ -73,14 +73,14 @@ void update_missile(Missile *missile) {
     missile->pos.y += missile->dy;
     missile->lifetime--;
     
-    wrap_position(&missile->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
+    wrapPosition(&missile->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     if (missile->lifetime <= 0)
         missile->active = 0;
 }
 
 /* Initializes an asteroid with the provided parameters. */
-void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size) {
+void initAsteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size) {
     asteroid->pos = pos;
     asteroid->dx = dx;
     asteroid->dy = dy;
@@ -89,7 +89,7 @@ void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSiz
 }
 
 /* Updates the asteroid's position and deactivates it if it leaves the screen. */
-void update_asteroid(Asteroid *asteroid) {
+void updateAsteroid(Asteroid *asteroid) {
     if (!asteroid->active)
         return;
     
@@ -103,24 +103,24 @@ void update_asteroid(Asteroid *asteroid) {
 }
 
 /* Adds the given points to the scoreboard. */
-void update_score(Scoreboard *scoreboard, int points) {
+void updateScore(Scoreboard *scoreboard, int points) {
     scoreboard->score += points;
 }
 
 /* Decrements the life count by one. */
-void lose_life(Scoreboard *scoreboard) {
+void loseLife(Scoreboard *scoreboard) {
     if (scoreboard->lives > 0)
         scoreboard->lives--;
 }
 
 /* Awards a bonus life if the current number of lives is below 5. */
-void award_bonus_life(Scoreboard *scoreboard) {
+void awardBonusLife(Scoreboard *scoreboard) {
     if (scoreboard->lives < 5)
         scoreboard->lives++;
 }
 
 /* Wraps a position so that objects leaving one edge reappear on the opposite edge. */
-void wrap_position(Position *pos, int screen_width, int screen_height) {
+void wrapPosition(Position *pos, int screen_width, int screen_height) {
     if (pos->x < 0) pos->x = screen_width - 1;
     if (pos->x >= screen_width) pos->x = 0;
     if (pos->y < 0) pos->y = screen_height - 1;

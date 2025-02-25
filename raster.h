@@ -13,7 +13,7 @@
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
+void plotBitmap8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height);
 
 /*
  * Function to plot a 16-bit bitmap on the screen.
@@ -24,7 +24,7 @@ void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
+void plotBitmap16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 
 /*
  * Function to plot a 32-bit bitmap on the screen.
@@ -35,7 +35,7 @@ void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned 
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
+void plotBitmap32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
 
 /*
  * Function to plot a single pixel on the screen.
@@ -44,21 +44,21 @@ void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned 
  * - x: X-coordinate of the pixel.
  * - y: Y-coordinate of the pixel.
  */
-void plot_pixel (UINT8 *base, int x, int y);
+void plotPixel (UINT8 *base, int x, int y);
 
 /*
  * Function to clear the screen.
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void clear_sc (UINT32* base);
+void clearSc (UINT32* base);
 
 /*
  * Function to fill the screen with black color.
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void black_sc(UINT32* base);
+void blackSc(UINT32* base);
 
 /*
  * Function to draw a vertical line on the screen.
@@ -68,7 +68,7 @@ void black_sc(UINT32* base);
  * - y1: Starting Y-coordinate of the line.
  * - y2: Ending Y-coordinate of the line.
  */
-void plot_vline(UINT8 *base, int x, int y1, int y2);
+void plotVline(UINT8 *base, int x, int y1, int y2);
 
 /*
  * Function to draw a horizontal line on the screen.
@@ -78,7 +78,7 @@ void plot_vline(UINT8 *base, int x, int y1, int y2);
  * - x1: Starting X-coordinate of the line.
  * - x2: Ending X-coordinate of the line.
  */
-void plot_hline (UINT8 *base, int y, int x1, int x2);
+void plotHline(UINT8 *base, int y, int x1, int x2);
 
 /*
  * Function to plot a bitmap >=32 on the screen.
@@ -90,13 +90,13 @@ void plot_hline (UINT8 *base, int y, int x1, int x2);
  * - width: Width of the bitmap.
  * - height: Height of the bitmap.
  */
-void plot_bitmap(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height);
+void plotBitmap(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height);
 
 /*
  * Function to plot stars on the screen.
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void plot_stars (void *base);
+void plotStars(void *base);
 
 #endif

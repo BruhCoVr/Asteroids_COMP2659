@@ -13,8 +13,8 @@ void handle_quit(Model *model);
 
 /* --- Synchronous (Timed) Event Handlers ---
    These functions simulate clock ticks (e.g. for moving asteroids or missiles). */
-void update_asteroids(Model *model);
-void update_missiles(Model *model);
+void updateAsteroids(Model *model);
+void updateMissiles(Model *model);
 void respawn_ship(Model *model);
 
 /* --- Condition-Based (Cascaded) Event Handlers ---

@@ -43,6 +43,6 @@ extern const UINT8 bullet[8];
 extern const UINT32 startBitmap[16][32];
 
 /* Bitmaps for the number sprites, indexed by totalNumbers */
-extern const UINT16 numberSprites[TotalNumbers][16];
+extern const UINT16 numberSprites[totalNumbers][16];
 
 #endif
