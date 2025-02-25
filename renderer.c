@@ -42,25 +42,25 @@ static const UINT32 *get_ship_bitmap(int angle) {
 }
 
 /* Renders the ship at its current position and orientation. */
-void render_ship(const Ship *ship, UINT32 *base) {
+void renderShip(const Ship *ship, UINT32 *base) {
     const UINT32 *ship_bitmap = get_ship_bitmap(ship->angle);
     /* Plot a 32-row bitmap at the ship's (x,y) position. */
-    plot_bitmap_32(base, ship->pos.x, ship->pos.y, ship_bitmap, 32);
+    plotBitmap_32(base, ship->pos.x, ship->pos.y, ship_bitmap, 32);
 }
 
 /* Renders an active missile using the bullet bitmap.
    The bullet is an 8x8 8-bit bitmap.
 */
-void render_missile(const Missile *missile, UINT32 *base) {
+void renderMissile(const Missile *missile, UINT32 *base) {
     if (!missile->active)
         return;
-    plot_bitmap_8((UINT8 *)base, missile->pos.x, missile->pos.y, bullet, 8);
+    plotBitmap8((UINT8 *)base, missile->pos.x, missile->pos.y, bullet, 8);
 }
 
 /* Renders an active asteroid. 
    Chooses the appropriate bitmap (first orientation is used) based on asteroid size.
 */
-void render_asteroid(const Asteroid *asteroid, UINT32 *base) {
+void renderAsteroid(const Asteroid *asteroid, UINT32 *base) {
     const UINT32 *asteroid_bitmap = NULL;
 
     if (!asteroid->active)
@@ -79,7 +79,7 @@ void render_asteroid(const Asteroid *asteroid, UINT32 *base) {
         default:
             return;
     }
-    plot_bitmap(base, asteroid->pos.x, asteroid->pos.y, asteroid_bitmap, 64, 64);
+    plotBitmap(base, asteroid->pos.x, asteroid->pos.y, asteroid_bitmap, 64, 64);
 }
 
 /* 
@@ -89,14 +89,14 @@ void render_asteroid(const Asteroid *asteroid, UINT32 *base) {
 static void render_digit(int digit, int x, int y, UINT32 *base) {
     if (digit < 0 || digit > 9)
         return;
-    plot_bitmap_16((UINT16 *)base, x, y, numberSprites[digit], 16);
+    plotBitmap16((UINT16 *)base, x, y, numberSprites[digit], 16);
 }
 
 /* 
  * Renders the scoreboard by drawing the score and number of lives.
  * For simplicity, this implementation renders only the numeric values.
  */
-void render_scoreboard(const Scoreboard *scoreboard, UINT32 *base) {
+void renderScoreboard(const Scoreboard *scoreboard, UINT32 *base) {
     char score_str[12];
     int len;
     int x;
@@ -133,25 +133,25 @@ void render_scoreboard(const Scoreboard *scoreboard, UINT32 *base) {
 void render(const Model *model, UINT32 *base) {
     int i = 0;
     /* Clear the screen. */
-    clear_sc(base);
+    clearSc(base);
     
     /*sets up black screen for stars*/
-    black_sc(base);
+    blackSc(base);
 
     /*plots stars*/
-    plot_stars((void *)base); 
+    plotStars((void *)base); 
     
     /* Render game objects: */
-    render_ship(&model->ship, base);
+    renderShip(&model->ship, base);
     
     for (i = 0; i < MAX_MISSILES; i++) {
-        render_missile(&model->missiles[i], base);
+        renderMissile(&model->missiles[i], base);
     }
     
     for (i = 0; i < MAX_ASTEROIDS; i++) {
-        render_asteroid(&model->asteroids[i], base);
+        renderAsteroid(&model->asteroids[i], base);
     }
     
     /* Render the scoreboard (score and lives). */
-    render_scoreboard(&model->scoreboard, base);
+    renderScoreboard(&model->scoreboard, base);
 }

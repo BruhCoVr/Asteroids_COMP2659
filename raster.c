@@ -21,7 +21,7 @@
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height)
+void plotBitmap8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
@@ -49,7 +49,7 @@ void plot_bitmap_8 (UINT8 *base, int x, int y, const UINT8 *bitmap, unsigned int
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
+void plotBitmap16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
@@ -78,7 +78,7 @@ void plot_bitmap_16 (UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned 
  * - bitmap: Pointer to the bitmap data.
  * - height: Height of the bitmap.
  */
-void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
+void plotBitmap32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
 {
     int i;  
     int offset;
@@ -103,7 +103,7 @@ void plot_bitmap_32 (UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned 
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void clear_sc(UINT32* base)
+void clearSc(UINT32* base)
 {
     int index;
  
@@ -118,7 +118,7 @@ void clear_sc(UINT32* base)
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void black_sc(UINT32* base)
+void blackSc(UINT32* base)
 {
     int index;
  
@@ -135,7 +135,7 @@ void black_sc(UINT32* base)
  * - x: X-coordinate of the pixel.
  * - y: Y-coordinate of the pixel.
  */
-void plot_pixel(UINT8 *base, int x, int y)
+void plotPixel(UINT8 *base, int x, int y)
 {
     if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
     {
@@ -151,7 +151,7 @@ void plot_pixel(UINT8 *base, int x, int y)
  * - y1: Starting Y-coordinate of the line.
  * - y2: Ending Y-coordinate of the line.
  */
-void plot_vline(UINT8 *base, int x, int y1, int y2)
+void plotVline(UINT8 *base, int x, int y1, int y2)
 {
     int temp;
     if (x >= 0 && x < 640)
@@ -172,7 +172,7 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
         }  
         for ( ; y1 <= y2; y1++)
         {
-            plot_pixel(base, x, y1); /* Plot each pixel along the vertical line */
+            plotPixel(base, x, y1); /* Plot each pixel along the vertical line */
         }
     }
     return;
@@ -186,7 +186,7 @@ void plot_vline(UINT8 *base, int x, int y1, int y2)
  * - x1: Starting X-coordinate of the line.
  * - x2: Ending X-coordinate of the line.
  */
-void plot_hline (UINT8 *base, int y, int x1, int x2)
+void plotHline (UINT8 *base, int y, int x1, int x2)
 {
     UINT8 p1, p2;
     int row1, row2, i;
@@ -227,7 +227,7 @@ void plot_hline (UINT8 *base, int y, int x1, int x2)
  * - width: Width of the bitmap.
  * - height: Height of the bitmap.
  */
-void plot_bitmap(UINT32 * base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height)
+void plotBitmap(UINT32 * base, int x, int y, const UINT32 *bitmap, unsigned int width, unsigned int height)
 {
     int i, j;
     int offset;
@@ -258,11 +258,11 @@ void plot_bitmap(UINT32 * base, int x, int y, const UINT32 *bitmap, unsigned int
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void plot_stars (void *base){
+void plotStars (void *base){
     int i;
     srand((unsigned) time(NULL)); /* Seed the random number generator with the current time */
     for (i=0; i<1000; i++){
-        plot_pixel(base, rand()%640, rand()%400); /* Plot a pixel at a random (x, y) coordinate */
+        plotPixel(base, rand()%640, rand()%400); /* Plot a pixel at a random (x, y) coordinate */
     }
 }
 

@@ -365,7 +365,7 @@ const UINT32 startBitmap[16][32] = {
 };
 
 /*bitmap for all the numbers*/
-const UINT16 numberSprites[TotalNumbers][16] = {
+const UINT16 numberSprites[totalNumbers][16] = {
     
     {0x1FF8, 0x3FFC, 0x7FFE, 0x781E,
      0x781E, 0x781E, 0x781E, 0x781E,

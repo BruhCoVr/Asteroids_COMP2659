@@ -11,7 +11,7 @@ int main(void) {
     UINT32 *frameBuffer;
 
     /* Initialize the model with default values. */
-    init_model(&model);
+    initModel(&model);
     
     /* Set up a test ship at (100, 100) with an angle of 45 degrees. */
     model.ship.pos.x = 100;
