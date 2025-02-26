@@ -45,7 +45,7 @@ static const UINT32 *get_ship_bitmap(int angle) {
 void renderShip(const Ship *ship, UINT32 *base) {
     const UINT32 *ship_bitmap = get_ship_bitmap(ship->angle);
     /* Plot a 32-row bitmap at the ship's (x,y) position. */
-    plotBitmap_32(base, ship->pos.x, ship->pos.y, ship_bitmap, 32);
+    plotBitmap32(base, ship->pos.x, ship->pos.y, ship_bitmap, 32);
 }
 
 /* Renders an active missile using the bullet bitmap.
