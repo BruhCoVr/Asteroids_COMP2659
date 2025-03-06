@@ -4,7 +4,7 @@
 #include "events.h"
 
 /* Prints the current state of the game model. */
-void print_model_state(Model *model) {
+void printModelState(Model *model) {
     int i = 0;
     printf("\n--- Game State ---\n");
     printf("Ship: Position (%d, %d), Angle %d\n",
@@ -31,14 +31,14 @@ void print_model_state(Model *model) {
 }
 
 /* Spawns an asteroid (for testing) at a fixed position. */
-void spawn_test_asteroid(Model *model, AsteroidSize size) {
+void spawnTestAsteroid(Model *model, AsteroidSize size) {
     int i = 0;
     for (i = 0; i < MAX_ASTEROIDS; i++) {
         if (!model->asteroids[i].active) {
             Position pos = {0, 0}; /* spawn at top-left */
             int dx = 1;
             int dy = 1;
-            init_asteroid(&model->asteroids[i], pos, dx, dy, size);
+            initAsteroid(&model->asteroids[i], pos, dx, dy, size);
             printf("Spawned asteroid %d of size %d at (%d, %d)\n",
                    i, size, pos.x, pos.y);
             break;
@@ -51,10 +51,10 @@ int main() {
     char input;
     int i = 0; 
 
-    init_model(&model);
+    initModel(&model);
   
     while (!model.quit) {
-        print_model_state(&model);
+        printModelState(&model);
         printf("Enter command:\n");
         printf("  w: Move Forward\n");
         printf("  a: Increase Angle\n");
@@ -71,26 +71,26 @@ int main() {
         
         switch(input) {
             case 'w':
-                handle_move_forward(&model);
+                handleMoveForward(&model);
                 break;
             case 'a':
-                handle_increase_angle(&model);
+                handleIncreaseAngle(&model);
                 break;
             case 'd':
-                handle_decrease_angle(&model);
+                handleDecreaseAngle(&model);
                 break;
             case 's':
-                handle_shoot_missile(&model);
+                handleShootMissile(&model);
                 break;
             case 't':
-                update_missiles(&model);
-                update_asteroids(&model);
+                updateMissiles(&model);
+                updateAsteroids(&model);
                 break;
             case 'r':
-                respawn_ship(&model);
+                respawnShip(&model);
                 break;
             case 'x':
-                spawn_test_asteroid(&model, ASTEROID_LARGE);
+                spawnTestAsteroid(&model, ASTEROID_LARGE);
                 break;
             case 'c': {
                 int missileIndex = -1, asteroidIndex = -1;
@@ -107,16 +107,16 @@ int main() {
                     }
                 }
                 if (missileIndex != -1 && asteroidIndex != -1)
-                    handle_missile_collision(&model, missileIndex, asteroidIndex);
+                    handleMissileCollision(&model, missileIndex, asteroidIndex);
                 else
                     printf("No active missile or asteroid for collision.\n");
                 break;
             }
             case 'k':
-                handle_ship_destroyed(&model);
+                handleShipDestroyed(&model);
                 break;
             case 'q':
-                handle_quit(&model);
+                handleQuit(&model);
                 break;
             default:
                 printf("Invalid command.\n");

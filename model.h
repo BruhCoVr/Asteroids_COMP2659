@@ -151,28 +151,28 @@ typedef struct {
 } Model;
 
 /* Initialization function for the model. */
-void init_model(Model *model);
+void initModel(Model *model);
 
 /* Ship behaviour functions. */
-void move_ship_forward(Ship *ship);
-void rotate_ship(Ship *ship, int angle_delta); /* Positive delta rotates one way; negative rotates the other. */
+void moveShipForward(Ship *ship);
+void rotateShip(Ship *ship, int angle_delta); /* Positive delta rotates one way; negative rotates the other. */
 
 
 /* Missile behaviour functions. */
-void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime);
-void update_missile(Missile *missile);
+void initMissile(Missile *missile, Position pos, int dx, int dy, int lifetime);
+void updateMissile(Missile *missile);
 
 /* Asteroid behaviour functions. */
-void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size);
-void update_asteroid(Asteroid *asteroid);
+void initAsteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size);
+void updateAsteroid(Asteroid *asteroid);
 
 /* Scoreboard functions. */
-void update_score(Scoreboard *scoreboard, int points);
-void lose_life(Scoreboard *scoreboard);
-void award_bonus_life(Scoreboard *scoreboard);
+void updateScore(Scoreboard *scoreboard, int points);
+void loseLife(Scoreboard *scoreboard);
+void awardBonusLife(Scoreboard *scoreboard);
 
 /* Helper function: wraps a position to the opposite edge if off screen. */
-void wrap_position(Position *pos, int screen_width, int screen_height);
+void wrapPosition(Position *pos, int screen_width, int screen_height);
 
 
 /*

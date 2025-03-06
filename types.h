@@ -22,7 +22,7 @@ typedef enum {
     num_7,      /* Represents the number 7 */
     num_8,      /* Represents the number 8 */
     num_9,      /* Represents the number 9 */
-    TotalNumbers /* Total count of numbers in the enumeration */
-} NumberEnum;
+    totalNumbers /* Total count of numbers in the enumeration */
+} numberEnum;
 
 #endif /* TYPES_H */
