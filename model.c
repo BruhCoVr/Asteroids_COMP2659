@@ -7,7 +7,7 @@
 #define SCREEN_HEIGHT 400
 
 /* Initializes the model to its starting state. */
-void init_model(Model *model) {
+void initModel(Model *model) {
 
     int i = 0; 
 
@@ -36,18 +36,18 @@ void init_model(Model *model) {
 }
 
 /* Moves the ship forward by one unit in the direction of its current angle. */
-void move_ship_forward(Ship *ship) {
+void moveShipForward(Ship *ship) {
     double rad = ship->angle * 3.14159265 / 180.0;
     int dx = (int)(1 * cos(rad));
     int dy = (int)(1 * sin(rad));
     ship->pos.x += dx;
     ship->pos.y += dy;
     
-    wrap_position(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
+    wrapPosition(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 /* Rotates the ship by the given angle delta. */
-void rotate_ship(Ship *ship, int angle_delta) {
+void rotateShip(Ship *ship, int angle_delta) {
     ship->angle += angle_delta;
     if (ship->angle < 0)
         ship->angle += 360;
@@ -56,7 +56,7 @@ void rotate_ship(Ship *ship, int angle_delta) {
 }
 
 /* Initializes a missile with the provided starting position, velocity and lifetime. */
-void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime) {
+void initMissile(Missile *missile, Position pos, int dx, int dy, int lifetime) {
     missile->pos = pos;
     missile->dx = dx;
     missile->dy = dy;
@@ -65,7 +65,7 @@ void init_missile(Missile *missile, Position pos, int dx, int dy, int lifetime) 
 }
 
 /* Updates the missile's position and decreases its lifetime; deactivates if lifetime expires. */
-void update_missile(Missile *missile) {
+void updateMissile(Missile *missile) {
     if (!missile->active)
         return;
     
@@ -73,14 +73,14 @@ void update_missile(Missile *missile) {
     missile->pos.y += missile->dy;
     missile->lifetime--;
     
-    wrap_position(&missile->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
+    wrapPosition(&missile->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     if (missile->lifetime <= 0)
         missile->active = 0;
 }
 
 /* Initializes an asteroid with the provided parameters. */
-void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size) {
+void initAsteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size) {
     asteroid->pos = pos;
     asteroid->dx = dx;
     asteroid->dy = dy;
@@ -89,7 +89,7 @@ void init_asteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSiz
 }
 
 /* Updates the asteroid's position and deactivates it if it leaves the screen. */
-void update_asteroid(Asteroid *asteroid) {
+void updateAsteroid(Asteroid *asteroid) {
     if (!asteroid->active)
         return;
     
@@ -102,72 +102,27 @@ void update_asteroid(Asteroid *asteroid) {
         asteroid->active = 0;
 }
 
-
 /* Adds the given points to the scoreboard. */
-void update_score(Scoreboard *scoreboard, uint points) {
+void updateScore(Scoreboard *scoreboard, int points) {
     scoreboard->score += points;
 }
 
 /* Decrements the life count by one. */
-void lose_life(Scoreboard *scoreboard) {
+void loseLife(Scoreboard *scoreboard) {
     if (scoreboard->lives > 0)
         scoreboard->lives--;
 }
 
-
-void initialize_bullet(Bullet *bullet, int x, int y, int player_x, int player_y, int x_velocity, int y_velocity, int active, int size){
-    bullet->x = x;
-    bullet->y = y;
-    bullet->player_x = player_x;
-    bullet->player_y = player_y;
-    bullet->x_velocity = x_velocity;
-    bullet->y_velocity = y_velocity;
-    bullet->size = size;
-    bullet->active = 1;
-}
-
-void deactivate_bullet(Bullet *bullet){
-    bullet->bullet = 0; // Setting feild to 0 (false), meaning bullet destroyed.
-}
-
-void position_bullet(Bullet *bullet){
-    /* Update the bullet's position based on its velocity */
-    bullet->x += bullet->x_velocity;
-    bullet->y += bullet->y_velocity;
-}
-
-bullet_hit(Bullet *bullet, largeAsteroid *largeAsteroid, mediumAsteroid *mediumAsteroid, smallAsteroid *smallAsteroid){
-    /*checking bullets x and y postions and comparing it with the asteroids*/
-    
-    if(bullet->x == largeAsteroid->x && bullet->y == largeAsteroid->y){
-        deactivate_bullet(bullet);
-        deactivate_largeAsteroid(largeAsteroid);
-    }
-
-    else if (bullet->x == mediumAsteroid->x && bullet->y == mediumAsteroid->y)
-    {
-        deactivate_bullet(bullet);
-        deactivate_mediumAsteroid(mediumAsteroid);
-    }
-    
-    else if (bullet->x == smallAsteroid->x && bullet->y == smallAsteroid->y)
-    {
-        deactivate_bullet(bullet);
-        deactivate_smallAsteroid(smallAsteroid);
-    }
-}
-
 /* Awards a bonus life if the current number of lives is below 5. */
-void award_bonus_life(Scoreboard *scoreboard) {
+void awardBonusLife(Scoreboard *scoreboard) {
     if (scoreboard->lives < 5)
         scoreboard->lives++;
 }
 
 /* Wraps a position so that objects leaving one edge reappear on the opposite edge. */
-void wrap_position(Position *pos, int screen_width, int screen_height) {
+void wrapPosition(Position *pos, int screen_width, int screen_height) {
     if (pos->x < 0) pos->x = screen_width - 1;
     if (pos->x >= screen_width) pos->x = 0;
     if (pos->y < 0) pos->y = screen_height - 1;
     if (pos->y >= screen_height) pos->y = 0;
 }
-
