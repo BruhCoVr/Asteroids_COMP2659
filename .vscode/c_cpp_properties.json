@@ -5,10 +5,10 @@
             "includePath": [
                 "C:\\MinGW\\include"
             ],
-            "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+            "compilerPath": "C:/MinGW/bin/gcc.exe",
             "cStandard": "c17",
             "cppStandard": "${default}",
-            "intelliSenseMode": "linux-gcc-x64",
+            "intelliSenseMode": "${default}",
             "compilerArgs": [
                 ""
             ]
