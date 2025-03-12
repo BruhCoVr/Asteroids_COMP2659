@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 400
-
 /* --- Asynchronous (Input) Event Handlers --- */
 
 /* Moves the ship forward. */

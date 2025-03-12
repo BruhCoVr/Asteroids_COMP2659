@@ -3,6 +3,9 @@
 
 #include "model.h"
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 400
+
 /* --- Asynchronous (Input) Event Handlers ---
    These functions are intended to be called when a key is pressed. */
 void handleMoveForward(Model *model);
