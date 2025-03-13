@@ -4,9 +4,9 @@
 #include "model.h"
 
 /* Function to check if input is pending */
-int input_pending();
+int InputPending();
 
 /* Function to read input */
-char read_input();
+char ReadInput();
 
 #endif /* INPUT_H */

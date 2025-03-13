@@ -7,40 +7,56 @@
 #include "raster.h"
 #include "events.h"
 
-void initialize_game(Model *model) {
+void InitializegGame(Model *model) {
+    
+    /* Spawn some asteroids */
+    Position asteroid_pos1 = {100, 100};
+    Position asteroid_pos2 = {500, 300};
 
     /* Initialize the model with default values */
-    initModel(model);
+    initModel(model); 
+   
+    initAsteroid(&model->asteroids[0], asteroid_pos1, 1, 1, ASTEROID_LARGE);
+    initAsteroid(&model->asteroids[1], asteroid_pos2, -1, 1, ASTEROID_MEDIUM);
+}
 
-    /* Spawn some asteroids */
-    Position asteroid_pos = {100, 100};
-    initAsteroid(&model->asteroids[0], asteroid_pos, 1, 1, ASTEROID_LARGE);
-    asteroid_pos->x = 500; 
-    asteroid_pos->y = 300;
-    initAsteroid(&model->asteroids[1], asteroid_pos, -1, 1, ASTEROID_MEDIUM);
+UINT32 GetTime() {
+    long old_ssp;
+    UINT32 timeNow;
+
+    /* Enter privileged mode */
+    old_ssp = Super(0);
+
+    /* Read the timer value */
+    timeNow = *(UINT32 *)0x462;
+
+    /* Exit privileged mode */
+    Super(old_ssp);
+
+    return timeNow;
 }
 
 /* Main game loop */
-void run_game() {
+void RunGame() {
     Model model;
     UINT32 *frameBuffer = (UINT32 *)Physbase();
     UINT32 timeThen, timeNow, timeElapsed;
 
     /* Initialize the game */
-    initialize_game(&model);
-    timeThen = get_time();
+    InitializegGame(&model);
+    timeThen = GetTime();
 
     /* Render the first frame */
     render(&model, frameBuffer);
 
     /* Main game loop */
     while (!model.quit) {
-        timeNow = get_time();
+        timeNow = GetTime();
         timeElapsed = timeNow - timeThen;
 
         /* Process asynchronous events (user input) */
-        if (input_pending()) {
-            char input = read_input();
+        if (InputPending()) {
+            char input = ReadInput();
             switch (input) {
                 case 'w': handleMoveForward(&model); break;
                 case 'a': handleIncreaseAngle(&model); break;
@@ -65,5 +81,7 @@ void run_game() {
 
 /* Entry point for the game */
 void main() {
-    run_game();
+
+    printf("\033E\033F\n");
+    RunGame();
 }

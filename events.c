@@ -8,19 +8,19 @@
 /* Moves the ship forward. */
 void handleMoveForward(Model *model) {
     moveShipForward(&model->ship);
-    printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);
+    /*printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);*/
 }
 
 /* Rotates the ship by increasing its angle. */
 void handleIncreaseAngle(Model *model) {
     rotateShip(&model->ship, 1);
-    printf("Ship angle increased to %d\n", model->ship.angle);
+    /*printf("Ship angle increased to %d\n", model->ship.angle);*/
 }
 
 /* Rotates the ship by decreasing its angle. */
 void handleDecreaseAngle(Model *model) {
     rotateShip(&model->ship, -1);
-    printf("Ship angle decreased to %d\n", model->ship.angle);
+    /*printf("Ship angle decreased to %d\n", model->ship.angle);*/
 }
 
 /* Shoots a missile from the ship’s current position. */
@@ -32,8 +32,8 @@ void handleShootMissile(Model *model) {
             int dx = (int)(2 * cos(rad));
             int dy = (int)(2 * sin(rad));
             initMissile(&model->missiles[i], model->ship.pos, dx, dy, 50);
-            printf("Missile shot from (%d, %d) with velocity (%d, %d)\n",
-                   model->ship.pos.x, model->ship.pos.y, dx, dy);
+            /*printf("Missile shot from (%d, %d) with velocity (%d, %d)\n",
+                   model->ship.pos.x, model->ship.pos.y, dx, dy);*/
             break;
         }
     }
@@ -42,7 +42,7 @@ void handleShootMissile(Model *model) {
 /* Sets the quit flag to exit the game. */
 void handleQuit(Model *model) {
     model->quit = 1;
-    printf("Quit event triggered. Exiting game.\n");
+    /*printf("Quit event triggered. Exiting game.\n");*/
 }
 
 /* --- Synchronous (Timed) Event Handlers --- */
@@ -54,7 +54,7 @@ void updateAsteroids(Model *model) {
         if (model->asteroids[i].active)
             updateAsteroid(&model->asteroids[i]);
     }
-    printf("Asteroids updated.\n");
+    /*printf("Asteroids updated.\n");*/
 }
 
 /* Updates all active missiles. */
@@ -64,7 +64,7 @@ void updateMissiles(Model *model) {
         if (model->missiles[i].active)
             updateMissile(&model->missiles[i]);
     }
-    printf("Missiles updated.\n");
+    /*printf("Missiles updated.\n");*/
 }
 
 /* Respawns the ship at the center of the screen with default settings. */
@@ -72,8 +72,8 @@ void respawnShip(Model *model) {
     model->ship.pos.x = SCREEN_WIDTH / 2;
     model->ship.pos.y = SCREEN_HEIGHT / 2;
     model->ship.angle = 90;
-    printf("Ship respawned at (%d, %d) with angle %d\n",
-           model->ship.pos.x, model->ship.pos.y, model->ship.angle);
+    /*printf("Ship respawned at (%d, %d) with angle %d\n",
+           model->ship.pos.x, model->ship.pos.y, model->ship.angle);*/
 }
 
 /* --- Condition-Based (Cascaded) Event Handlers --- */
@@ -92,16 +92,16 @@ void handleAsteroidSplit(Model *model, int asteroid_index) {
                     newSize = ASTEROID_SMALL;
                 }
                 initAsteroid(&model->asteroids[i], asteroid->pos, asteroid->dx, asteroid->dy, newSize);
-                printf("Asteroid %d split: New asteroid %d created with size %d\n",
-                       asteroid_index, i, newSize);
+                /*printf("Asteroid %d split: New asteroid %d created with size %d\n",
+                       asteroid_index, i, newSize); */
                 break;
             }
         }
     } else {
         asteroid->active = 0;
         updateScore(&model->scoreboard, 100);
-        printf("Small asteroid %d destroyed. Score: %d\n",
-               asteroid_index, model->scoreboard.score);
+        /*printf("Small asteroid %d destroyed. Score: %d\n",
+               asteroid_index, model->scoreboard.score);*/
     }
 }
 
@@ -122,8 +122,8 @@ void handleAsteroidDestroyed(Model *model, int asteroid_index) {
     
     updateScore(&model->scoreboard, points);
     asteroid->active = 0;
-    printf("Asteroid %d destroyed. Awarded %d points. Total score: %d\n",
-           asteroid_index, points, model->scoreboard.score);
+    /*printf("Asteroid %d destroyed. Awarded %d points. Total score: %d\n",
+           asteroid_index, points, model->scoreboard.score);*/
     
     if (model->scoreboard.score % 5000 == 0 && model->scoreboard.lives < 5 && model->scoreboard.score < 30000)
         handleBonusLifeAwarded(model);
@@ -135,7 +135,7 @@ void handleAsteroidDestroyed(Model *model, int asteroid_index) {
 /* Handles the ship being hit by an asteroid. */
 void handleShipDestroyed(Model *model) {
     loseLife(&model->scoreboard);
-    printf("Ship destroyed! Lives remaining: %d\n", model->scoreboard.lives);
+    /*printf("Ship destroyed! Lives remaining: %d\n", model->scoreboard.lives);*/
     if (model->scoreboard.lives > 0)
         respawnShip(model);
     else
@@ -144,24 +144,25 @@ void handleShipDestroyed(Model *model) {
 
 /* Logs when an object wraps around the screen. */
 void handleObjectWraparound(Model *model, int object_type, int index) {
-    if (object_type == 0)
+    /*if (object_type == 0)
         printf("Ship wrapped around screen.\n");
     else if (object_type == 1)
         printf("Missile %d wrapped around screen.\n", index);
     else if (object_type == 2)
-        printf("Asteroid %d wrapped around screen.\n", index);
+        printf("Asteroid %d wrapped around screen.\n", index);*/
 }
+
 
 /* Handles the game over event. */
 void handleGameOver(Model *model) {
-    printf("Game Over! Final score: %d\n", model->scoreboard.score);
+    /*printf("Game Over! Final score: %d\n", model->scoreboard.score);*/
     model->quit = 1;
 }
 
 /* Handles the collision between a missile and an asteroid. */
 void handleMissileCollision(Model *model, int missile_index, int asteroid_index) {
     model->missiles[missile_index].active = 0;
-    printf("Missile %d collided with asteroid %d\n", missile_index, asteroid_index);
+    /*printf("Missile %d collided with asteroid %d\n", missile_index, asteroid_index);*/
     if (model->asteroids[asteroid_index].size > ASTEROID_SMALL)
         handleAsteroidSplit(model, asteroid_index);
     else
@@ -171,10 +172,10 @@ void handleMissileCollision(Model *model, int missile_index, int asteroid_index)
 /* Awards a bonus life. */
 void handleBonusLifeAwarded(Model *model) {
     awardBonusLife(&model->scoreboard);
-    printf("Bonus life awarded! Lives: %d\n", model->scoreboard.lives);
+    /*printf("Bonus life awarded! Lives: %d\n", model->scoreboard.lives);*/
 }
 
-/* Increases game difficulty (for example, by increasing asteroid speed). */
+/* Increases game difficulty (for example, by increasing asteroid speed). */ 
 void handleDifficultyRampUp(Model *model) {
-    printf("Difficulty ramp up! Increasing asteroid speed/spawn rate.\n");
+    /*printf("Difficulty ramp up! Increasing asteroid speed/spawn rate.\n");*/
 }

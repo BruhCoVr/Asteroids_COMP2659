@@ -1,5 +1,8 @@
 all: tst_mod tst_rast tst_rend 
 
+main: renderer.o game.o bitmaps.o raster.o events.o model.o input.o
+	cc68x -g renderer.o game.o bitmaps.o raster.o events.o model.o input.o -lm -o main.prg
+
 tst_mod: model.o bitmaps.o events.o tst_mod.o 
 	cc68x -g tst_mod.o bitmaps.o model.o events.o -lm -o tst_mod.prg
 
@@ -32,6 +35,14 @@ raster.o: raster.c raster.h
 
 bitmaps.o: bitmaps.c bitmaps.h
 	cc68x -g -c bitmaps.c
+
+game.o: game.c game.h
+	cc68x -g -c game.c
+
+input.o: input.c input.h
+	cc68x -g -c input.c
+
+
 
 clean:
 	$(RM) *.o

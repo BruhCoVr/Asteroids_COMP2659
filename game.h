@@ -16,9 +16,11 @@
 #define FRAME_RATE 70
 
 /* Function to initialize the game */
-void initialize_game(Model *model);
+void InitializegGame(Model *model);
+
+UINT32 GetTime();
 
 /* Main game loop */
-void run_game();
+void RunGame();
 
 #endif /* GAME_H */
