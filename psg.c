@@ -1,27 +1,69 @@
 #include "psg.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <osbind.h>
 #include <math.h>
 
-void write_psg(int reg, int val){
+int A_CHANNEL = 0;
+int B_CHANNEL = 1;
+int C_CHANNEL = 2;
+
+void write_psg(int sel, int wri){
 
     volatile char *PSG_reg_select = 0xFF8800;
 	volatile char *PSG_reg_write  = 0xFF8802;
 
-    *PSG_reg_select = reg;		
-	*PSG_reg_write  = val;
+    long old_ssp = Super(0);
+
+    *PSG_reg_select = sel;		
+	*PSG_reg_write  = wri;
+
+    Super(old_ssp);
 }
 
 void enable_channel(int channel, int tone_on, int noise_on){
+    int regWrite;
+    switch (channel)
+    {
+    case A_CHANNEL:
+        if(tone_on > 0 && noise_on > 0){
+            regWrite = 0x36;
+        }
+        else if(tone_on > 0 && noise_on = 0){
+            regWrite = 0x3E;
+        }
+        else if(tone_on = 0 && noise_on > 0){
+            regWrite = 0x37;
+        }
+        break;
+
+    case B_CHANNEL:
+         if(tone_on > 0 && noise_on > 0){
+            regWrite = 0x2D;
+        }
+        else if(tone_on > 0 && noise_on = 0){
+            regWrite = 0x3D;
+        }
+        else if(tone_on = 0 && noise_on > 0){
+            regWrite = 0x2F;
+        }
+        break;
+
+    case C_CHANNEL:
+         if(tone_on > 0 && noise_on > 0){
+            regWrite = 0x1B;
+        }
+        else if(tone_on > 0 && noise_on = 0){
+            regWrite = 0x3B;
+        }
+        else if(tone_on = 0 && noise_on > 0){
+            regWrite = 0x1F;
+        }
+        break;
     
-    //no clue how to enable channels
-	*PSG_reg_select = 7 ;		/* enable channel A on mixer */
-	*PSG_reg_write  = 0x3E;
+    }
 
-    int channelReg =  channel;		
-    int volumeVal = volume;	
-
-    write_psg(channelReg, volumeVal);
+    write_psg(7, regWrite);
 }
 
 void stop_sound(){
@@ -41,11 +83,48 @@ void set_volume(int channel, int volume){
 
 }
 
+//add code to add tuning to course and fine 
 void set_tone(int channel, int tuning){
 
-    int channelReg =  channel + 1;		
-    int tuningVal = tuning;	
-    write_psg(channelReg, tuningVal);
+    switch (channel)
+    {
+    case A_CHANNEL:
+    //fine
+        int channelReg =  channel;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);
+
+    //course
+        int channelReg =  channel + 1;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);
+        break;
+
+    case B_CHANNEL:
+    //fine
+        int channelReg =  channel + 1;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);
+
+    //course
+        int channelReg =  channel + 2;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);   
+        break;
+
+    case C_CHANNEL:
+    //fine
+        int channelReg =  channel + 2;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);
+
+    //course
+        int channelReg =  channel + 3;		
+        int tuningVal = tuning;	
+        write_psg(channelReg, tuningVal);
+        break;
+    
+    }
 
 }
 
