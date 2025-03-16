@@ -1,5 +1,6 @@
 #ifndef MUS_H
 #define MUS_H
+#include "types.h"
 
 void start_music();
 

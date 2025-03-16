@@ -4,9 +4,9 @@
 #include <osbind.h>
 #include <math.h>
 
-int A_CHANNEL = 0;
-int B_CHANNEL = 1;
-int C_CHANNEL = 2;
+#define A_CHANNEL 0
+#define B_CHANNEL 1
+#define C_CHANNEL 2
 
 void write_psg(int sel, int wri){
 
@@ -29,10 +29,10 @@ void enable_channel(int channel, int tone_on, int noise_on){
         if(tone_on > 0 && noise_on > 0){
             regWrite = 0x36;
         }
-        else if(tone_on > 0 && noise_on = 0){
+        else if(tone_on > 0 && noise_on == 0){
             regWrite = 0x3E;
         }
-        else if(tone_on = 0 && noise_on > 0){
+        else if(tone_on == 0 && noise_on > 0){
             regWrite = 0x37;
         }
         break;
@@ -41,10 +41,10 @@ void enable_channel(int channel, int tone_on, int noise_on){
          if(tone_on > 0 && noise_on > 0){
             regWrite = 0x2D;
         }
-        else if(tone_on > 0 && noise_on = 0){
+        else if(tone_on > 0 && noise_on == 0){
             regWrite = 0x3D;
         }
-        else if(tone_on = 0 && noise_on > 0){
+        else if(tone_on == 0 && noise_on > 0){
             regWrite = 0x2F;
         }
         break;
@@ -53,10 +53,10 @@ void enable_channel(int channel, int tone_on, int noise_on){
          if(tone_on > 0 && noise_on > 0){
             regWrite = 0x1B;
         }
-        else if(tone_on > 0 && noise_on = 0){
+        else if(tone_on > 0 && noise_on == 0){
             regWrite = 0x3B;
         }
-        else if(tone_on = 0 && noise_on > 0){
+        else if(tone_on == 0 && noise_on > 0){
             regWrite = 0x1F;
         }
         break;
@@ -67,61 +67,61 @@ void enable_channel(int channel, int tone_on, int noise_on){
 }
 
 void stop_sound(){
-
-    for(int i = 0; i < 3; i++){
-        int channelReg =  i + 8;		
+    int i;
+    for(i = 0; i < 3; i++){
+        int regSelect =  i + 8;		
         int volumeVal = 0;	
-        write_psg(channelReg, volumeVal);
+        write_psg(regSelect, volumeVal);
     }
 }
 
 void set_volume(int channel, int volume){
 
-    int channelReg =  channel + 8;		
+    int regSelect =  channel + 8;		
     int volumeVal = volume;	
-    write_psg(channelReg, volumeVal);
+    write_psg(regSelect, volumeVal);
 
 }
 
-//add code to add tuning to course and fine 
 void set_tone(int channel, int tuning){
-
+    int regSelect;
+    int tuningVal;
     switch (channel)
     {
     case A_CHANNEL:
-    //fine
-        int channelReg =  channel;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);
+    /*fine */
+        regSelect = channel;		
+        tuningVal = tuning & 0xFF;	
+        write_psg(regSelect, tuningVal);
 
-    //course
-        int channelReg =  channel + 1;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);
+    /*course */
+        regSelect =  channel + 1;		
+        tuningVal = (tuning >> 8) & 0xFF;	
+        write_psg(regSelect, tuningVal);
         break;
 
     case B_CHANNEL:
-    //fine
-        int channelReg =  channel + 1;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);
+    /*fine */
+        regSelect =  channel + 1;		
+        tuningVal = tuning & 0xFF;
+        write_psg(regSelect, tuningVal);
 
-    //course
-        int channelReg =  channel + 2;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);   
+    /*course */
+        regSelect =  channel + 2;		
+        tuningVal = (tuning >> 8) & 0xFF;	
+        write_psg(regSelect, tuningVal);   
         break;
 
     case C_CHANNEL:
-    //fine
-        int channelReg =  channel + 2;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);
+    /*fine */
+        regSelect =  channel + 2;		
+        tuningVal = tuning & 0xFF;
+        write_psg(regSelect, tuningVal);
 
-    //course
-        int channelReg =  channel + 3;		
-        int tuningVal = tuning;	
-        write_psg(channelReg, tuningVal);
+    /*course */
+        regSelect =  channel + 3;		
+        tuningVal = (tuning >> 8) & 0xFF;	
+        write_psg(regSelect, tuningVal);
         break;
     
     }
@@ -130,18 +130,18 @@ void set_tone(int channel, int tuning){
 
 void set_noise(int tuning){
     
-    int channelReg =  6;		
+    int regSelect =  6;		
     int tuningVal = tuning;	
-    write_psg(channelReg, tuningVal);
+    write_psg(regSelect, tuningVal);
 }
 
+
 void set_envelope(int shape, unsigned int sustain){
-
-//no clue how to use test later
-    int channelRegFine =  11;	
-    int channelRegCourse = 12;	
+    /*
+    int regSelectFine =  11;	
+    int regSelectCourse = 12;	
     int shapeVal = shape;	
-    write_psg(channelRegFine, tuningVal);
-
+    write_psg(regSelectFine, tuningVal);
+*/
 
 }

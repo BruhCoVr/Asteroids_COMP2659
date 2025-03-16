@@ -1,4 +1,7 @@
-all: tst_mod tst_rast tst_rend 
+all: tst_mus
+
+tst_mus: music.o psg.o music_test.o
+	cc68x -g music.o psg.o music_test.o -lm -o music_test.prg
 
 tst_mod: model.o bitmaps.o events.o tst_mod.o 
 	cc68x -g tst_mod.o bitmaps.o model.o events.o -lm -o tst_mod.prg
@@ -20,6 +23,15 @@ tst_mod.o: tst_mod.c model.h bitmaps.h
 	
 tst_rast.o: tst_rast.c raster.h bitmaps.h
 	cc68x -g -c tst_rast.c
+
+music.o:  music.c music.h
+	cc68x -g -c music.c
+
+psg.o:  psg.c psg.h
+	cc68x -g -c psg.c
+
+music_test.o: music_test.c music.h psg.h
+	cc68x -g -c music_test.c
 
 model.o: model.c model.h
 	cc68x -g -c model.c
