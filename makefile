@@ -1,7 +1,7 @@
 all: tst_mus
 
-tst_mus: music.o psg.o music_test.o
-	cc68x -g music.o psg.o music_test.o -lm -o music_test.prg
+tst_mus: music.o psg.o tst_mus.o
+	cc68x -g music.o psg.o tst_mus.o -lm -o tst_mus.prg
 
 tst_mod: model.o bitmaps.o events.o tst_mod.o 
 	cc68x -g tst_mod.o bitmaps.o model.o events.o -lm -o tst_mod.prg
@@ -30,8 +30,8 @@ music.o:  music.c music.h
 psg.o:  psg.c psg.h
 	cc68x -g -c psg.c
 
-music_test.o: music_test.c music.h psg.h
-	cc68x -g -c music_test.c
+tst_mus.o: tst_mus.c music.h psg.h
+	cc68x -g -c tst_mus.c
 
 model.o: model.c model.h
 	cc68x -g -c model.c

@@ -89,12 +89,15 @@ void update_music(UINT32 time_elapsed) {
     static UINT32 lastUpdateTime = 0;
 
     if (time_elapsed - lastUpdateTime >= mainSong[currNote].holdTime) {
-        currNote++;
-        if (currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
-            currNote = 0;
-        }
+        lastUpdateTime = time_elapsed; 
+		set_volume(A_CHANNEL, 11);
         set_tone(A_CHANNEL, noteTunings[mainSong[currNote].note][mainSong[currNote].octave]);
-        lastUpdateTime = time_elapsed;
+
+        currNote++; 
+        if (currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
+            currNote = 0; 
+        }
     }
 }
+
 
