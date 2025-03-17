@@ -6,10 +6,6 @@ UINT32 get_time() {
     return (UINT32) Tgettime();
 }
 
-void delay(unsigned int count) {
-    while (count--) {
-    }
-}
 
 int main() {
     UINT32 prev_time = get_time();

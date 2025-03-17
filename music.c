@@ -15,6 +15,12 @@
 int A_CHANNEL = 0;
 int B_CHANNEL = 1;
 int C_CHANNEL = 2;
+static int currNote = 0;
+
+void delay(unsigned int count) {
+    while (count--) {
+    }
+}
 
 typedef enum{
     C = 0,
@@ -85,8 +91,9 @@ void start_music() {
 }
 
 void update_music(UINT32 time_elapsed) {
-    static int currNote = 0;
     static UINT32 lastUpdateTime = 0;
+    delay(noteTunings[mainSong[currNote].holdTime]);
+    set_volume(A_CHANNEL, 0);
 
     if (time_elapsed - lastUpdateTime >= mainSong[currNote].holdTime) {
         lastUpdateTime = time_elapsed; 
