@@ -91,20 +91,18 @@ void start_music() {
 }
 
 void update_music(UINT32 time_elapsed) {
-    static UINT32 lastUpdateTime = 0;
+    /*static UINT32 lastUpdateTime = 0;*/
     delay(noteTunings[mainSong[currNote].holdTime]);
     set_volume(A_CHANNEL, 0);
 
-    if (time_elapsed - lastUpdateTime >= mainSong[currNote].holdTime) {
-        lastUpdateTime = time_elapsed; 
-		set_volume(A_CHANNEL, 11);
-        set_tone(A_CHANNEL, noteTunings[mainSong[currNote].note][mainSong[currNote].octave]);
-
-        currNote++; 
-        if (currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
-            currNote = 0; 
+    set_tone(A_CHANNEL, noteTunings[mainSong[currNote].note][mainSong[currNote].octave]);
+    set_volume(A_CHANNEL, 11);
+    
+    currNote++; 
+    if (currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
+        currNote = 0; 
         }
     }
-}
+
 
 
