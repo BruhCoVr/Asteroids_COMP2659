@@ -16,6 +16,7 @@ int A_CHANNEL = 0;
 int B_CHANNEL = 1;
 int C_CHANNEL = 2;
 static int currNote = 0;
+static UINT32 lastUpdateTime = 0;
 
 void delay(unsigned int count) {
     while (count--) {
@@ -69,6 +70,7 @@ const UINT16 noteTunings[NUM_TONES][NUM_OCTAVES] = {
     /* B */         {{0x01FA}, {0x00FD},  {0x007E}},
 };
 
+/*change hold time 1s = 70*/
 const PlayableNote mainSong[] = {
     {D, OCTAVE_4, 250},
     {G, OCTAVE_4, 500},
@@ -91,16 +93,17 @@ void start_music() {
 }
 
 void update_music(UINT32 time_elapsed) {
-    /*static UINT32 lastUpdateTime = 0;*/
-    delay(noteTunings[mainSong[currNote].holdTime]);
-    set_volume(A_CHANNEL, 0);
 
-    set_tone(A_CHANNEL, noteTunings[mainSong[currNote].note][mainSong[currNote].octave]);
-    set_volume(A_CHANNEL, 11);
-    
-    currNote++; 
-    if (currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
-        currNote = 0; 
+    if(time_elapsed >= lastUpdateTime){
+        set_volume(A_CHANNEL, 0);
+        set_tone(A_CHANNEL, noteTunings[mainSong[currNote].note][mainSong[currNote].octave]);
+        set_volume(A_CHANNEL, 11);
+        lastUpdateTime += noteTunings[mainSong[currNote].holdTime];
+        currNote++; 
+    }
+
+    if(currNote >= sizeof(mainSong) / sizeof(mainSong[0])) {
+            currNote = 0; 
         }
     }
 
