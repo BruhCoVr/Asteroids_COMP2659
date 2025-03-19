@@ -18,11 +18,6 @@ int C_CHANNEL = 2;
 static int currNote = 0;
 static UINT32 lastUpdateTime = 0;
 
-void delay(unsigned int count) {
-    while (count--) {
-    }
-}
-
 typedef enum{
     C = 0,
     C_SHARP,
