@@ -23,4 +23,7 @@ UINT32 GetTime();
 /* Main game loop */
 void RunGame();
 
+/* Function to swap buffers */
+void swapBuffers(void **active, void **inactive);
+
 #endif /* GAME_H */
