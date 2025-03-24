@@ -1,4 +1,5 @@
 #include "psg.h"
+#include "types.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <osbind.h>
@@ -137,19 +138,17 @@ void set_noise(int tuning){
 
 
 void set_envelope(int shape, unsigned int sustain){
-    /*
-    bit shift the shape
     int regSelectFine =  11;	
     int regSelectCourse = 12;	
-    int shapeVal = shape;	
+    int regSelectShape = 13;
+  
+    UINT8 fine,coarse;
 
-    wrtie to fine reg
-    write_psg(regSelectFine, tuningVal);
-    write to course reg
-    write_psg(regSelectFine, tuningVal);
-    write to sustain
-     reg
-    write_psg(regSelectFine, tuningVal);
-*/
+    fine = (UINT8)(sustain & 0xFF);
+    coarse = (UINT8)(sustain >> 8);
+
+    write_psg(regSelectFine, fine);
+    write_psg(regSelectCourse, coarse);
+    psg_WritePSG(regSelectShape, shape);
 
 }
