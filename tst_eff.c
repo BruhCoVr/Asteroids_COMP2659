@@ -1,13 +1,19 @@
-#include "music.h"
 #include "psg.h"
-#include <osbind.h>
+#include "effects.h"
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <osbind.h>
 #include "types.h"
 
+extern void shooting_effect();
+extern void thrusting_effect();
+extern void explosion_effect();
+
 UINT32 getTime() {
-    UINT32 *timer = (UINT32 *) 0x462; /* Address of the timer */
+    UINT32 *timer = (UINT32 *)0x462; /* Address of the timer */
     UINT32 old_ssp, time;
-    
+
     old_ssp = Super(0);
     time = *timer;
     Super(old_ssp);
@@ -17,11 +23,11 @@ UINT32 getTime() {
 int main() {
     int choice;
     UINT32 start_time, current_time;
-    int currentSong = 0; 
     
-    printf("Music Test:\n");
-    printf("1 - Start Death Music\n");
-    printf("2 - Start Main Music\n");
+    printf("Sound Effects Test:\n");
+    printf("1 - Shooting Effect\n");
+    printf("2 - Thrusting Effect\n");
+    printf("3 - Explosion Effect\n");
     printf("0 - Exit\n");
 
     while (1) {
@@ -32,31 +38,28 @@ int main() {
         
         switch (choice) {
             case 1:
-                currentSong = 1;
-                start_Deathmusic();
+                shooting_effect();
                 break;
             case 2:
-                currentSong = 2;
-                start_music();
+                thrusting_effect();
+                break;
+            case 3:
+                explosion_effect();
                 break;
             case 0:
                 printf("Exiting...\n");
                 return 0;
             default:
                 printf("Invalid choice, please try again.\n");
-                currentSong = 0;
+                continue;
         }
-        
+
         do {
             current_time = getTime();
-            if (currentSong == 1) {
-                update_Deathmusic(current_time - start_time);
-            } else if (currentSong == 2) {
-                update_Mainmusic(current_time - start_time);
-            }
-        } while (current_time - start_time < 500);
+        } while (current_time - start_time < 18);
 
-        set_volume(A_CHANNEL, 0);
+        set_volume(B_CHANNEL, 0);
+        set_volume(C_CHANNEL, 0);
     }
     return 0;
 }

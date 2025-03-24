@@ -1,6 +1,12 @@
 #ifndef PSG_H
 #define PSG_H
 
+typedef enum{
+    A_CHANNEL = 0,
+    B_CHANNEL,
+    C_CHANNEL,
+} Channel;
+
 void write_psg(int reg, int val);
 
 void enable_channel(int channel, int tone_on, int noise_on);
