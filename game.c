@@ -1,13 +1,20 @@
 #include <osbind.h>
 #include <stdlib.h>
 #include "game.h"
+#include "music.h"
 #include "model.h"
+#include "time.h"
+#include "psg.h"
+#include "types.h"
 #include "renderer.h"
 #include "input.h"
 #include "raster.h"
 #include "events.h"
 
+UINT32 start_time, current_time;
+
 void InitializegGame(Model *model) {
+    
     
     /* Spawn some asteroids */
     Position asteroid_pos1 = {100, 100};
@@ -42,6 +49,9 @@ void RunGame() {
     UINT32 *frameBuffer = (UINT32 *)Physbase();
     UINT32 timeThen, timeNow, timeElapsed;
 
+    start_music();
+    start_time = getTime();
+
     /* Initialize the game */
     InitializegGame(&model);
     timeThen = GetTime();
@@ -51,6 +61,10 @@ void RunGame() {
 
     /* Main game loop */
     while (!model.quit) {
+
+        current_time = getTime();
+        update_Mainmusic(current_time - start_time);
+
         timeNow = GetTime();
         timeElapsed = timeNow - timeThen;
 
@@ -77,6 +91,8 @@ void RunGame() {
             timeThen = timeNow;
         }
     }
+
+    stop_sound();
 }
 
 /* Entry point for the game */

@@ -6,8 +6,8 @@ tst_mus: music.o psg.o tst_mus.o
 tst_eff: effects.o psg.o tst_eff.o
 	cc68x -g effects.o psg.o tst_eff.o -lm -o tst_eff.prg 
 
-main: renderer.o game.o bitmaps.o raster.o events.o model.o input.o
-	cc68x -g renderer.o game.o bitmaps.o raster.o events.o model.o input.o -lm -o main.prg
+main: renderer.o game.o bitmaps.o raster.o events.o model.o input.o time.o  effects.o psg.o effects.o music.o
+	cc68x -g renderer.o game.o bitmaps.o raster.o events.o model.o input.o time.o effects.o music.o psg.o -lm -o main.prg
 
 tst_mod: model.o bitmaps.o events.o tst_mod.o 
 	cc68x -g tst_mod.o bitmaps.o model.o events.o -lm -o tst_mod.prg
@@ -30,7 +30,7 @@ tst_mod.o: tst_mod.c model.h bitmaps.h
 tst_rast.o: tst_rast.c raster.h bitmaps.h
 	cc68x -g -c tst_rast.c
 
-music.o:  music.c music.h
+music.o:  music.c music.h 
 	cc68x -g -c music.c
 
 effects.o:  effects.c effects.h
@@ -50,6 +50,9 @@ model.o: model.c model.h
 
 events.o: events.c events.h
 	cc68x -g -c events.c -lm 
+
+time.o: time.c time.h
+	cc68x -g -c time.c -lm 
 
 raster.o: raster.c raster.h
 	cc68x -g -c raster.c
