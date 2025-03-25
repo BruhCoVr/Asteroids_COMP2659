@@ -46,6 +46,7 @@ void handleShootMissile(Model *model) {
     shooting_effect();
     while ((getTime() - start_timeEvent) < 33) {
     }
+    write_psg(9, 0);
     write_psg(10, 0);
 
     for (i = 0; i < MAX_MISSILES; i++) {
