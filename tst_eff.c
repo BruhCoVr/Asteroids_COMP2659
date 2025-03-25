@@ -56,10 +56,9 @@ int main() {
 
         do {
             current_time = getTime();
-        } while (current_time - start_time < 18);
+        } while (current_time - start_time < 33);
 
-        set_volume(B_CHANNEL, 0);
-        set_volume(C_CHANNEL, 0);
+        stop_sound();
     }
     return 0;
 }

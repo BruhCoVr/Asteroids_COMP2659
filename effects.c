@@ -65,20 +65,15 @@ void thrusting_effect() {
     set_tone(B_CHANNEL, noteTunings[F_SHARP][OCTAVE_3]); 
     set_volume(C_CHANNEL, 0x1A);
     set_volume(B_CHANNEL, 0x1A);
-    enable_channel(C_CHANNEL, 1, 0);
-    enable_channel(B_CHANNEL, 1, 0);
-    set_envelope(0xC, 6000);   
+    enable_channel(C_CHANNEL, 1, 1);
+    enable_channel(B_CHANNEL, 1, 1);
+    set_envelope(0xC, 200);   
 }
 
 void explosion_effect() {
     set_tone(C_CHANNEL, noteTunings[E][OCTAVE_3]);
-    set_tone(B_CHANNEL, noteTunings[G][OCTAVE_3]); 
     set_volume(C_CHANNEL, 0x1F); 
-    set_volume(B_CHANNEL, 0x1C); 
-    enable_channel(C_CHANNEL, 1, 0);
-    enable_channel(B_CHANNEL, 1, 0);
+    enable_channel(C_CHANNEL, 0, 1);
     set_envelope(0xD, 300);   
 }
 
-
-the

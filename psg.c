@@ -149,6 +149,6 @@ void set_envelope(int shape, unsigned int sustain){
 
     write_psg(regSelectFine, fine);
     write_psg(regSelectCourse, coarse);
-    psg_WritePSG(regSelectShape, shape);
+    write_psg(regSelectShape, shape);
 
 }
