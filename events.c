@@ -22,7 +22,6 @@ void handleMoveForward(Model *model) {
     while ((getTime() - start_timeEvent) < 33) {
     }
     write_psg(9, 0);
-    write_psg(10, 0);
 
     moveShipForward(&model->ship);
     /*printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);*/
@@ -30,13 +29,13 @@ void handleMoveForward(Model *model) {
 
 /* Rotates the ship by increasing its angle. */
 void handleIncreaseAngle(Model *model) {
-    rotateShip(&model->ship, 45);
+    rotateShip(&model->ship, 15);
     /*printf("Ship angle increased to %d\n", model->ship.angle);*/
 }
 
 /* Rotates the ship by decreasing its angle. */
 void handleDecreaseAngle(Model *model) {
-    rotateShip(&model->ship, -45);
+    rotateShip(&model->ship, -15);
     /*printf("Ship angle decreased to %d\n", model->ship.angle);*/
 }
 

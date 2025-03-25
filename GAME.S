@@ -24,22 +24,39 @@ L2:
 	dc.w	100,100
 L3:
 	dc.w	500,300
+L4:
+	dc.w	200,100
+L5:
+	dc.w	100,200
+L6:
+	dc.w	200,200
 _InitializegGame:
-	link	a6,#-8
-	move.l	d3,-(a7)
+	link	a6,#-20
+	movem.l	d3/d4/a3,-(a7)
 	move.l	8(a6),d3
-	;line	34
+	lea	_initAsteroid,a3
+	moveq	#-1,d4
+	;line	38
 	lea	L2,a0
 	lea	-4(a6),a1
 	move.l	(a0)+,(a1)+
 	lea	L3,a0
 	lea	-8(a6),a1
 	move.l	(a0)+,(a1)+
-	;line	34
+	lea	L4,a0
+	lea	-12(a6),a1
+	move.l	(a0)+,(a1)+
+	lea	L5,a0
+	lea	-16(a6),a1
+	move.l	(a0)+,(a1)+
+	lea	L6,a0
+	lea	-20(a6),a1
+	move.l	(a0)+,(a1)+
+	;line	38
 	move.l	d3,-(a7)
 	jsr	_initModel
 	addq.l	#4,a7
-	;line	35
+	;line	39
 	move.w	#3,-(a7)
 	move.w	#1,-(a7)
 	move.w	#1,-(a7)
@@ -50,12 +67,12 @@ _InitializegGame:
 	moveq	#126,d0
 	add.l	d3,d0
 	move.l	d0,-(a7)
-	jsr	_initAsteroid
+	jsr	(a3)
 	lea	14(a7),a7
-	;line	36
+	;line	40
 	move.w	#2,-(a7)
 	move.w	#1,-(a7)
-	move.w	#-1,-(a7)
+	move.w	d4,-(a7)
 	subq.l	#4,a7
 	lea	-8(a6),a0
 	move.l	a7,a1
@@ -63,8 +80,47 @@ _InitializegGame:
 	lea	138,a0
 	add.l	d3,a0
 	pea	(a0)
-	jsr	_initAsteroid
-	move.l	-12(a6),d3
+	jsr	(a3)
+	lea	14(a7),a7
+	;line	42
+	move.w	#2,-(a7)
+	move.w	d4,-(a7)
+	move.w	d4,-(a7)
+	subq.l	#4,a7
+	lea	-12(a6),a0
+	move.l	a7,a1
+	move.l	(a0)+,(a1)+
+	lea	150,a0
+	add.l	d3,a0
+	pea	(a0)
+	jsr	(a3)
+	lea	14(a7),a7
+	;line	43
+	move.w	#1,-(a7)
+	move.w	#1,-(a7)
+	move.w	#1,-(a7)
+	subq.l	#4,a7
+	lea	-16(a6),a0
+	move.l	a7,a1
+	move.l	(a0)+,(a1)+
+	lea	162,a0
+	add.l	d3,a0
+	pea	(a0)
+	jsr	(a3)
+	lea	14(a7),a7
+	;line	44
+	move.w	#3,-(a7)
+	move.w	d4,-(a7)
+	move.w	#1,-(a7)
+	subq.l	#4,a7
+	lea	-20(a6),a0
+	move.l	a7,a1
+	move.l	(a0)+,(a1)+
+	lea	174,a0
+	add.l	d3,a0
+	pea	(a0)
+	jsr	(a3)
+	movem.l	-32(a6),d3/d4/a3
 	unlk	a6
 	rts
 _RunGame:
@@ -72,7 +128,7 @@ _RunGame:
 	movem.l	d3/d4/d5/d6,-(a7)
 	lea	-372(a6),a0
 	move.l	a0,d4
-	;line	46
+	;line	54
 	move.w	#2,-(a7)
 	jsr	__trap_14_w
 	addq.l	#2,a7
@@ -81,178 +137,178 @@ _RunGame:
 	jsr	_malloc
 	addq.l	#4,a7
 	move.l	d0,d5
-	;line	46
+	;line	54
 	tst.l	d5
-	bne	L4
-	;line	47
+	bne	L7
+	;line	55
 	move.w	#1,-(a7)
 	jsr	_exit
 	addq.l	#2,a7
-L4:
-	;line	51
+L7:
+	;line	59
 	jsr	_start_music
-	;line	52
+	;line	60
 	jsr	_getTime
 	move.l	d0,_start_time
-	;line	55
+	;line	63
 	move.l	d4,-(a7)
 	jsr	_InitializegGame
 	addq.l	#4,a7
-	;line	56
+	;line	64
 	jsr	_GetTime
 	move.l	d0,d6
-	;line	58
-	bra	L6
-L5:
-	;line	61
+	;line	66
+	bra	L9
+L8:
+	;line	69
 	jsr	_getTime
 	move.l	d0,_current_time
-	;line	62
+	;line	70
 	move.l	_current_time,d0
 	sub.l	_start_time,d0
 	move.l	d0,-(a7)
 	jsr	_update_Mainmusic
 	addq.l	#4,a7
-	;line	64
+	;line	72
 	jsr	_GetTime
 	move.l	d0,d3
-	;line	65
+	;line	73
 	move.l	d3,d0
 	sub.l	d6,d0
 	move.l	d0,-384(a6)
-	;line	68
+	;line	76
 	jsr	_InputPending
 	tst.w	d0
-	beq	L8
-	;line	70
+	beq	L11
+	;line	78
 	jsr	_ReadInput
 	move.b	d0,-393(a6)
-	;line	70
+	;line	78
 	move.b	-393(a6),d0
 	ext.w	d0
 	ext.l	d0
 	sub.l	#65,d0
 	cmp.l	#54,d0
-	bhi	L10
-	lea	L11,a0
+	bhi	L13
+	lea	L14,a0
 	add.l	d0,d0
 	add.w	0(a0,d0.l),a0
 	jmp	(a0)
-L21:
-L16:
-	;line	73
+L24:
+L19:
+	;line	81
 	move.l	d4,-(a7)
 	jsr	_handleMoveForward
 	addq.l	#4,a7
-	;line	74
-	bra	L9
-L17:
-L12:
-	;line	77
-	move.l	d4,-(a7)
-	jsr	_handleIncreaseAngle
-	addq.l	#4,a7
-	;line	78
-	bra	L9
-L18:
-L13:
-	;line	81
-	move.l	d4,-(a7)
-	jsr	_handleDecreaseAngle
-	addq.l	#4,a7
 	;line	82
-	bra	L9
+	bra	L12
 L20:
 L15:
 	;line	85
 	move.l	d4,-(a7)
-	jsr	_handleShootMissile
+	jsr	_handleIncreaseAngle
 	addq.l	#4,a7
 	;line	86
-	bra	L9
-L19:
-L14:
+	bra	L12
+L21:
+L16:
 	;line	89
+	move.l	d4,-(a7)
+	jsr	_handleDecreaseAngle
+	addq.l	#4,a7
+	;line	90
+	bra	L12
+L23:
+L18:
+	;line	93
+	move.l	d4,-(a7)
+	jsr	_handleShootMissile
+	addq.l	#4,a7
+	;line	94
+	bra	L12
+L22:
+L17:
+	;line	97
 	move.l	d4,-(a7)
 	jsr	_handleQuit
 	addq.l	#4,a7
-L10:
-L9:
-L8:
-	;line	97
+L13:
+L12:
+L11:
+	;line	105
 	jsr	_GetTime
 	move.l	d0,d3
-	;line	98
+	;line	106
 	move.l	d3,d0
 	sub.l	d6,d0
 	move.l	d0,-384(a6)
-	;line	101
+	;line	109
 	move.l	d4,-(a7)
 	jsr	_updateAsteroids
 	addq.l	#4,a7
-	;line	102
+	;line	110
 	move.l	d4,-(a7)
 	jsr	_updateMissile
 	addq.l	#4,a7
-	;line	105
+	;line	113
 	move.l	d5,-(a7)
 	move.l	d4,-(a7)
 	jsr	_render
 	addq.l	#8,a7
-	;line	108
+	;line	116
 	move.w	#37,-(a7)
 	jsr	__trap_14_w
 	addq.l	#2,a7
-	;line	110
+	;line	118
 	pea	32000
 	move.l	d5,-(a7)
 	move.l	-388(a6),-(a7)
 	jsr	_memcpy
 	lea	12(a7),a7
-	;line	112
+	;line	120
 	move.l	d3,d6
-L6:
+L9:
 	tst.w	-2(a6)
-	beq	L5
-L7:
-	;line	115
+	beq	L8
+L10:
+	;line	123
 	move.l	d5,-(a7)
 	jsr	_free
 	addq.l	#4,a7
-	;line	117
+	;line	125
 	jsr	_stop_sound
 	movem.l	-410(a6),d3/d4/d5/d6
 	unlk	a6
 	rts
-L11:
-	dc.w	L12-L11,L10-L11,L10-L11,L13-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L10-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L10-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L14-L11,L10-L11,L15-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L16-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L10-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L17-L11,L10-L11,L10-L11
-	dc.w	L18-L11,L10-L11,L10-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L10-L11,L10-L11,L10-L11
-	dc.w	L10-L11,L10-L11,L10-L11,L19-L11,L10-L11
-	dc.w	L20-L11,L10-L11,L10-L11,L10-L11,L21-L11
-L22:
+L14:
+	dc.w	L15-L14,L13-L14,L13-L14,L16-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L13-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L13-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L17-L14,L13-L14,L18-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L19-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L13-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L20-L14,L13-L14,L13-L14
+	dc.w	L21-L14,L13-L14,L13-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L13-L14,L13-L14,L13-L14
+	dc.w	L13-L14,L13-L14,L13-L14,L22-L14,L13-L14
+	dc.w	L23-L14,L13-L14,L13-L14,L13-L14,L24-L14
+L25:
 	dc.b	27,69,27,70,10,0
 	even
 _main:
 	link	a6,#0
-	;line	122
+	;line	130
 	pea	0
 	jsr	_time
 	addq.l	#4,a7
 	move.w	d0,-(a7)
 	jsr	_srand
 	addq.l	#2,a7
-	;line	124
-	pea	L22
+	;line	132
+	pea	L25
 	jsr	_printf
 	addq.l	#4,a7
-	;line	125
+	;line	133
 	jsr	_RunGame
 	unlk	a6
 	rts

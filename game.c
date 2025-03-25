@@ -30,10 +30,18 @@ void InitializegGame(Model *model) {
     /* Spawn some asteroids */
     Position asteroid_pos1 = {100, 100};
     Position asteroid_pos2 = {500, 300};
+    Position asteroid_pos3 = {200, 100};
+    Position asteroid_pos4 = {100, 200};
+    Position asteroid_pos5 = {200, 200};
+
 
     initModel(model);
     initAsteroid(&model->asteroids[0], asteroid_pos1, 1, 1, ASTEROID_LARGE);
     initAsteroid(&model->asteroids[1], asteroid_pos2, -1, 1, ASTEROID_MEDIUM);
+
+    initAsteroid(&model->asteroids[2], asteroid_pos3, -1, -1, ASTEROID_MEDIUM);
+    initAsteroid(&model->asteroids[3], asteroid_pos4, 1, 1, ASTEROID_SMALL);
+    initAsteroid(&model->asteroids[4], asteroid_pos5, 1, -1, ASTEROID_LARGE);
 }
 
 /* Main game loop using an offscreen back buffer and blitting the full frame each iteration */
