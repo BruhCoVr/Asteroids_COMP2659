@@ -98,4 +98,15 @@ void plotBitmap(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int w
  */
 void plotStars(void *base);
 
+/*
+Function responsible for rendering an asteroid on a display or screen buffer. 
+The function draws the asteroid at a specific position with a randomly chosen orientation,
+depending on the asteroid's size (large, medium, or small).
+
+Parameters: 
+ - base: Pointer to the base address of the screen buffer.
+ - asteroid: object of the asteroid struct 
+*/
+/*void render_asteroid(UINT32 *base, const Asteroid *asteroid);*/
+
 #endif

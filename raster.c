@@ -265,3 +265,4 @@ void plotStars (void *base){
         plotPixel(base, rand()%640, rand()%400); /* Plot a pixel at a random (x, y) coordinate */
     }
 }
+
