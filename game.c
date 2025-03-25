@@ -1,5 +1,7 @@
 #include <osbind.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "game.h"
 #include "music.h"
 #include "model.h"
@@ -11,6 +13,15 @@
 #include "raster.h"
 #include "events.h"
 
+UINT32 GetTime() {
+    long old_ssp;
+    UINT32 timeNow;
+    old_ssp = Super(0);
+    timeNow = *(UINT32 *)0x462;
+    Super(old_ssp);
+    return timeNow;
+}
+
 UINT32 start_time, current_time;
 
 void InitializegGame(Model *model) {
@@ -20,34 +31,22 @@ void InitializegGame(Model *model) {
     Position asteroid_pos1 = {100, 100};
     Position asteroid_pos2 = {500, 300};
 
-    /* Initialize the model with default values */
-    initModel(model); 
-   
+    initModel(model);
     initAsteroid(&model->asteroids[0], asteroid_pos1, 1, 1, ASTEROID_LARGE);
     initAsteroid(&model->asteroids[1], asteroid_pos2, -1, 1, ASTEROID_MEDIUM);
 }
 
-UINT32 GetTime() {
-    long old_ssp;
-    UINT32 timeNow;
-
-    /* Enter privileged mode */
-    old_ssp = Super(0);
-
-    /* Read the timer value */
-    timeNow = *(UINT32 *)0x462;
-
-    /* Exit privileged mode */
-    Super(old_ssp);
-
-    return timeNow;
-}
-
-/* Main game loop */
+/* Main game loop using an offscreen back buffer and blitting the full frame each iteration */
 void RunGame() {
     Model model;
-    UINT32 *frameBuffer = (UINT32 *)Physbase();
     UINT32 timeThen, timeNow, timeElapsed;
+    UINT32 *frameBuffer = Physbase();
+    /* Allocate an offscreen back buffer for a 640x400 screen (8000 UINT32 words) */
+    UINT32 *backBuffer = (UINT32 *)malloc(8000 * sizeof(UINT32));
+    if (!backBuffer) {
+        exit(1);  /* Allocation failure */
+    }
+    
 
     start_music();
     start_time = getTime();
@@ -55,12 +54,9 @@ void RunGame() {
     /* Initialize the game */
     InitializegGame(&model);
     timeThen = GetTime();
-
-    /* Render the first frame */
-    render(&model, frameBuffer);
-
-    /* Main game loop */
+    
     while (!model.quit) {
+        /* Process asynchronous input every loop iteration */
 
         current_time = getTime();
         update_Mainmusic(current_time - start_time);
@@ -72,32 +68,59 @@ void RunGame() {
         if (InputPending()) {
             char input = ReadInput();
             switch (input) {
-                case 'w': handleMoveForward(&model); break;
-                case 'a': handleIncreaseAngle(&model); break;
-                case 'd': handleDecreaseAngle(&model); break;
-                case 's': handleShootMissile(&model); break;
-                case 'q': handleQuit(&model); break;
-                default: break; /* Ignore invalid input */
+                case 'w': 
+                case 'W': 
+                    handleMoveForward(&model); 
+                    break;
+                case 'a': 
+                case 'A': 
+                    handleIncreaseAngle(&model); 
+                    break;
+                case 'd': 
+                case 'D': 
+                    handleDecreaseAngle(&model); 
+                    break;
+                case 's': 
+                case 'S': 
+                    handleShootMissile(&model); 
+                    break;
+                case 'q': 
+                case 'Q': 
+                    handleQuit(&model); 
+                    break;
+                default: break;
             }
         }
-
-        /* Process synchronous events (clock ticks) */
-        if (timeElapsed > 0) {
-            updateAsteroids(&model);
-            updateMissiles(&model);
-
-            /* Render the next frame */
-            render(&model, frameBuffer);
-            timeThen = timeNow;
-        }
+        
+        
+        /* Update simulation and rendering every iteration for improved responsiveness */
+        timeNow = GetTime();
+        timeElapsed = timeNow - timeThen;
+        /* Optionally, you could use timeElapsed to scale motion for consistent speed,
+           but for now we update each loop to make input immediately effective. */
+        updateAsteroids(&model);
+        updateMissile(&model);
+        
+        /* Render the complete frame into the offscreen back buffer */
+        render(&model, backBuffer);
+        
+        /* Wait for vertical sync to reduce tearing */
+        Vsync();
+        /* Blit the complete frame to the physical screen */
+        memcpy(frameBuffer, backBuffer, 8000 * sizeof(UINT32));
+        
+        timeThen = timeNow;
     }
+    
+    free(backBuffer);
 
     stop_sound();
 }
 
-/* Entry point for the game */
 void main() {
-
+    /* Seed the random number generator once at startup */
+    srand((unsigned) time(NULL));
+    /* Clear the screen */
     printf("\033E\033F\n");
     RunGame();
 }

@@ -41,7 +41,7 @@ void moveShipForward(Ship *ship) {
     int dx = (int)(1 * cos(rad));
     int dy = (int)(1 * sin(rad));
     ship->pos.x += dx;
-    ship->pos.y += dy;
+    ship->pos.y -= dy;
     
     wrapPosition(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
@@ -68,16 +68,21 @@ void initMissile(Missile *missile, Position pos, int dx, int dy, int lifetime) {
 void updateMissile(Missile *missile) {
     if (!missile->active)
         return;
-    
+
+    /* Update bullet position */
     missile->pos.x += missile->dx;
     missile->pos.y += missile->dy;
-    missile->lifetime--;
-    
-    wrapPosition(&missile->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
-    
-    if (missile->lifetime <= 0)
+
+    /* Deactivate the missile when it has fully left the screen.
+       The bullet is 8x8, so we allow a margin of 8 pixels. */
+    if (missile->pos.x < -8 || missile->pos.x > SCREEN_WIDTH ||
+        missile->pos.y < -8 || missile->pos.y > SCREEN_HEIGHT)
+    {
         missile->active = 0;
+    }
 }
+
+
 
 /* Initializes an asteroid with the provided parameters. */
 void initAsteroid(Asteroid *asteroid, Position pos, int dx, int dy, AsteroidSize size) {

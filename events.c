@@ -29,13 +29,13 @@ void handleMoveForward(Model *model) {
 
 /* Rotates the ship by increasing its angle. */
 void handleIncreaseAngle(Model *model) {
-    rotateShip(&model->ship, 1);
+    rotateShip(&model->ship, 45);
     /*printf("Ship angle increased to %d\n", model->ship.angle);*/
 }
 
 /* Rotates the ship by decreasing its angle. */
 void handleDecreaseAngle(Model *model) {
-    rotateShip(&model->ship, -1);
+    rotateShip(&model->ship, -45);
     /*printf("Ship angle decreased to %d\n", model->ship.angle);*/
 }
 
@@ -51,15 +51,24 @@ void handleShootMissile(Model *model) {
     for (i = 0; i < MAX_MISSILES; i++) {
         if (!model->missiles[i].active) {
             double rad = model->ship.angle * 3.14159265 / 180.0;
-            int dx = (int)(2 * cos(rad));
-            int dy = (int)(2 * sin(rad));
-            initMissile(&model->missiles[i], model->ship.pos, dx, dy, 50);
-            /*printf("Missile shot from (%d, %d) with velocity (%d, %d)\n",
-                   model->ship.pos.x, model->ship.pos.y, dx, dy);*/
+            int bullet_dx = (int)(2 * cos(rad));
+            int bullet_dy = -(int)(2 * sin(rad));
+
+            /* Compute ship center assuming a 32x32 ship */
+            int centerX = model->ship.pos.x + 16;
+            int centerY = model->ship.pos.y + 16;
+
+            int offset = 40;
+            Position bulletPos;
+            bulletPos.x = centerX + (int)(offset * cos(rad));
+            bulletPos.y = centerY - (int)(offset * sin(rad));
+
+            initMissile(&model->missiles[i], bulletPos, bullet_dx, bullet_dy, 50);
             break;
         }
     }
 }
+
 
 /* Sets the quit flag to exit the game. */
 void handleQuit(Model *model) {

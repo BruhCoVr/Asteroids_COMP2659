@@ -258,11 +258,25 @@ void plotBitmap(UINT32 * base, int x, int y, const UINT32 *bitmap, unsigned int 
  * Parameters:
  * - base: Pointer to the base address of the screen buffer.
  */
-void plotStars (void *base){
+void plotStars(void *base) {
+    static int initialized = 0;
+    static int starX[1000];
+    static int starY[1000];
     int i;
-    srand((unsigned) time(NULL)); /* Seed the random number generator with the current time */
-    for (i=0; i<1000; i++){
-        plotPixel(base, rand()%640, rand()%400); /* Plot a pixel at a random (x, y) coordinate */
+
+    if (!initialized) {
+        for (i = 0; i < 1000; i++) {
+            starX[i] = rand() % 640;   /* screen width */
+            starY[i] = rand() % 400;   /* screen height */
+        }
+        initialized = 1;
+    }
+
+    for (i = 0; i < 1000; i++) {
+        plotPixel(base, starX[i], starY[i]);
     }
 }
+
+
+
 
