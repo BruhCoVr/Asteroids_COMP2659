@@ -22,6 +22,7 @@ void handleMoveForward(Model *model) {
     while ((getTime() - start_timeEvent) < 33) {
     }
     write_psg(9, 0);
+    write_psg(10, 0);
 
     moveShipForward(&model->ship);
     /*printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);*/
