@@ -1,4 +1,4 @@
-all: tst_eff tst_mus
+all: tst_eff tst_mus main
 
 tst_mus: music.o psg.o tst_mus.o 
 	cc68x -g music.o psg.o tst_mus.o -lm -o tst_mus.prg 
