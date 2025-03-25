@@ -1,0 +1,110 @@
+[33m929bd3e[m[33m ([m[1;36mHEAD -> [m[1;32mVlad[m[33m, [m[1;31morigin/Vlad[m[33m)[m help
+[33m81a8f73[m idk
+[33m862c7b6[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/Adi[m[33m)[m fixed ship movement (moves left right diognal now)
+[33m4fe4290[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Vlad
+[33mcd4afce[m game
+[33m7d5701b[m hopefully merged correctly inshallah
+[33ma165635[m saving change made to game and events
+[33m5d6bdf0[m pulled from main
+[33mef77717[m fixed sound effects
+[33m9d0d3ae[m fixed envelope
+[33ma1a0525[m fixed the set envelope
+[33mc60086e[m Merge pull request #14 from BruhCoVr/Darren
+[33m26b1ff2[m finshed the sound effects and music and made tst file
+[33m9d5e99d[m[33m ([m[1;31morigin/Darren[m[33m)[m Need to fix some stuff with the events
+[33m1cee08a[m removed the delay
+[33m3100694[m fixed the update music so that it doesnt delay the game
+[33m19867c0[m Idk
+[33m7814217[m Stuff
+[33m08b68e3[m working on the sound effects made the files and completed envelope
+[33m413f19d[m saving current working song loop, that works inside steem
+[33ma27abc1[m pushing to test on steem, seeing if song loops or not
+[33ma11efc1[m have everything for the song completed need to fix main to play the song
+[33md2deeac[m music.c and psg.c completed music test not working
+[33m60fe482[m currently working on audio/stage 7
+[33m978116c[m[33m ([m[1;32mmain[m[33m)[m Completed Stage 5 with Camel Case naming conventions.
+[33mc7f49bf[m created game.c and game.c for stage 5
+[33m9f31c60[m started the psg files for stage 7
+[33md3474ed[m created input.c and input.h for reading input
+[33m25ac098[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33mc5ef3c3[m Merge pull request #13 from BruhCoVr/main
+[33md53770c[m Merge pull request #12 from BruhCoVr/Vlad
+[33m36e77ac[m Merge branch 'main' into Vlad
+[33m00c0fcd[m fixing merge issues
+[33md917d11[m Merge pull request #11 from BruhCoVr/Vlad
+[33mbcf1fcd[m Merge branch 'main' into Vlad
+[33med226ba[m added the make all inside the makefile
+[33md8ad82b[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m4e4b512[m fixed the camelCase on the missing files
+[33m49df61b[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m38a7160[m fixing some shit
+[33m682f249[m Changed function names to camelCase
+[33m6e86e4a[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33maefb9f7[m settings.json updated for vlad
+[33mf2fcd83[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33md0453df[m Merge pull request #9 from BruhCoVr/Darren
+[33mbb0a20f[m Fully completed stage 4.
+[33ma0c8f7c[m semi-completed stage 4. Running into an asteroid bug.
+[33m5ec2d9f[m Created & completed render_asteroid function in raster.c
+[33mc162367[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m4347e1b[m Changed turnary operator for readibility.
+[33mff5316c[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33mf8dac82[m Merge branch 'main' into Vlad
+[33mabf4102[m Almost cried.
+[33m01355c7[m Completed pre-stage 3.
+[33m9f363e0[m fixed comments from // to /* */
+[33mb480f6c[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Darren
+[33m7311399[m deleted wrap around for asteroids
+[33md6705d6[m added comments
+[33m9946998[m Merge branch 'Vlad' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Vlad
+[33mf3b315e[m added code and structs for the bullet will add comments later
+[33m9f7c8f8[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m469db02[m completed check_ collison functions for all the asteroids
+[33m1714015[m Merge pull request #6 from BruhCoVr/Adi
+[33m0876f26[m Merge branch 'Vlad' into Adi
+[33ma8f35e8[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Darren
+[33mebbd158[m deleted files for a clean repo
+[33me6c681f[m completed asteroids and scoreboard structs with some of their functions
+[33m57c6ac5[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m6750b06[m h-vline comments
+[33mafe3b91[m merging main into Vlad
+[33m6201819[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659
+[33m84d69b9[m Just a prg file
+[33mbae4c76[m Completed stage 2 of the game with test drivers. I removed main because we don't need it for this stage.
+[33m43ee4bd[m Fixed the dimensions of the asteroids
+[33m3daedc2[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Darren
+[33m557c6d1[m Merge branch 'Darren' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Darren
+[33m3ddc1c9[m Fixed the alignment for the plotting bitmaps
+[33mf2a8c9d[m Added comments to the raster.h file
+[33m6cd58b3[m adding vscode files
+[33m579d0bf[m work in progress
+[33md1fa6ff[m Added comments to plot pixel, vline and hline in raster.h
+[33m966531a[m added new bitmaps for asteroids
+[33m3238528[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33mdb09e21[m Merge branch 'Adi' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Adi
+[33m0994038[m New asteroid bitmaps
+[33mc2622db[m Save progress
+[33meb165ca[m added semicolon on line 42 of raster.h
+[33m3f37f99[m added the line plots and pixel plots
+[33mc6e202d[m Added bullet
+[33md6b22c1[m cleaned up stage 2 by organizing code, adding a 32 bitmap and a 16 bitmap. Still need to make some changes.
+[33mff28ecf[m Merge branch 'main' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Darren
+[33mf6fe4cd[m changed char to int in bullet
+[33mf6c19c3[m Merge branch 'Vlad' of https://github.com/BruhCoVr/Asteroids_COMP2659 into Vlad
+[33m91b6ace[m added bullet
+[33mb31c663[m Merge pull request #2 from BruhCoVr/Vlad
+[33mc79e423[m Merge branch 'main' into Vlad
+[33ma9869dd[m doing some fixes on my end
+[33m5392a7a[m Merge pull request #1 from BruhCoVr/Adi
+[33mca98850[m Merge branch 'main' into Adi
+[33md07bbda[m moving bitmaps from raster.h to raster.c
+[33m67e1531[m Moved bitmaps to raster.c
+[33ma06f46e[m Added numbers in enum list and added functions
+[33m02f5075[m Completed printing ship bitmaps
+[33m3fa03b6[m Testing raster
+[33m469ef2e[m Added asteroids bimaps
+[33medbee62[m Finally completed and saved horizontal and vertical line.
+[33ma6f4787[m completed vertical and horizontal line
+[33mbca630c[m added vlad branch
+[33m7ad0334[m Added the raster files from tutorial and sprites
+[33m94e6b73[m first commit
