@@ -38,10 +38,12 @@ void initModel(Model *model) {
 /* Moves the ship forward by one unit in the direction of its current angle. */
 void moveShipForward(Ship *ship) {
     double rad = ship->angle * 3.14159265 / 180.0;
-    int dx = (int)(1 * cos(rad));
-    int dy = (int)(1 * sin(rad));
+    /*int dx = (int)(1 * cos(rad));
+    int dy = (int)(1 * sin(rad)); */
+    int dx = (int)(5 * cos(rad));
+    int dy = -(int)(5 * sin(rad));
     ship->pos.x += dx;
-    ship->pos.y -= dy;
+    ship->pos.y += dy;
     
     wrapPosition(&ship->pos, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
@@ -49,10 +51,12 @@ void moveShipForward(Ship *ship) {
 /* Rotates the ship by the given angle delta. */
 void rotateShip(Ship *ship, int angle_delta) {
     ship->angle += angle_delta;
-    if (ship->angle < 0)
+    /*if (ship->angle < 0)
         ship->angle += 360;
     else if (ship->angle >= 360)
         ship->angle -= 360;
+    */
+   ship->angle = (ship->angle % 360 + 360) % 360;
 }
 
 /* Initializes a missile with the provided starting position, velocity and lifetime. */

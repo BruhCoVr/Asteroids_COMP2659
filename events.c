@@ -13,13 +13,13 @@ void handleMoveForward(Model *model) {
 
 /* Rotates the ship by increasing its angle. */
 void handleIncreaseAngle(Model *model) {
-    rotateShip(&model->ship, 45);
+    rotateShip(&model->ship, 15);
     /*printf("Ship angle increased to %d\n", model->ship.angle);*/
 }
 
 /* Rotates the ship by decreasing its angle. */
 void handleDecreaseAngle(Model *model) {
-    rotateShip(&model->ship, -45);
+    rotateShip(&model->ship, -15);
     /*printf("Ship angle decreased to %d\n", model->ship.angle);*/
 }
 
