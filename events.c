@@ -21,6 +21,7 @@ void handleMoveForward(Model *model) {
     thrusting_effect();
     while ((getTime() - start_timeEvent) < 33) {
     }
+    write_psg(9, 0);
     write_psg(10, 0);
 
     moveShipForward(&model->ship);

@@ -233,6 +233,117 @@ typedef struct {
  int wcsncmp (const wchar_t *, const wchar_t *, size_t) ;
  wchar_t *wcsncpy (wchar_t *, const wchar_t *, size_t) ;
 # 2 "game.c" 2
+# 1 "C:/c68/include/string.h" 1
+# 25 "C:/c68/include/string.h"
+ void *memcpy (void *dst, const void *src, size_t size) ;
+ void *memmove (void *dst, const void *src, size_t size) ;
+ int memcmp (const void *s1, const void *s2, size_t size) ;
+ void *memchr (const void *s, int ucharwanted, size_t size) ;
+ void *memset (void *s, int ucharfill, size_t size) ;
+
+ char *strcpy (char *dst, const char *src) ;
+ char *strncpy (char *dst, const char *src, size_t n) ;
+ char *strcat (char *dst, const char *src) ;
+ char *strncat (char *dst, const char *src, size_t n) ;
+ int strcmp (const char *scan1, const char *scan2) ;
+ int strncmp (const char *scan1, const char *scan2, size_t n) ;
+ int strcoll (const char *scan1, const char *scan2) ;
+ size_t	strxfrm (char *to, const char *from, size_t maxsize) ;
+ char *strchr (const char *s, int charwanted) ;
+ size_t strcspn (const char *s, const char *reject) ;
+ char *strpbrk (const char *s, const char *breakat) ;
+ char *strrchr (const char *s, int charwanted) ;
+ size_t strspn (const char *s, const char *accept) ;
+ char *strstr (const char *s, const char *wanted) ;
+ char *strtok (char *s, const char *delim) ;
+ size_t strlen (const char *scan) ;
+ char *strerror (int errnum) ;
+# 54 "C:/c68/include/string.h"
+ void *memccpy (void *dst, const void *src, int ucharstop, size_t size) ;
+ char *strlwr (char *string) ;
+ char *strupr (char *string) ;
+
+
+
+ char *strrev (char *string) ;
+ char *strdup (const char *s) ;
+
+
+
+
+ char *index (const char *s, int charwanted) ;
+ char *rindex (const char *s, int charwanted) ;
+ void bcopy (const void *src, void *dst, size_t length) ;
+ int bcmp (const void *src, const void *dst, size_t n) ;
+ void bzero (void *b, size_t n) ;
+
+ void _bcopy (const void *src, void *dst, unsigned long length) ;
+ int  _bcmp (const void *s1, const void *s2, unsigned long length) ;
+ void _bzero (void *dst, unsigned long length) ;
+
+ int stricmp ( const char *, const char * ) ;
+ int strnicmp ( const char *, const char *, size_t ) ;
+ int strcmpi ( const char *, const char * ) ;
+ int strncmpi ( const char *, const char *, size_t ) ;
+# 3 "game.c" 2
+# 1 "C:/c68/include/time.h" 1
+# 26 "C:/c68/include/time.h"
+typedef long 		time_t;
+# 34 "C:/c68/include/time.h"
+typedef unsigned long	clock_t;
+
+struct tm
+{
+	int	tm_sec;
+	int	tm_min;
+	int	tm_hour;
+	int	tm_mday;
+	int	tm_mon;
+	int	tm_year;
+	int	tm_wday;
+	int	tm_yday;
+	int	tm_isdst;
+};
+
+
+
+struct timeval {
+	long	tv_sec;
+	long	tv_usec;
+};
+
+struct timezone {
+	int	tz_minuteswest;
+	int	tz_dsttime;
+};
+
+
+ clock_t	clock	 (void) ;
+ double		difftime (time_t, time_t) ;
+ time_t		mktime	 (const struct tm *) ;
+ time_t		time	 (time_t *) ;
+ char * 	asctime	 (const struct tm *) ;
+ char *		ctime	 (const time_t *) ;
+ struct tm *	gmtime   (const time_t *) ;
+ struct tm *	localtime (const time_t *) ;
+ unsigned long  strftime (	char *s, size_t maxsize, const char *format, const struct tm *timeptr) ;
+
+
+
+ void		tzset	(void) ;
+
+
+ clock_t	_clock	 (void) ;
+ int	gettimeofday (struct timeval *, struct timezone *) ;
+ int	settimeofday (struct timeval *, struct timezone *) ;
+
+
+
+typedef unsigned long  fd_set;
+
+
+ int	select	(int, fd_set *, fd_set *, fd_set *,					struct timeval *) ;
+# 4 "game.c" 2
 # 1 "./game.h" 1
 # 1 "C:/c68/include/osbind.h" 1
 # 4 "./game.h" 2
@@ -543,7 +654,10 @@ UINT32 GetTime();
 
 
 void RunGame();
-# 3 "game.c" 2
+
+
+void swapBuffers(void **active, void **inactive);
+# 5 "game.c" 2
 # 1 "./music.h" 1
 # 1 "./types.h" 1
 # 3 "./music.h" 2
@@ -556,16 +670,16 @@ void update_Mainmusic(UINT32 time_elapsed);
 void start_Deathmusic();
 
 void update_Deathmusic(UINT32 time_elapsed);
-# 4 "game.c" 2
+# 6 "game.c" 2
 # 1 "./model.h" 1
-# 5 "game.c" 2
+# 7 "game.c" 2
 # 1 "./time.h" 1
 # 1 "./types.h" 1
 # 3 "./time.h" 2
 
 
 UINT32 getTime();
-# 6 "game.c" 2
+# 8 "game.c" 2
 # 1 "./psg.h" 1
 # 1 "./types.h" 1
 # 3 "./psg.h" 2
@@ -621,15 +735,15 @@ void set_tone(int channel, int tuning);
 void set_noise(int tuning);
 
 void set_envelope(int shape, unsigned int sustain);
-# 7 "game.c" 2
-# 1 "./types.h" 1
-# 8 "game.c" 2
-# 1 "./renderer.h" 1
 # 9 "game.c" 2
-# 1 "./input.h" 1
+# 1 "./types.h" 1
 # 10 "game.c" 2
-# 1 "./raster.h" 1
+# 1 "./renderer.h" 1
 # 11 "game.c" 2
+# 1 "./input.h" 1
+# 12 "game.c" 2
+# 1 "./raster.h" 1
+# 13 "game.c" 2
 # 1 "./events.h" 1
 # 1 "./model.h" 1
 # 4 "./events.h" 2
@@ -656,8 +770,17 @@ void handleGameOver(Model *model);
 void handleMissileCollision(Model *model, int missile_index, int asteroid_index);
 void handleBonusLifeAwarded(Model *model);
 void handleDifficultyRampUp(Model *model);
-# 12 "game.c" 2
+# 14 "game.c" 2
 
+
+UINT32 GetTime() {
+    long old_ssp;
+    UINT32 timeNow;
+    old_ssp = _trap_1_wl((short)0x20,(long)(0)) ;
+    timeNow = *(UINT32 *)0x462;
+    _trap_1_wl((short)0x20,(long)(old_ssp)) ;
+    return timeNow;
+}
 
 UINT32 start_time, current_time;
 
@@ -668,34 +791,22 @@ void InitializegGame(Model *model) {
     Position asteroid_pos1 = {100, 100};
     Position asteroid_pos2 = {500, 300};
 
-
     initModel(model);
-
     initAsteroid(&model->asteroids[0], asteroid_pos1, 1, 1, ASTEROID_LARGE);
     initAsteroid(&model->asteroids[1], asteroid_pos2, -1, 1, ASTEROID_MEDIUM);
-}
-
-UINT32 GetTime() {
-    long old_ssp;
-    UINT32 timeNow;
-
-
-    old_ssp = _trap_1_wl((short)0x20,(long)(0)) ;
-
-
-    timeNow = *(UINT32 *)0x462;
-
-
-    _trap_1_wl((short)0x20,(long)(old_ssp)) ;
-
-    return timeNow;
 }
 
 
 void RunGame() {
     Model model;
-    UINT32 *frameBuffer = (UINT32 *)(void*)_trap_14_w((short)0x2) ;
     UINT32 timeThen, timeNow, timeElapsed;
+    UINT32 *frameBuffer = (void*)_trap_14_w((short)0x2) ;
+
+    UINT32 *backBuffer = (UINT32 *)malloc(8000 * sizeof(UINT32));
+    if (!backBuffer) {
+        exit(1);
+    }
+
 
     start_music();
     start_time = getTime();
@@ -704,11 +815,8 @@ void RunGame() {
     InitializegGame(&model);
     timeThen = GetTime();
 
-
-    render(&model, frameBuffer);
-
-
     while (!model.quit) {
+
 
         current_time = getTime();
         update_Mainmusic(current_time - start_time);
@@ -720,31 +828,58 @@ void RunGame() {
         if (InputPending()) {
             char input = ReadInput();
             switch (input) {
-                case 'w': handleMoveForward(&model); break;
-                case 'a': handleIncreaseAngle(&model); break;
-                case 'd': handleDecreaseAngle(&model); break;
-                case 's': handleShootMissile(&model); break;
-                case 'q': handleQuit(&model); break;
+                case 'w':
+                case 'W':
+                    handleMoveForward(&model);
+                    break;
+                case 'a':
+                case 'A':
+                    handleIncreaseAngle(&model);
+                    break;
+                case 'd':
+                case 'D':
+                    handleDecreaseAngle(&model);
+                    break;
+                case 's':
+                case 'S':
+                    handleShootMissile(&model);
+                    break;
+                case 'q':
+                case 'Q':
+                    handleQuit(&model);
+                    break;
                 default: break;
             }
         }
 
 
-        if (timeElapsed > 0) {
-            updateAsteroids(&model);
-            updateMissiles(&model);
+
+        timeNow = GetTime();
+        timeElapsed = timeNow - timeThen;
 
 
-            render(&model, frameBuffer);
-            timeThen = timeNow;
-        }
+        updateAsteroids(&model);
+        updateMissile(&model);
+
+
+        render(&model, backBuffer);
+
+
+        (void)_trap_14_w((short)0x25) ;
+
+        memcpy(frameBuffer, backBuffer, 8000 * sizeof(UINT32));
+
+        timeThen = timeNow;
     }
+
+    free(backBuffer);
 
     stop_sound();
 }
 
-
 void main() {
+
+    srand((unsigned) time(((void *)0) ));
 
     printf("\033E\033F\n");
     RunGame();
