@@ -85,7 +85,7 @@ void RunGame() {
         /* Optionally, you could use timeElapsed to scale motion for consistent speed,
            but for now we update each loop to make input immediately effective. */
         updateAsteroids(&model);
-        updateMissile(&model);
+        updateMissiles(&model);
         
         /* Render the complete frame into the offscreen back buffer */
         render(&model, backBuffer);
