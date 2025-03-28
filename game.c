@@ -3,7 +3,11 @@
 #include <string.h>
 #include <time.h>
 #include "game.h"
+#include "music.h"
 #include "model.h"
+#include "time.h"
+#include "psg.h"
+#include "types.h"
 #include "renderer.h"
 #include "input.h"
 #include "raster.h"
@@ -18,7 +22,12 @@ UINT32 GetTime() {
     return timeNow;
 }
 
+UINT32 start_time, current_time;
+
 void InitializegGame(Model *model) {
+    
+    
+    /* Spawn some asteroids */
     Position asteroid_pos1 = {100, 100};
     Position asteroid_pos2 = {500, 300};
     Position asteroid_pos3 = {200, 100};
@@ -46,11 +55,24 @@ void RunGame() {
         exit(1);  /* Allocation failure */
     }
     
+
+    start_music();
+    start_time = getTime();
+
+    /* Initialize the game */
     InitializegGame(&model);
     timeThen = GetTime();
     
     while (!model.quit) {
         /* Process asynchronous input every loop iteration */
+
+        current_time = getTime();
+        update_Mainmusic(current_time - start_time);
+
+        timeNow = GetTime();
+        timeElapsed = timeNow - timeThen;
+
+        /* Process asynchronous events (user input) */
         if (InputPending()) {
             char input = ReadInput();
             switch (input) {
@@ -99,6 +121,8 @@ void RunGame() {
     }
     
     free(backBuffer);
+
+    stop_sound();
 }
 
 void main() {

@@ -1,12 +1,29 @@
 #include "events.h"
 #include "model.h"
+#include "music.h"
+#include "types.h"
+#include "time.h"
+#include "effects.h"
+#include "psg.h"
 #include <stdio.h>
 #include <math.h>
+#include <osbind.h>
+#include <stdlib.h>
+
+UINT32 start_timeEvent, current_timeEvent;
+
 
 /* --- Asynchronous (Input) Event Handlers --- */
 
 /* Moves the ship forward. */
 void handleMoveForward(Model *model) {
+    start_timeEvent = getTime();
+    thrusting_effect();
+    while ((getTime() - start_timeEvent) < 33) {
+    }
+    write_psg(9, 0);
+    write_psg(10, 0);
+
     moveShipForward(&model->ship);
     /*printf("Ship moved to (%d, %d)\n", model->ship.pos.x, model->ship.pos.y);*/
 }
@@ -26,6 +43,13 @@ void handleDecreaseAngle(Model *model) {
 /* Shoots a missile from the ship’s current position. */
 void handleShootMissile(Model *model) {
     int i;
+    start_timeEvent = getTime();
+    shooting_effect();
+    while ((getTime() - start_timeEvent) < 33) {
+    }
+    write_psg(9, 0);
+    write_psg(10, 0);
+
     for (i = 0; i < MAX_MISSILES; i++) {
         if (!model->missiles[i].active) {
             double rad = model->ship.angle * 3.14159265 / 180.0;
@@ -117,8 +141,14 @@ void handleAsteroidSplit(Model *model, int asteroid_index) {
 /* Handles the destruction of an asteroid and updates the score accordingly. */
 void handleAsteroidDestroyed(Model *model, int asteroid_index) {
     int points = 0;
-
     Asteroid *asteroid = &model->asteroids[asteroid_index];
+    start_timeEvent = getTime();
+    explosion_effect();
+    while ((getTime() - start_timeEvent) < 33) {
+    }
+    write_psg(10, 0);
+
+ 
     if (!asteroid->active)
         return;
     
@@ -164,6 +194,14 @@ void handleObjectWraparound(Model *model, int object_type, int index) {
 
 /* Handles the game over event. */
 void handleGameOver(Model *model) {
+    start_timeEvent = getTime();
+    start_Deathmusic();
+    while ((getTime() - start_timeEvent) < 500) {
+        int current_time = getTime();
+        update_Deathmusic(current_time - start_timeEvent);
+    }
+    write_psg(8, 0);
+    
     /*printf("Game Over! Final score: %d\n", model->scoreboard.score);*/
     model->quit = 1;
 }
