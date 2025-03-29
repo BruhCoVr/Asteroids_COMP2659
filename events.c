@@ -12,7 +12,6 @@
 
 UINT32 start_timeEvent, current_timeEvent;
 
-
 /* --- Asynchronous (Input) Event Handlers --- */
 
 /* Moves the ship forward. */
@@ -159,16 +158,15 @@ void handleAsteroidDestroyed(Model *model, int asteroid_index) {
     else if (asteroid->size == ASTEROID_SMALL)
         points = 100;
     
-    updateScore(&model->scoreboard, points);
     asteroid->active = 0;
-    /*printf("Asteroid %d destroyed. Awarded %d points. Total score: %d\n",
-           asteroid_index, points, model->scoreboard.score);*/
+    updateScore(&model->scoreboard, points);
     
     if (model->scoreboard.score % 5000 == 0 && model->scoreboard.lives < 5 && model->scoreboard.score < 30000)
         handleBonusLifeAwarded(model);
     
     if (model->scoreboard.score % 10000 == 0)
         handleDifficultyRampUp(model);
+    
 }
 
 /* Handles the ship being hit by an asteroid. */
@@ -212,8 +210,10 @@ void handleMissileCollision(Model *model, int missile_index, int asteroid_index)
     /*printf("Missile %d collided with asteroid %d\n", missile_index, asteroid_index);*/
     if (model->asteroids[asteroid_index].size > ASTEROID_SMALL)
         handleAsteroidSplit(model, asteroid_index);
-    else
-        handleAsteroidDestroyed(model, asteroid_index);
+    else {
+        model->asteroids[asteroid_index].active = 0;
+        updateScore(&model->scoreboard, 100);
+    }
 }
 
 /* Awards a bonus life. */

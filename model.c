@@ -135,3 +135,23 @@ void wrapPosition(Position *pos, int screen_width, int screen_height) {
     if (pos->y < 0) pos->y = screen_height - 1;
     if (pos->y >= screen_height) pos->y = 0;
 }
+
+int checkCollision(Position *missilePos, Position *asteroidPos, AsteroidSize size) {
+    /* Determine collision radius based on asteroid size */
+    int asteroidRadius;
+    int dx;
+    int dy;
+    int distanceSquared;
+    switch(size) {
+        case ASTEROID_LARGE:  asteroidRadius = 32; break;
+        case ASTEROID_MEDIUM: asteroidRadius = 16; break;
+        case ASTEROID_SMALL:  asteroidRadius = 8;  break;
+    }
+
+    /* Simple distance check */
+    dx = missilePos->x - asteroidPos->x;
+    dy = missilePos->y - asteroidPos->y;
+    distanceSquared = dx*dx + dy*dy;
+
+    return distanceSquared < (asteroidRadius * asteroidRadius);
+}

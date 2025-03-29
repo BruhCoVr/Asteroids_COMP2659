@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+
 /* Bitmap for the ship facing up */
 extern const UINT32 shipUpBitmap[];
 

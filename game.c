@@ -48,6 +48,9 @@ void InitializegGame(Model *model) {
 void RunGame() {
     Model model;
     UINT32 timeThen, timeNow, timeElapsed;
+    UINT32 frameStart = GetTime();
+    int numberOfMissiles = 0;
+    int numberOfAsteroids = 0;
     UINT32 *frameBuffer = Physbase();
     /* Allocate an offscreen back buffer for a 640x400 screen (8000 UINT32 words) */
     UINT32 *backBuffer = (UINT32 *)malloc(8000 * sizeof(UINT32));
@@ -108,6 +111,18 @@ void RunGame() {
            but for now we update each loop to make input immediately effective. */
         updateAsteroids(&model);
         updateMissiles(&model);
+
+        /*Check for missile-asteroid collisions */
+        for (numberOfMissiles = 0; numberOfMissiles < MAX_MISSILES; numberOfMissiles++) {
+            if (model.missiles[numberOfMissiles].active) {
+                for (numberOfAsteroids = 0; numberOfAsteroids < MAX_ASTEROIDS; numberOfAsteroids++) {
+                    if (model.asteroids[numberOfAsteroids].active && 
+                        checkCollision(&model.missiles[numberOfMissiles].pos, &model.asteroids[numberOfAsteroids].pos, model.asteroids[numberOfAsteroids].size)) {
+                        handleMissileCollision(&model, numberOfMissiles, numberOfAsteroids);
+                    }
+                }
+            }
+        }
         
         /* Render the complete frame into the offscreen back buffer */
         render(&model, backBuffer);
@@ -118,6 +133,8 @@ void RunGame() {
         memcpy(frameBuffer, backBuffer, 8000 * sizeof(UINT32));
         
         timeThen = timeNow;
+
+        while ((GetTime() - frameStart) < 1) {};
     }
     
     free(backBuffer);

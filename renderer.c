@@ -63,8 +63,9 @@ void renderMissile(const Missile *missile, UINT32 *base) {
 void renderAsteroid(const Asteroid *asteroid, UINT32 *base) {
     const UINT32 *asteroid_bitmap = NULL;
 
-    if (!asteroid->active)
+    if (!asteroid->active) {
         return;
+    }
     
     switch (asteroid->size) {
         case ASTEROID_LARGE:
@@ -131,10 +132,13 @@ void renderScoreboard(const Scoreboard *scoreboard, UINT32 *base) {
  * Clears the screen and then renders the ship, missiles, asteroids, and scoreboard.
  */
 void render(const Model *model, UINT32 *base) {
+    static Model prev_model;
+    static int scoreboard_counter = 0;
     int i = 0;
+
     /* Clear the screen. */
     clearSc(base);
-    
+     
     /*sets up black screen for stars*/
     blackSc(base);
 
@@ -145,13 +149,22 @@ void render(const Model *model, UINT32 *base) {
     renderShip(&model->ship, base);
     
     for (i = 0; i < MAX_MISSILES; i++) {
-        renderMissile(&model->missiles[i], base);
-    }
-    
+        if (model->missiles[i].active) {
+            renderMissile(&model->missiles[i], base);
+        }
+    }    
     for (i = 0; i < MAX_ASTEROIDS; i++) {
-        renderAsteroid(&model->asteroids[i], base);
+        if (model->asteroids[i].active) {
+            renderAsteroid(&model->asteroids[i], base);
+        }
     }
     
-    /* Render the scoreboard (score and lives). */
-    renderScoreboard(&model->scoreboard, base);
+    /* Scoreboard can be rendered less frequently if needed */    
+    if (scoreboard_counter++ >= 5) { /* Every 5 frames */
+        renderScoreboard(&model->scoreboard, base);
+        scoreboard_counter = 0;
+    }
+
+    /* Save current state for next frame */
+    memcpy(&prev_model, model, sizeof(Model));
 }

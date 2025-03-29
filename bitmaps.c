@@ -1,5 +1,6 @@
 #include "bitmaps.h"
 
+
 /* Bitmap for the ship facing up */
 const UINT32 shipUpBitmap [32] = {
     0x00018000L,0x0003C000L,0x0007E000L,0x0007E000L,

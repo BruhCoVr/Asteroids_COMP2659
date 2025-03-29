@@ -79,4 +79,6 @@ void awardBonusLife(Scoreboard *scoreboard);
 /* Helper function: wraps a position to the opposite edge if off screen. */
 void wrapPosition(Position *pos, int screen_width, int screen_height);
 
+int checkCollision(Position *missilePos, Position *asteroidPos, AsteroidSize size);
+
 #endif /* MODEL_H */
