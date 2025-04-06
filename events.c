@@ -120,8 +120,10 @@ void handleAsteroidSplit(Model *model, int asteroid_index) {
                 AsteroidSize newSize;
                 if (asteroid->size == ASTEROID_LARGE) {
                     newSize = ASTEROID_MEDIUM;
+                    asteroid->size = newSize;
                 } else {
                     newSize = ASTEROID_SMALL;
+                    asteroid->size = newSize;
                 }
                 initAsteroid(&model->asteroids[i], asteroid->pos, asteroid->dx, asteroid->dy, newSize);
                 /*printf("Asteroid %d split: New asteroid %d created with size %d\n",

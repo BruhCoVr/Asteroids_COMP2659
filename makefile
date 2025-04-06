@@ -9,8 +9,8 @@ tst_eff: effects.o psg.o tst_eff.o
 main: renderer.o game.o bitmaps.o raster.o events.o model.o input.o time.o  effects.o psg.o effects.o music.o
 	cc68x -g renderer.o game.o bitmaps.o raster.o events.o model.o input.o time.o effects.o music.o psg.o -lm -o main.prg
 
-tst_mod: model.o bitmaps.o events.o tst_mod.o 
-	cc68x -g tst_mod.o bitmaps.o model.o events.o -lm -o tst_mod.prg
+tst_mod: model.o bitmaps.o events.o psg.o effects.o music.o time.o tst_mod.o 
+	cc68x -g tst_mod.o bitmaps.o model.o events.o psg.o effects.o music.o time.o -lm -o tst_mod.prg
 
 tst_rast: raster.o bitmaps.o tst_rast.o 
 	cc68x -g tst_rast.o bitmaps.o raster.o -o tst_rast.prg
