@@ -13,6 +13,23 @@
 #include "raster.h"
 #include "events.h"
 
+/* Function to display the start screen */
+void displayStartScreen(UINT32 *frameBuffer) {
+    /* Calculate starting X and Y to center a 32x16 image on a 640x400 screen */
+    int startX = (SCREEN_WIDTH - 32) / 2;
+    int startY = (SCREEN_HEIGHT - 16) / 2;
+
+    /* Clear the frame buffer and fill with black (and star background) */
+    clearSc(frameBuffer);
+    blackSc(frameBuffer);
+
+    /* Plot the start bitmap.
+       The startBitmap is defined as a 16-row by 32-column 32-bit bitmap. */
+       plotBitmap (frameBuffer, 250, 130, startBitmap[0], 128, 128);
+
+    /* Optionally, wait for a vertical sync so that the drawn image is shown cleanly */
+    Vsync();
+}
 UINT32 GetTime() {
     long old_ssp;
     UINT32 timeNow;
@@ -142,9 +159,19 @@ void RunGame() {
 }
 
 void main() {
+    UINT32 *frameBuffer = Physbase();
+    char input;
     /* Seed the random number generator once at startup */
     srand((unsigned) time(NULL));
     /* Clear the screen */
-    printf("\033E\033F\n");
-    RunGame();
+    printf("\033E\033F\n"); 
+    displayStartScreen(frameBuffer);
+    InputPending();
+    input = ReadInput();
+    if (input == 'q' || input == 'Q') {
+        return;  /* Exit if the user chooses to quit */
+    }
+    else{
+        RunGame();
+    }
 }

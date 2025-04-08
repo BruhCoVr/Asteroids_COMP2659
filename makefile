@@ -66,9 +66,6 @@ game.o: game.c game.h
 input.o: input.c input.h
 	cc68x -g -c input.c
 
-video.o: video.s video.h
-	cc68x -g -c video.s
-
 
 
 clean:
